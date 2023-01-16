@@ -1085,9 +1085,6 @@ func newServer(cfg *Config, listenAddrs []net.Addr,
 
 	s.controlTower = routing.NewControlTower(paymentControl)
 
-	strictPruning := cfg.Bitcoin.Node == "neutrino" ||
-		cfg.Routing.StrictZombiePruning
-
 	s.graphBuilder, err = graph.NewBuilder(&graph.Config{
 		SelfNode:            selfNode.PubKeyBytes,
 		Graph:               dbs.GraphDB,
@@ -1098,7 +1095,7 @@ func newServer(cfg *Config, listenAddrs []net.Addr,
 		GraphPruneInterval:  time.Hour,
 		FirstTimePruneDelay: graph.DefaultFirstTimePruneDelay,
 		AssumeChannelValid:  cfg.Routing.AssumeChannelValid,
-		StrictZombiePruning: strictPruning,
+		StrictZombiePruning: cfg.Routing.StrictZombiePruning,
 		IsAlias:             aliasmgr.IsAlias,
 	})
 	if err != nil {
