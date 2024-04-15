@@ -5,17 +5,17 @@ require (
 	github.com/Yawning/aez v0.0.0-20211027044916-e49e68abd344
 	github.com/andybalholm/brotli v1.0.5
 	github.com/breez/breez v0.0.0-00010101000000-000000000000
-	github.com/btcsuite/btcd v0.24.1-0.20240123000108-62e6af035ec5
+	github.com/btcsuite/btcd v0.24.1-0.20240318151728-2fc99e0496d2
 	github.com/btcsuite/btcd/btcec/v2 v2.3.2
 	github.com/btcsuite/btcd/btcutil v1.1.5
 	github.com/btcsuite/btcd/btcutil/psbt v1.1.8
 	github.com/btcsuite/btcd/chaincfg/chainhash v1.1.0
 	github.com/btcsuite/btclog v0.0.0-20170628155309-84c8d2346e9f
 	github.com/btcsuite/btcwallet v0.16.10-0.20240127010340-16b422a2e8bf
-	github.com/btcsuite/btcwallet/wallet/txauthor v1.3.2
-	github.com/btcsuite/btcwallet/wallet/txrules v1.2.0
-	github.com/btcsuite/btcwallet/walletdb v1.4.0
-	github.com/btcsuite/btcwallet/wtxmgr v1.5.0
+	github.com/btcsuite/btcwallet/wallet/txauthor v1.3.4
+	github.com/btcsuite/btcwallet/wallet/txrules v1.2.1
+	github.com/btcsuite/btcwallet/walletdb v1.4.2
+	github.com/btcsuite/btcwallet/wtxmgr v1.5.3
 	github.com/coreos/go-systemd v0.0.0-20191104093116-d3cd4ed1dbcf
 	github.com/davecgh/go-spew v1.1.1
 	github.com/decred/dcrd/dcrec/secp256k1/v4 v4.0.1
@@ -82,7 +82,7 @@ require (
 	github.com/aead/chacha20 v0.0.0-20180709150244-8b13a72661da // indirect
 	github.com/aead/siphash v1.0.1 // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
-	github.com/btcsuite/btcwallet/wallet/txsizes v1.2.3 // indirect
+	github.com/btcsuite/btcwallet/wallet/txsizes v1.2.4 // indirect
 	github.com/btcsuite/go-socks v0.0.0-20170105172521-4720035b7bfd // indirect
 	github.com/btcsuite/websocket v0.0.0-20150119174127-31079b680792 // indirect
 	github.com/btcsuite/winsvc v1.0.0 // indirect
@@ -238,7 +238,7 @@ replace google.golang.org/protobuf => github.com/lightninglabs/protobuf-go-hex-d
 // Speedloader
 replace github.com/breez/breez => github.com/djkazic/breez v0.0.8
 
-replace github.com/btcsuite/btcwallet => github.com/djkazic/btcwallet v1.7.1
+replace github.com/btcsuite/btcwallet => github.com/ZeusLN/btcwallet v1.7.1-mod
 
 replace github.com/btcsuite/btcwallet/walletdb => github.com/djkazic/btcwallet/walletdb v1.7.1
 
