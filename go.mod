@@ -230,6 +230,9 @@ replace github.com/btcsuite/btcwallet => github.com/djkazic/btcwallet v1.7.2
 
 replace github.com/btcsuite/btcwallet/walletdb => github.com/djkazic/btcwallet/walletdb v1.7.2
 
+// Neutrino high latency perf
+replace github.com/lightninglabs/neutrino => github.com/djkazic/neutrino v0.16.1-6
+
 // Temporary replace until the next version of sqldb is taged.
 replace github.com/lightningnetwork/lnd/sqldb => ./sqldb
 
