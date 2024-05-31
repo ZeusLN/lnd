@@ -236,6 +236,9 @@ replace github.com/btcsuite/btcwallet => github.com/djkazic/btcwallet v1.7.2
 
 replace github.com/btcsuite/btcwallet/walletdb => github.com/djkazic/btcwallet/walletdb v1.7.2
 
+// Neutrino high latency perf
+replace github.com/lightninglabs/neutrino => github.com/djkazic/neutrino v0.16.1-6
+
 // If you change this please also update .github/pull_request_template.md,
 // docs/INSTALL.md and GO_IMAGE in lnrpc/gen_protos_docker.sh.
 go 1.22.6
