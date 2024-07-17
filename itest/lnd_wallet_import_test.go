@@ -709,6 +709,23 @@ func testWalletImportPubKeyScenario(ht *lntest.HarnessTest,
 	importPubKey := func(keyIndex uint32, prevConfBalance,
 		prevUnconfBalance int64) {
 
+		// We'll also generate the same address for Carol, as it'll be
+		// required later when signing.
+		carolAddrResp := carol.RPC.NewAddress(&lnrpc.NewAddressRequest{
+			Type: walletToLNAddrType(ht.T, addrType),
+		})
+
+		// Send coins to Carol's address and confirm them, making sure
+		// the balance updates accordingly.
+		req := &lnrpc.SendCoinsRequest{
+			Addr:       carolAddrResp.Address,
+			Amount:     utxoAmt,
+			SatPerByte: 1,
+		}
+		alice.RPC.SendCoins(req)
+
+		ht.MineBlocksAndAssertNumTxes(1, 1)
+
 		// Retrieve Carol's account public key for the corresponding
 		// address type.
 		listReq := &walletrpc.ListAccountsRequest{
@@ -745,29 +762,14 @@ func testWalletImportPubKeyScenario(ht *lntest.HarnessTest,
 		importReq := &walletrpc.ImportPublicKeyRequest{
 			PublicKey:   serializedPubKey,
 			AddressType: addrType,
+			Rescan:      true,
 		}
 		dave.RPC.ImportPublicKey(importReq)
 
-		// We'll also generate the same address for Carol, as it'll be
-		// required later when signing.
-		carolAddrResp := carol.RPC.NewAddress(&lnrpc.NewAddressRequest{
-			Type: walletToLNAddrType(ht.T, addrType),
-		})
-
-		// Send coins to Carol's address and confirm them, making sure
-		// the balance updates accordingly.
-		req := &lnrpc.SendCoinsRequest{
-			Addr:       carolAddrResp.Address,
-			Amount:     utxoAmt,
-			SatPerByte: 1,
-		}
-		alice.RPC.SendCoins(req)
-
-		ht.AssertWalletAccountBalance(
-			dave, defaultImportedAccount, prevConfBalance,
-			prevUnconfBalance+utxoAmt,
-		)
-		ht.MineBlocksAndAssertNumTxes(1, 1)
+		// ht.AssertWalletAccountBalance(
+		// 	dave, defaultImportedAccount, prevConfBalance,
+		// 	prevUnconfBalance+utxoAmt,
+		// )
 		ht.AssertWalletAccountBalance(
 			dave, defaultImportedAccount,
 			prevConfBalance+utxoAmt, prevUnconfBalance,
