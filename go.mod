@@ -5,7 +5,7 @@ require (
 	github.com/Yawning/aez v0.0.0-20211027044916-e49e68abd344
 	github.com/andybalholm/brotli v1.1.0
 	github.com/breez/breez v0.0.0-20240503132701-33b83b83c2fe
-	github.com/btcsuite/btcd v0.24.2-beta.rc1.0.20240403021926-ae5533602c46
+	github.com/btcsuite/btcd v0.24.2-beta.rc1.0.20240625142744-cc26860b4026
 	github.com/btcsuite/btcd/btcec/v2 v2.3.3
 	github.com/btcsuite/btcd/btcutil v1.1.5
 	github.com/btcsuite/btcd/btcutil/psbt v1.1.8
@@ -224,7 +224,7 @@ replace google.golang.org/protobuf => github.com/lightninglabs/protobuf-go-hex-d
 // Speedloader
 replace github.com/breez/breez => github.com/djkazic/breez v0.0.8
 
-replace github.com/btcsuite/btcwallet => github.com/djkazic/btcwallet v1.7.2
+replace github.com/btcsuite/btcwallet => github.com/ZeusLN/btcwallet v1.7.2-m2
 
 replace github.com/btcsuite/btcwallet/walletdb => github.com/djkazic/btcwallet/walletdb v1.7.2
 
