@@ -1584,6 +1584,13 @@
         "address_type": {
           "$ref": "#/definitions/walletrpcAddressType",
           "description": "The type of address that will be generated from the public key."
+        },
+        "rescan": {
+          "type": "boolean"
+        },
+        "birthday_height": {
+          "type": "integer",
+          "format": "int32"
         }
       }
     },
