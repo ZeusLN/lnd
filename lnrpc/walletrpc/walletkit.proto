@@ -690,6 +690,10 @@ message ImportPublicKeyRequest {
 
     // The type of address that will be generated from the public key.
     AddressType address_type = 2;
+
+    bool rescan = 3;
+
+    int32 birthday_height = 4;
 }
 message ImportPublicKeyResponse {
 }
