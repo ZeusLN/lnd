@@ -886,7 +886,7 @@ func (b *BtcWallet) ListAddresses(name string,
 // This is a part of the WalletController interface.
 func (b *BtcWallet) ImportAccount(name string, accountPubKey *hdkeychain.ExtendedKey,
 	masterKeyFingerprint uint32, addrType *waddrmgr.AddressType,
-	dryRun bool) (*waddrmgr.AccountProperties, []btcutil.Address,
+	bs *waddrmgr.BlockStamp, dryRun bool) (*waddrmgr.AccountProperties, []btcutil.Address,
 	[]btcutil.Address, error) {
 
 	// For custom accounts, we first check if there is no existing account
@@ -908,6 +908,7 @@ func (b *BtcWallet) ImportAccount(name string, accountPubKey *hdkeychain.Extende
 	if !dryRun {
 		accountProps, err := b.wallet.ImportAccount(
 			name, accountPubKey, masterKeyFingerprint, addrType,
+			bs,
 		)
 		if err != nil {
 			return nil, nil, nil, err
@@ -1912,6 +1913,18 @@ func (b *BtcWallet) RemoveDescendants(tx *wire.MsgTx) error {
 		wtxmgrNs := tx.ReadWriteBucket(wtxmgrNamespaceKey)
 		return b.wallet.TxStore.RemoveUnminedTx(wtxmgrNs, txRecord)
 	})
+}
+
+func (b *BtcWallet) Rescan(block *waddrmgr.BlockStamp) error {
+	job := &base.RescanJob{
+		Addrs:      nil,
+		OutPoints:  nil,
+		BlockStamp: *block,
+	}
+
+	err := <-b.wallet.SubmitRescan(job)
+
+	return err
 }
 
 // CheckMempoolAcceptance is a wrapper around `TestMempoolAccept` which checks

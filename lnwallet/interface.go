@@ -320,7 +320,7 @@ type WalletController interface {
 	// (nested pubkeys externally, witness pubkeys internally).
 	ImportAccount(name string, accountPubKey *hdkeychain.ExtendedKey,
 		masterKeyFingerprint uint32, addrType *waddrmgr.AddressType,
-		dryRun bool) (*waddrmgr.AccountProperties, []btcutil.Address,
+		bs *waddrmgr.BlockStamp, dryRun bool) (*waddrmgr.AccountProperties, []btcutil.Address,
 		[]btcutil.Address, error)
 
 	// ImportPublicKey imports a single derived public key into the wallet.
@@ -547,6 +547,8 @@ type WalletController interface {
 	// policies and returns an error if it cannot be accepted into the
 	// mempool.
 	CheckMempoolAcceptance(tx *wire.MsgTx) error
+
+	Rescan(block *waddrmgr.BlockStamp) error
 }
 
 // BlockChainIO is a dedicated source which will be used to obtain queries
