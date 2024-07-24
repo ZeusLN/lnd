@@ -2470,12 +2470,15 @@ func (h *HarnessTest) AssertWalletAccountBalance(hn *node.HarnessNode,
 		balanceResp := hn.RPC.WalletBalance()
 		require.Contains(h, balanceResp.AccountBalance, account)
 		accountBalance := balanceResp.AccountBalance[account]
+		// fmt.Println(accountBalance.ConfirmedBalance)
+		// fmt.Println(accountBalance.UnconfirmedBalance)
 
 		// Check confirmed balance.
 		if accountBalance.ConfirmedBalance != confirmedBalance {
 			return fmt.Errorf("expected confirmed balance %v, "+
-				"got %v", confirmedBalance,
-				accountBalance.ConfirmedBalance)
+				"got %v, unconfirmed balnce: %v",
+				confirmedBalance,
+				accountBalance.ConfirmedBalance, accountBalance.UnconfirmedBalance)
 		}
 
 		utxos := h.GetUTXOsConfirmed(hn, account)
@@ -2497,8 +2500,9 @@ func (h *HarnessTest) AssertWalletAccountBalance(hn *node.HarnessNode,
 		// Check unconfirmed balance.
 		if accountBalance.UnconfirmedBalance != unconfirmedBalance {
 			return fmt.Errorf("expected unconfirmed balance %v, "+
-				"got %v", unconfirmedBalance,
-				accountBalance.UnconfirmedBalance)
+				"got %v, confirmed balance: %v",
+				unconfirmedBalance,
+				accountBalance.UnconfirmedBalance, accountBalance.ConfirmedBalance)
 		}
 
 		utxos = h.GetUTXOsUnconfirmed(hn, account)
