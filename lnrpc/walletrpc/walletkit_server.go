@@ -178,6 +178,10 @@ var (
 			Entity: "onchain",
 			Action: "write",
 		}},
+		"/walletrpc.WalletKit/Rescan": {{
+			Entity: "onchain",
+			Action: "write",
+		}},
 	}
 
 	// DefaultWalletKitMacFilename is the default name of the wallet kit
@@ -2166,6 +2170,34 @@ func (w *WalletKit) FinalizePsbt(_ context.Context,
 	}, nil
 }
 
+func (w *WalletKit) Rescan(_ context.Context,
+	req *RescanRequest) (*RescanResponse, error) {
+
+	hash, err := w.cfg.Chain.GetBlockHash(int64(req.StartHeight))
+	if err != nil {
+		return nil, err
+	}
+	header, err := w.cfg.Chain.GetBlockHeader(hash)
+	if err != nil {
+		return nil, err
+	}
+
+	startBlock := &waddrmgr.BlockStamp{
+		Hash:      *hash,
+		Height:    req.StartHeight,
+		Timestamp: header.Timestamp,
+	}
+
+	err = w.cfg.Wallet.Rescan(startBlock)
+	if err != nil {
+		return nil, err
+	}
+
+	return &RescanResponse{
+		Status: "ok",
+	}, nil
+}
+
 // marshalWalletAccount converts the properties of an account into its RPC
 // representation.
 func marshalWalletAccount(internalScope waddrmgr.KeyScope,
@@ -2659,8 +2691,24 @@ func (w *WalletKit) ImportAccount(_ context.Context,
 		return nil, err
 	}
 
+	hash, err := w.cfg.Chain.GetBlockHash(int64(req.BirthdayHeight))
+	if err != nil {
+		return nil, err
+	}
+	header, err := w.cfg.Chain.GetBlockHeader(hash)
+	if err != nil {
+		return nil, err
+	}
+
+	birthdayBlock := &waddrmgr.BlockStamp{
+		Hash:      *hash,
+		Height:    int32(req.BirthdayHeight),
+		Timestamp: header.Timestamp,
+	}
+
 	accountProps, extAddrs, intAddrs, err := w.cfg.Wallet.ImportAccount(
-		req.Name, accountPubKey, mkfp, addrType, req.DryRun,
+		req.Name, accountPubKey, mkfp, addrType,
+		birthdayBlock, req.DryRun,
 	)
 	if err != nil {
 		return nil, err

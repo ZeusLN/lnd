@@ -133,7 +133,8 @@ func (w *mockWalletController) ListAddresses(string,
 
 // ImportAccount currently returns a dummy value.
 func (w *mockWalletController) ImportAccount(string, *hdkeychain.ExtendedKey,
-	uint32, *waddrmgr.AddressType, bool) (*waddrmgr.AccountProperties,
+	uint32, *waddrmgr.AddressType, *waddrmgr.BlockStamp,
+	bool) (*waddrmgr.AccountProperties,
 	[]btcutil.Address, []btcutil.Address, error) {
 
 	return nil, nil, nil, nil
@@ -305,6 +306,10 @@ func (w *mockWalletController) RemoveDescendants(*wire.MsgTx) error {
 }
 
 func (w *mockWalletController) CheckMempoolAcceptance(tx *wire.MsgTx) error {
+	return nil
+}
+
+func (w *mockWalletController) Rescan(block *waddrmgr.BlockStamp) error {
 	return nil
 }
 
