@@ -947,9 +947,9 @@ func (b *BtcWallet) ImportAccount(name string, accountPubKey *hdkeychain.Extende
 //
 // This is a part of the WalletController interface.
 func (b *BtcWallet) ImportPublicKey(pubKey *btcec.PublicKey,
-	addrType waddrmgr.AddressType) error {
+	addrType waddrmgr.AddressType, bs *waddrmgr.BlockStamp, rescan bool) error {
 
-	return b.wallet.ImportPublicKey(pubKey, addrType)
+	return b.wallet.ImportPublicKey(pubKey, addrType, bs, rescan)
 }
 
 // ImportTaprootScript imports a user-provided taproot script into the address
