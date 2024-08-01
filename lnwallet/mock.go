@@ -132,7 +132,7 @@ func (w *mockWalletController) ImportAccount(string, *hdkeychain.ExtendedKey,
 
 // ImportPublicKey currently returns a dummy value.
 func (w *mockWalletController) ImportPublicKey(*btcec.PublicKey,
-	waddrmgr.AddressType) error {
+	waddrmgr.AddressType, *waddrmgr.BlockStamp, bool) error {
 
 	return nil
 }
