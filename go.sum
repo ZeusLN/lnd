@@ -986,6 +986,8 @@ github.com/Shopify/toxiproxy v2.1.4+incompatible/go.mod h1:OXgGpZ6Cli1/URJOF1DMx
 github.com/Yawning/aez v0.0.0-20180114000226-4dad034d9db2/go.mod h1:9pIqrY6SXNL8vjRQE5Hd/OL5GyK/9MrGUWs87z/eFfk=
 github.com/Yawning/aez v0.0.0-20211027044916-e49e68abd344 h1:cDVUiFo+npB0ZASqnw4q90ylaVAbnYyx0JYqK4YcGok=
 github.com/Yawning/aez v0.0.0-20211027044916-e49e68abd344/go.mod h1:9pIqrY6SXNL8vjRQE5Hd/OL5GyK/9MrGUWs87z/eFfk=
+github.com/ZeusLN/btcwallet v1.7.2-m h1:bO/c9KvoiAuzBn5vaSfqFix/gbWF/tNaRUQgNLguFC4=
+github.com/ZeusLN/btcwallet v1.7.2-m/go.mod h1:X2xDre+j1QphTRo54y2TikUzeSvreL1t1aMXrD8Kc5A=
 github.com/aead/chacha20 v0.0.0-20180709150244-8b13a72661da h1:KjTM2ks9d14ZYCvmHS9iAKVt9AyzRSqNU1qabPih5BY=
 github.com/aead/chacha20 v0.0.0-20180709150244-8b13a72661da/go.mod h1:eHEWzANqSiWQsof+nXEI9bUVUyV6F53Fp89EuCh2EAA=
 github.com/aead/siphash v1.0.1 h1:FwHfE/T45KPKYuuSAKyyvE+oPWcaQ+CUmFW0bPlM+kg=
@@ -1066,7 +1068,7 @@ github.com/btcsuite/btcd v0.23.2/go.mod h1:0QJIIN1wwIXF/3G/m87gIwGniDMDQqjVn4SZg
 github.com/btcsuite/btcd v0.23.4/go.mod h1:0QJIIN1wwIXF/3G/m87gIwGniDMDQqjVn4SZgnFpsYY=
 github.com/btcsuite/btcd v0.23.5-0.20230711222809-7faa9b266231/go.mod h1:0QJIIN1wwIXF/3G/m87gIwGniDMDQqjVn4SZgnFpsYY=
 github.com/btcsuite/btcd v0.23.5-0.20231215221805-96c9fd8078fd/go.mod h1:nm3Bko6zh6bWP60UxwoT5LzdGJsQJaPo6HjduXq9p6A=
-github.com/btcsuite/btcd v0.24.1-0.20240318151728-2fc99e0496d2/go.mod h1:5C8ChTkl5ejr3WHj8tkQSCmydiMEPB0ZhQhehpq7Dgg=
+github.com/btcsuite/btcd v0.24.2-beta.rc1.0.20240625142744-cc26860b4026/go.mod h1:5C8ChTkl5ejr3WHj8tkQSCmydiMEPB0ZhQhehpq7Dgg=
 github.com/btcsuite/btcd v0.24.3-0.20240921052913-67b8efd3ba53 h1:XOZ/wRGHkKv0AqxfDks5IkzaQ1Ge6fq322ZOOG5VIkU=
 github.com/btcsuite/btcd v0.24.3-0.20240921052913-67b8efd3ba53/go.mod h1:zHK7t7sw8XbsCkD64WePHE3r3k9/XoGAcf6mXV14c64=
 github.com/btcsuite/btcd/btcec/v2 v2.1.0/go.mod h1:2VzYrv4Gm4apmbVVsSq5bqf1Ec8v56E48Vt0Y/umPgA=
@@ -1228,8 +1230,6 @@ github.com/dhui/dktest v0.4.0/go.mod h1:v/Dbz1LgCBOi2Uki2nUqLBGa83hWBGFMu5MrgMDC
 github.com/dimchansky/utfbom v1.1.0/go.mod h1:rO41eb7gLfo8SF1jd9F8HplJm1Fewwi4mQvIirEdv+8=
 github.com/djkazic/breez v0.0.8 h1:R/Sn20IfUnbxc5NyJc7SlSor9E0nv8oS6JUJ+7QUbWI=
 github.com/djkazic/breez v0.0.8/go.mod h1:9d/Py06qGfcQnbkLVF6BystyDwLcPTxnD0soMrEjMLk=
-github.com/djkazic/btcwallet v1.7.2 h1:9x1nByPxHr7QK8WB5NAxMYZSOZsc+vYWyxzz3bofHf4=
-github.com/djkazic/btcwallet v1.7.2/go.mod h1:2C3Q/MhYAKmk7F+Tey6LfKtKRTdQsrCf8AAAzzDPmH4=
 github.com/djkazic/btcwallet/walletdb v1.7.2 h1:ygWFJwYJ2p9yBCNiNCNmxcvKyHxPDA2sx5ADWsJfAHA=
 github.com/djkazic/btcwallet/walletdb v1.7.2/go.mod h1:7ZQ+BvOEre90YT7eSq8bLoxTsgXidUzA/mqbRS114CQ=
 github.com/djkazic/neutrino v0.16.1-6 h1:e9K2wyMiQYQnF9LIaxfHDh7rePA7JkDNxMga/8P5Nfk=
