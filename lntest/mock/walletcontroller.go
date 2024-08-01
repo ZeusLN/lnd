@@ -131,7 +131,7 @@ func (w *WalletController) ImportAccount(string, *hdkeychain.ExtendedKey,
 
 // ImportPublicKey currently returns a dummy value.
 func (w *WalletController) ImportPublicKey(*btcec.PublicKey,
-	waddrmgr.AddressType) error {
+	waddrmgr.AddressType, *waddrmgr.BlockStamp, bool) error {
 
 	return nil
 }
