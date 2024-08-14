@@ -237,6 +237,6 @@ replace github.com/lightninglabs/neutrino => github.com/djkazic/neutrino v0.16.1
 
 // If you change this please also update .github/pull_request_template.md,
 // docs/INSTALL.md and GO_IMAGE in lnrpc/gen_protos_docker.sh.
-go 1.22.3
+go 1.22.6
 
 retract v0.0.2
