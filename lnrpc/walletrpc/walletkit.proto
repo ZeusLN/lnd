@@ -688,7 +688,15 @@ message ImportAccountResponse {
 }
 
 message RescanRequest {
+    // The height of the block rescanning should start from.
     int32 start_height = 1;
+
+    // A map of outpoints to an address that spends it. These outpoints would
+    // be watched while rescanning.
+    map<string, string> outpoints = 2;
+
+    // Addresses to be watched while rescanning.
+    repeated string addresses = 3;
 }
 
 message RescanResponse {

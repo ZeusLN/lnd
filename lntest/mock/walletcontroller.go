@@ -140,7 +140,10 @@ func (w *WalletController) ImportTaprootScript(waddrmgr.KeyScope,
 	return nil, nil
 }
 
-func (w *WalletController) Rescan(block *waddrmgr.BlockStamp) error {
+func (w *WalletController) Rescan(block *waddrmgr.BlockStamp,
+	addrs []btcutil.Address,
+	outpoints map[wire.OutPoint]btcutil.Address) error {
+
 	return nil
 }
 

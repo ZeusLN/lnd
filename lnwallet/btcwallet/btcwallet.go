@@ -1902,10 +1902,13 @@ func (b *BtcWallet) RemoveDescendants(tx *wire.MsgTx) error {
 	})
 }
 
-func (b *BtcWallet) Rescan(block *waddrmgr.BlockStamp) error {
+func (b *BtcWallet) Rescan(block *waddrmgr.BlockStamp,
+	addrs []btcutil.Address,
+	outpoints map[wire.OutPoint]btcutil.Address) error {
+
 	job := &base.RescanJob{
-		Addrs:      nil,
-		OutPoints:  nil,
+		Addrs:      addrs,
+		OutPoints:  outpoints,
 		BlockStamp: *block,
 	}
 

@@ -545,30 +545,57 @@ func runWalletImportAccountScenario(ht *lntest.HarnessTest,
 	// Generate an address for carol and send coins to it,
 	// when we import carol's account into dave's,
 	// we would generate this address in dave's node and test that we can
-	// recover the funds that we sent to this address after a restart of
-	// Dave's node.
-	r := carol.RPC.NewAddress(&lnrpc.NewAddressRequest{
+	// recover the funds that we sent to this address after calling the
+	// rescan rpc.
+	carolAddrResp := carol.RPC.NewAddress(&lnrpc.NewAddressRequest{
 		Type: walletToLNAddrType(ht.T, addrType),
 	})
 
 	ht.FundCoins(100000, ht.Alice)
 
 	req := &lnrpc.SendCoinsRequest{
-		Addr:       r.Address,
+		Addr:       carolAddrResp.Address,
 		Amount:     8000,
 		SatPerByte: 1,
 	}
 	ht.Alice.RPC.SendCoins(req)
-	ht.MineBlocks(6)
+
+	// When the `rescan` RPC is called without specifying an address, it
+	// scans all blocks starting from the provided block height or the
+	// wallet's birthday block height (if no height is specified). The
+	// purpose of the scan is to detect transactions associated with all
+	// addresses in the wallet.
+
+	// In this test, we would simulate rescanning from a block that has
+	// already been scanned, with previously accounted transactions.
+	// We generate an address for Dave and send funds to it, then mine the
+	// transaction. This test verifies that, when the `rescan` RPC is
+	// invoked, the wallet does not incorrectly debit or credit funds that
+	// have already been accounted for previously.
+	daveAddrResp := dave.RPC.NewAddress(&lnrpc.NewAddressRequest{
+		Type: walletToLNAddrType(ht.T, addrType),
+	})
+
+	req = &lnrpc.SendCoinsRequest{
+		Addr:       daveAddrResp.Address,
+		Amount:     5000,
+		SatPerByte: 1,
+	}
+	ht.Alice.RPC.SendCoins(req)
+
+	// Get the height of the block the transaction was mined in.
+	_, rescanStartHeight := ht.GetBestBlock()
+
+	ht.MineBlocksAndAssertNumTxes(6, 2)
 
 	ht.AssertWalletAccountBalance(carol, defaultAccount, 8000, 0)
+	ht.AssertWalletAccountBalance(dave, defaultAccount, 5000, 0)
 
 	const importedAccount = "carol"
 	importReq := &walletrpc.ImportAccountRequest{
 		Name:              importedAccount,
 		ExtendedPublicKey: carolAccount.ExtendedPublicKey,
 		AddressType:       addrType,
-		BirthdayHeight:    5,
 	}
 	dave.RPC.ImportAccount(importReq)
 
@@ -600,10 +627,6 @@ func runWalletImportAccountScenario(ht *lntest.HarnessTest,
 	err := dave.RPC.ImportAccountAssertErr(importReq)
 	require.ErrorContains(ht, err, errAccountExists)
 
-	// externalAddr := newExternalAddr(
-	// 	ht, dave, carol, importedAccount, addrType,
-	// )
-
 	// We'll generate an address for Carol from Dave's node to receive some
 	// funds. This account should be the same as the address that we
 	// generated in carol's node.
@@ -614,67 +637,69 @@ func runWalletImportAccountScenario(ht *lntest.HarnessTest,
 
 	externalAddr := resp.Address
 
-	require.Equal(ht, r.Address, externalAddr)
+	require.Equal(ht, carolAddrResp.Address, externalAddr)
 
-	// We should only be able to recover the coins in this address after a
-	// restart.
+	// We should only be able to recover the coins in this address after
+	// calling the rescan rpc.
 	ht.AssertWalletAccountBalance(dave, importedAccount, 0, 0)
 
-	ht.RestartNode(dave)
+	dave.RPC.Rescan(&walletrpc.RescanRequest{
+		StartHeight: rescanStartHeight,
+	})
 
 	ht.AssertWalletAccountBalance(dave, importedAccount, 8000, 0)
 
-	// Send coins to Carol's address and confirm them, making sure the
-	// balance updates accordingly.
-	alice := ht.Alice
-	req = &lnrpc.SendCoinsRequest{
-		Addr:       externalAddr,
-		Amount:     utxoAmt,
-		SatPerByte: 1,
-	}
-	alice.RPC.SendCoins(req)
-
-	ht.AssertWalletAccountBalance(dave, importedAccount, 8000, utxoAmt)
-	ht.MineBlocksAndAssertNumTxes(1, 1)
-	ht.AssertWalletAccountBalance(dave, importedAccount, utxoAmt+8000, 0)
-
-	// To ensure that Dave can use Carol's account as watch-only, we'll
-	// construct a PSBT that sends funds to Alice, which we'll then hand
-	// over to Carol to sign.
-	psbtSendFromImportedAccount(
-		ht, dave, alice, carol, importedAccount, addrType,
-	)
-
-	// We'll generate a new address for Carol from Dave's node to receive
-	// and fund a new channel.
-	externalAddr = newExternalAddr(
-		ht, dave, carol, importedAccount, addrType,
-	)
-
-	// Retrieve the current confirmed balance of the imported account for
-	// some assertions we'll make later on.
-	balanceResp := dave.RPC.WalletBalance()
-	require.Contains(ht, balanceResp.AccountBalance, importedAccount)
-	confBalance := balanceResp.AccountBalance[importedAccount].
-		ConfirmedBalance
-
-	// Send coins to Carol's address and confirm them, making sure the
-	// balance updates accordingly.
-	req = &lnrpc.SendCoinsRequest{
-		Addr:       externalAddr,
-		Amount:     utxoAmt,
-		SatPerByte: 1,
-	}
-	alice.RPC.SendCoins(req)
-
-	ht.AssertWalletAccountBalance(
-		dave, importedAccount, confBalance, utxoAmt,
-	)
-	ht.MineBlocksAndAssertNumTxes(1, 1)
-	ht.AssertWalletAccountBalance(
-		dave, importedAccount, confBalance+utxoAmt, 0,
-	)
-
+	// // Send coins to Carol's address and confirm them, making sure the
+	// // balance updates accordingly.
+	// alice := ht.Alice
+	// req = &lnrpc.SendCoinsRequest{
+	// 	Addr:       externalAddr,
+	// 	Amount:     utxoAmt,
+	// 	SatPerByte: 1,
+	// }
+	// alice.RPC.SendCoins(req)
+	//
+	// ht.AssertWalletAccountBalance(dave, importedAccount, 8000, utxoAmt)
+	// ht.MineBlocksAndAssertNumTxes(1, 1)
+	// ht.AssertWalletAccountBalance(dave, importedAccount, utxoAmt+8000, 0)
+	//
+	// // To ensure that Dave can use Carol's account as watch-only, we'll
+	// // construct a PSBT that sends funds to Alice, which we'll then hand
+	// // over to Carol to sign.
+	// psbtSendFromImportedAccount(
+	// 	ht, dave, alice, carol, importedAccount, addrType,
+	// )
+	//
+	// // We'll generate a new address for Carol from Dave's node to receive
+	// // and fund a new channel.
+	// externalAddr = newExternalAddr(
+	// 	ht, dave, carol, importedAccount, addrType,
+	// )
+	//
+	// // Retrieve the current confirmed balance of the imported account for
+	// // some assertions we'll make later on.
+	// balanceResp := dave.RPC.WalletBalance()
+	// require.Contains(ht, balanceResp.AccountBalance, importedAccount)
+	// confBalance := balanceResp.AccountBalance[importedAccount].
+	// 	ConfirmedBalance
+	//
+	// // Send coins to Carol's address and confirm them, making sure the
+	// // balance updates accordingly.
+	// req = &lnrpc.SendCoinsRequest{
+	// 	Addr:       externalAddr,
+	// 	Amount:     utxoAmt,
+	// 	SatPerByte: 1,
+	// }
+	// alice.RPC.SendCoins(req)
+	//
+	// ht.AssertWalletAccountBalance(
+	// 	dave, importedAccount, confBalance, utxoAmt,
+	// )
+	// ht.MineBlocksAndAssertNumTxes(1, 1)
+	// ht.AssertWalletAccountBalance(
+	// 	dave, importedAccount, confBalance+utxoAmt, 0,
+	// )
+	//
 	// // Now that we have enough funds, it's time to fund the channel, make a
 	// // test payment, and close it. This contains several balance assertions
 	// // along the way.

@@ -300,7 +300,10 @@ func (w *mockWalletController) CheckMempoolAcceptance(tx *wire.MsgTx) error {
 	return nil
 }
 
-func (w *mockWalletController) Rescan(block *waddrmgr.BlockStamp) error {
+func (w *mockWalletController) Rescan(block *waddrmgr.BlockStamp,
+	addrs []btcutil.Address,
+	outpoints map[wire.OutPoint]btcutil.Address) error {
+
 	return nil
 }
 

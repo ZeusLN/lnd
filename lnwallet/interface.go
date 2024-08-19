@@ -544,7 +544,8 @@ type WalletController interface {
 	// mempool.
 	CheckMempoolAcceptance(tx *wire.MsgTx) error
 
-	Rescan(block *waddrmgr.BlockStamp) error
+	Rescan(block *waddrmgr.BlockStamp, addrs []btcutil.Address,
+		outpoints map[wire.OutPoint]btcutil.Address) error
 }
 
 // BlockChainIO is a dedicated source which will be used to obtain queries
