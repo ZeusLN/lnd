@@ -1586,6 +1586,15 @@
         "address_type": {
           "$ref": "#/definitions/walletrpcAddressType",
           "description": "The type of address that will be generated from the public key."
+        },
+        "rescan": {
+          "type": "boolean",
+          "description": "This indicates if a rescan should be triggered, to recover funds for this\npublic key after importing it."
+        },
+        "height": {
+          "type": "integer",
+          "format": "int32",
+          "description": "This is the height of the birthday block proposed to the wallet as\nwell as the start height for the rescan."
         }
       }
     },
