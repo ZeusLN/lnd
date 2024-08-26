@@ -690,6 +690,14 @@ message ImportPublicKeyRequest {
 
     // The type of address that will be generated from the public key.
     AddressType address_type = 2;
+
+    // This indicates if a rescan should be triggered, to recover funds for this
+    // public key after importing it.
+    bool rescan = 3;
+
+    // This is the height of the birthday block proposed to the wallet as
+    // well as the start height for the rescan.
+    int32 height = 4;
 }
 message ImportPublicKeyResponse {
 }
