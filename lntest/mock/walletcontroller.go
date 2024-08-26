@@ -124,15 +124,16 @@ func (w *WalletController) ListAddresses(string,
 
 // ImportAccount currently returns a dummy value.
 func (w *WalletController) ImportAccount(string, *hdkeychain.ExtendedKey,
-	uint32, *waddrmgr.AddressType, bool) (*waddrmgr.AccountProperties,
-	[]btcutil.Address, []btcutil.Address, error) {
+	uint32, *waddrmgr.AddressType, bool, *waddrmgr.BlockStamp) (
+	*waddrmgr.AccountProperties, []btcutil.Address,
+	[]btcutil.Address, error) {
 
 	return nil, nil, nil, nil
 }
 
 // ImportPublicKey currently returns a dummy value.
 func (w *WalletController) ImportPublicKey(*btcec.PublicKey,
-	waddrmgr.AddressType) error {
+	waddrmgr.AddressType, *waddrmgr.BlockStamp, bool) error {
 
 	return nil
 }

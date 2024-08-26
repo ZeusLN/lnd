@@ -318,7 +318,8 @@ type WalletController interface {
 	// (nested pubkeys externally, witness pubkeys internally).
 	ImportAccount(name string, accountPubKey *hdkeychain.ExtendedKey,
 		masterKeyFingerprint uint32, addrType *waddrmgr.AddressType,
-		dryRun bool) (*waddrmgr.AccountProperties, []btcutil.Address,
+		dryRun bool, bs *waddrmgr.BlockStamp) (
+		*waddrmgr.AccountProperties, []btcutil.Address,
 		[]btcutil.Address, error)
 
 	// ImportPublicKey imports a single derived public key into the wallet.
@@ -327,7 +328,8 @@ type WalletController interface {
 	// specified as we intend to not support importing BIP-44 keys into the
 	// wallet using the legacy pay-to-pubkey-hash (P2PKH) scheme.
 	ImportPublicKey(pubKey *btcec.PublicKey,
-		addrType waddrmgr.AddressType) error
+		addrType waddrmgr.AddressType, bs *waddrmgr.BlockStamp,
+		rescan bool) error
 
 	// ImportTaprootScript imports a user-provided taproot script into the
 	// wallet. The imported script will act as a pay-to-taproot address.
