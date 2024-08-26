@@ -2660,7 +2660,7 @@ func (w *WalletKit) ImportAccount(_ context.Context,
 	}
 
 	accountProps, extAddrs, intAddrs, err := w.cfg.Wallet.ImportAccount(
-		req.Name, accountPubKey, mkfp, addrType, req.DryRun,
+		req.Name, accountPubKey, mkfp, addrType, req.DryRun, nil,
 	)
 	if err != nil {
 		return nil, err
@@ -2718,7 +2718,7 @@ func (w *WalletKit) ImportPublicKey(_ context.Context,
 		return nil, err
 	}
 
-	if err := w.cfg.Wallet.ImportPublicKey(pubKey, *addrType); err != nil {
+	if err := w.cfg.Wallet.ImportPublicKey(pubKey, *addrType, nil, false); err != nil {
 		return nil, err
 	}
 
