@@ -910,6 +910,9 @@ func (b *BtcWallet) ImportAccount(name string, accountPubKey *hdkeychain.Extende
 		if err != nil {
 			return nil, nil, nil, err
 		}
+
+		b.wallet.SetClientBirthday()
+
 		return accountProps, nil, nil, nil
 	}
 
