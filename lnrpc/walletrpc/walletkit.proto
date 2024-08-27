@@ -664,6 +664,13 @@ message ImportAccountRequest {
     import the account as is.
     */
     bool dry_run = 5;
+
+    /*
+    This is the new proposed birthday block height. This is usually the
+    first height from which new funds can be recovered from the keys derived
+    from the account.
+    */
+    uint32 birthday_height = 6;
 }
 message ImportAccountResponse {
     // The details of the imported account.
