@@ -1,14 +1,22 @@
 package mock
 
 import (
+	"github.com/btcsuite/btcd/btcutil"
 	"github.com/btcsuite/btcd/chaincfg"
 	"github.com/btcsuite/btcd/chaincfg/chainhash"
 	"github.com/btcsuite/btcd/wire"
+	"github.com/btcsuite/btcwallet/waddrmgr"
 )
 
 // ChainIO is a mock implementation of the BlockChainIO interface.
 type ChainIO struct {
 	BestHeight int32
+}
+
+func (c *ChainIO) Rescan(block *waddrmgr.BlockStamp, addrs []btcutil.Address,
+	outpoints map[wire.OutPoint]btcutil.Address) error {
+
+	return nil
 }
 
 // GetBestBlock currently returns dummy values.
