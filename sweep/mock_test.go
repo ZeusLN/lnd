@@ -4,6 +4,7 @@ import (
 	"github.com/btcsuite/btcd/btcutil"
 	"github.com/btcsuite/btcd/chaincfg/chainhash"
 	"github.com/btcsuite/btcd/wire"
+	"github.com/btcsuite/btcwallet/waddrmgr"
 	"github.com/lightningnetwork/lnd/fn"
 	"github.com/lightningnetwork/lnd/input"
 	"github.com/lightningnetwork/lnd/lnwallet"
@@ -125,6 +126,15 @@ func (m *MockWallet) CheckMempoolAcceptance(tx *wire.MsgTx) error {
 	args := m.Called(tx)
 
 	return args.Error(0)
+}
+
+// Rescan scans the blockchain starting from the provided starting block to
+// the end of the longest chain for transactions that pay to the passed
+// addresses and transactions which spend the passed outpoints.
+func (m *MockWallet) Rescan(*waddrmgr.BlockStamp, []btcutil.Address,
+	map[wire.OutPoint]btcutil.Address) error {
+
+	return nil
 }
 
 // PublishTransaction performs cursory validation (dust checks, etc) and

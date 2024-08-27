@@ -288,3 +288,20 @@ func (w *WalletController) RemoveDescendants(*wire.MsgTx) error {
 func (w *WalletController) CheckMempoolAcceptance(tx *wire.MsgTx) error {
 	return nil
 }
+
+// FetchDerivationInfo queries for the wallet's knowledge of the passed
+// pkScript and constructs the derivation info and returns it.
+func (w *WalletController) FetchDerivationInfo(
+	pkScript []byte) (*psbt.Bip32Derivation, error) {
+
+	return nil, nil
+}
+
+// Rescan scans the blockchain starting from the provided starting block to
+// the end of the longest chain for transactions that pay to the passed
+// addresses and transactions which spend the passed outpoints.
+func (w *WalletController) Rescan(*waddrmgr.BlockStamp, []btcutil.Address,
+	map[wire.OutPoint]btcutil.Address) error {
+
+	return nil
+}
