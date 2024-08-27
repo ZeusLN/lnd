@@ -8,12 +8,15 @@ import (
 	"context"
 	"encoding/base64"
 	"encoding/binary"
+	"encoding/hex"
 	"errors"
 	"fmt"
 	"math"
 	"os"
 	"path/filepath"
 	"sort"
+	"strconv"
+	"strings"
 	"time"
 
 	"github.com/btcsuite/btcd/btcec/v2"
@@ -2765,6 +2768,123 @@ func (w *WalletKit) ImportPublicKey(_ context.Context,
 	}
 
 	return &ImportPublicKeyResponse{}, nil
+}
+
+func (w *WalletKit) Rescan(_ context.Context,
+	req *RescanRequest) (*RescanResponse, error) {
+
+	hash, err := w.cfg.Chain.GetBlockHash(int64(req.StartHeight))
+	if err != nil {
+		return nil, err
+	}
+
+	header, err := w.cfg.Chain.GetBlockHeader(hash)
+	if err != nil {
+		return nil, err
+	}
+
+	startBlock := &waddrmgr.BlockStamp{
+		Hash:      *hash,
+		Height:    req.StartHeight,
+		Timestamp: header.Timestamp,
+	}
+
+	addresses := req.Addresses
+	if len(addresses) == 0 {
+		addressLists, err := w.cfg.Wallet.ListAddresses(
+			"", true,
+		)
+		if err != nil {
+			return nil, fmt.Errorf(
+				"unable to list addresses: %w", err)
+		}
+
+		for _, addressProperty := range addressLists {
+			addrFunc := func(addr lnwallet.AddressProperty) string {
+				return addr.Address
+			}
+			addresses = append(
+				addresses, fn.Map(addrFunc, addressProperty)...,
+			)
+
+		}
+	}
+
+	// Convert the supplied addresses to btcutil addresses.
+	btcutilAddresses := make([]btcutil.Address, 0)
+	for _, address := range addresses {
+		btcutilAddr, err := btcutil.DecodeAddress(
+			address, w.cfg.ChainParams,
+		)
+		if err != nil {
+			return nil, fmt.Errorf(
+				"unable to decode address: %w", err)
+		}
+
+		btcutilAddresses = append(btcutilAddresses, btcutilAddr)
+	}
+
+	var outpoints map[wire.OutPoint]btcutil.Address
+	for outpoint, address := range req.Outpoints {
+		btcutilAddr, err := btcutil.DecodeAddress(
+			address, w.cfg.ChainParams,
+		)
+		if err != nil {
+			return nil, fmt.Errorf(
+				"unable to decode address: %w", err)
+		}
+		wireOutpoint, err := stringtoWireOutpoints(outpoint)
+		if err != nil {
+			return nil, err
+		}
+		outpoints[*wireOutpoint] = btcutilAddr
+	}
+	err = w.cfg.Wallet.Rescan(startBlock, btcutilAddresses, outpoints)
+	if err != nil {
+		return nil, err
+	}
+
+	return &RescanResponse{
+		Status: "ok",
+	}, nil
+}
+
+func NewProtoOutPoint(op string) (*lnrpc.OutPoint, error) {
+	parts := strings.Split(op, ":")
+	if len(parts) != 2 {
+		return nil, errors.New("outpoint should be of the form txid:index")
+	}
+	txid := parts[0]
+	if hex.DecodedLen(len(txid)) != chainhash.HashSize {
+		return nil, fmt.Errorf("invalid hex-encoded txid %v", txid)
+	}
+	outputIndex, err := strconv.Atoi(parts[1])
+	if err != nil {
+		return nil, fmt.Errorf("invalid output index: %w", err)
+	}
+	return &lnrpc.OutPoint{
+		TxidStr:     txid,
+		OutputIndex: uint32(outputIndex),
+	}, nil
+}
+func stringtoWireOutpoints(outpoint string) (*wire.OutPoint,
+	error) {
+
+	protoOutpoint, err := NewProtoOutPoint(outpoint)
+	if err != nil {
+		return nil, err
+	}
+
+	hash, err := chainhash.NewHashFromStr(outpoint)
+	if err != nil {
+		return nil, fmt.Errorf("cannot create chainhash")
+	}
+
+	wireOutpoint := wire.NewOutPoint(
+		hash, protoOutpoint.OutputIndex,
+	)
+
+	return wireOutpoint, nil
 }
 
 // ImportTapscript imports a Taproot script and internal key and adds the
