@@ -1946,3 +1946,21 @@ func (b *BtcWallet) CheckMempoolAcceptance(tx *wire.MsgTx) error {
 
 	return nil
 }
+
+// Rescan scans the blockchain starting from the provided starting block to the
+// end of the longest chain for transactions that pay to the passed addresses
+// and transactions which spend the passed outpoints.
+func (b *BtcWallet) Rescan(block *waddrmgr.BlockStamp,
+	addrs []btcutil.Address,
+	outpoints map[wire.OutPoint]btcutil.Address) error {
+
+	job := &base.RescanJob{
+		Addrs:      addrs,
+		OutPoints:  outpoints,
+		BlockStamp: *block,
+	}
+
+	err := <-b.wallet.SubmitRescan(job)
+
+	return err
+}
