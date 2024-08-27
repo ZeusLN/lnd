@@ -1930,6 +1930,14 @@
         }
       }
     },
+    "walletrpcRescanResponse": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string"
+        }
+      }
+    },
     "walletrpcSendOutputsRequest": {
       "type": "object",
       "properties": {
