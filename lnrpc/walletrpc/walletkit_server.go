@@ -2662,8 +2662,27 @@ func (w *WalletKit) ImportAccount(_ context.Context,
 		return nil, err
 	}
 
+	var birthdayBlock *waddrmgr.BlockStamp
+	if req.BirthdayHeight != 0 {
+		hash, err := w.cfg.Chain.GetBlockHash(int64(req.BirthdayHeight))
+		if err != nil {
+			return nil, err
+		}
+		header, err := w.cfg.Chain.GetBlockHeader(hash)
+		if err != nil {
+			return nil, err
+		}
+
+		birthdayBlock = &waddrmgr.BlockStamp{
+			Hash:      *hash,
+			Height:    int32(req.BirthdayHeight),
+			Timestamp: header.Timestamp,
+		}
+	}
+
 	accountProps, extAddrs, intAddrs, err := w.cfg.Wallet.ImportAccount(
-		req.Name, accountPubKey, mkfp, addrType, req.DryRun, nil,
+		req.Name, accountPubKey, mkfp, addrType, req.DryRun,
+		birthdayBlock,
 	)
 	if err != nil {
 		return nil, err
