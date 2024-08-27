@@ -2125,6 +2125,22 @@ var importPubKeyCommand = cli.Command{
 	they happen after the import. Rescans to detect past events will be
 	supported later on.
 	`,
+	Flags: []cli.Flag{
+		cli.BoolFlag{
+			Name:  "rescan",
+			Usage: "(optional) perform rescan",
+		},
+		cli.IntFlag{
+			Name: "height",
+			Usage: "height refers to the starting block height for " +
+				"the rescan process. If the specified height is " +
+				"earlier than the wallet's current birthday " +
+				"block, the wallet's birthday block is updated " +
+				"to this new height. If the height is not set, " +
+				"the rescan will begin from the existing " +
+				"birthday block.",
+		},
+	},
 	Action: actionDecorator(importPubKey),
 }
 
@@ -2133,7 +2149,7 @@ func importPubKey(ctx *cli.Context) error {
 
 	// Display the command's help message if we do not have the expected
 	// number of arguments/flags.
-	if ctx.NArg() != 2 || ctx.NumFlags() > 0 {
+	if ctx.NArg() != 2 {
 		return cli.ShowCommandHelp(ctx, "import-pubkey")
 	}
 
@@ -2152,6 +2168,8 @@ func importPubKey(ctx *cli.Context) error {
 	req := &walletrpc.ImportPublicKeyRequest{
 		PublicKey:   pubKeyBytes,
 		AddressType: addrType,
+		Rescan:      ctx.Bool("rescan"),
+		Height:      int32(ctx.Int("height")),
 	}
 	resp, err := walletClient.ImportPublicKey(ctxc, req)
 	if err != nil {
