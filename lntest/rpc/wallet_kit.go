@@ -2,7 +2,6 @@ package rpc
 
 import (
 	"context"
-
 	"github.com/lightningnetwork/lnd/lnrpc"
 	"github.com/lightningnetwork/lnd/lnrpc/signrpc"
 	"github.com/lightningnetwork/lnd/lnrpc/walletrpc"
@@ -276,6 +275,21 @@ func (h *HarnessRPC) ImportAccount(
 
 	resp, err := h.WalletKit.ImportAccount(ctxt, req)
 	h.NoError(err, "ImportAccount")
+
+	return resp
+}
+
+// Rescan scans the blockchain starting from the provided starting block to
+// the end of the longest chain for transactions that pay to the passed
+// addresses and transactions which spend the passed outpoints.
+func (h *HarnessRPC) Rescan(
+	req *walletrpc.RescanRequest) *walletrpc.RescanResponse {
+
+	ctxt, cancel := context.WithTimeout(h.runCtx, DefaultTimeout)
+	defer cancel()
+
+	resp, err := h.WalletKit.Rescan(ctxt, req)
+	h.NoError(err, "Rescan")
 
 	return resp
 }

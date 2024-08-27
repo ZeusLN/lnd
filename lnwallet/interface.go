@@ -544,6 +544,12 @@ type WalletController interface {
 	// policies and returns an error if it cannot be accepted into the
 	// mempool.
 	CheckMempoolAcceptance(tx *wire.MsgTx) error
+
+	// Rescan scans the blockchain starting from the provided starting block
+	// to the end of the longest chain for transactions that pay to the
+	// passed addresses and transactions which spend the passed outpoints.
+	Rescan(*waddrmgr.BlockStamp, []btcutil.Address,
+		map[wire.OutPoint]btcutil.Address) error
 }
 
 // BlockChainIO is a dedicated source which will be used to obtain queries
@@ -579,6 +585,13 @@ type BlockChainIO interface {
 
 	// GetBlockHeader returns the block header for the given block hash.
 	GetBlockHeader(blockHash *chainhash.Hash) (*wire.BlockHeader, error)
+
+	// Rescan scans the blockchain starting from the provided starting
+	// block to the end of the longest chain for transactions that pay
+	// to the passed addresses and transactions which spend the passed
+	// outpoints.
+	Rescan(block *waddrmgr.BlockStamp, addrs []btcutil.Address,
+		outpoints map[wire.OutPoint]btcutil.Address) error
 }
 
 // MessageSigner represents an abstract object capable of signing arbitrary
