@@ -2721,7 +2721,26 @@ func (w *WalletKit) ImportPublicKey(_ context.Context,
 		return nil, err
 	}
 
-	if err := w.cfg.Wallet.ImportPublicKey(pubKey, *addrType, nil, false); err != nil {
+	var birthdayBlock *waddrmgr.BlockStamp
+	if req.Height != 0 {
+		hash, err := w.cfg.Chain.GetBlockHash(int64(req.Height))
+		if err != nil {
+			return nil, err
+		}
+		header, err := w.cfg.Chain.GetBlockHeader(hash)
+		if err != nil {
+			return nil, err
+		}
+
+		birthdayBlock = &waddrmgr.BlockStamp{
+			Hash:      *hash,
+			Height:    req.Height,
+			Timestamp: header.Timestamp,
+		}
+	}
+
+	if err := w.cfg.Wallet.ImportPublicKey(pubKey, *addrType, birthdayBlock,
+		req.Rescan); err != nil {
 		return nil, err
 	}
 
