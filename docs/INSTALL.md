@@ -10,6 +10,7 @@
 - [Available Backend Operating Modes](#available-backend-operating-modes)
   - [btcd Options](#btcd-options)
   - [Neutrino Options](#neutrino-options)
+  - [Electrum Options](#electrum-options)
   - [Bitcoind Options](#bitcoind-options)
   - [Using btcd](#using-btcd)
     - [Installing btcd](#installing-btcd)
@@ -304,11 +305,11 @@ _Fish_: Run: `lncli fish-completion > $HOME/.config/fish/completions/lncli.fish`
 # Available Backend Operating Modes
 
 In order to run, `lnd` requires, that the user specify a chain backend. At the
-time of writing of this document, there are three available chain backends:
-`btcd`, `neutrino`, `bitcoind`. All including neutrino can run on mainnet with
-an out of the box `lnd` instance. We don't require `--txindex` when running
-with `bitcoind` or `btcd` but activating the `txindex` will generally make
-`lnd` run faster. Note that since version 0.13 pruned nodes are supported, 
+time of writing of this document, there are four available chain backends:
+`btcd`, `electrum`, `neutrino`, `bitcoind`. All including neutrino can run on
+mainnet with an out of the box `lnd` instance. We don't require `--txindex` when
+running with `bitcoind` or `btcd` but activating the `txindex` will generally
+make `lnd` run faster. Note that since version 0.13 pruned nodes are supported, 
 although they cause performance penalty and higher network usage.
 
 The set of arguments for each of the backend modes is as follows:
@@ -334,6 +335,12 @@ neutrino:
       --neutrino.banthreshold=                                Maximum allowed ban score before disconnecting and banning misbehaving peers.
       --neutrino.useragentname=                               Used to help identify ourselves to other bitcoin peers.
       --neutrino.useragentversion=                            Used to help identify ourselves to other bitcoin peers.
+```
+
+## Electrum Options
+```text
+electrum:
+  -a, --electrum.host=                                        Electrum server to connect to
 ```
 
 ## Bitcoind Options

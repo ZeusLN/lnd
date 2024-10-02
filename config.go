@@ -247,6 +247,7 @@ const (
 	bitcoindBackendName = "bitcoind"
 	btcdBackendName     = "btcd"
 	neutrinoBackendName = "neutrino"
+	electrumBackendName = "electrum"
 )
 
 var (
@@ -286,6 +287,8 @@ var (
 	bitcoindEstimateModes       = [2]string{"ECONOMICAL", defaultBitcoindEstimateMode}
 
 	defaultPrunedNodeMaxPeers = 4
+
+	defaultElectrumHost = "electrum.emzy.de"
 )
 
 // Config defines the configuration options for lnd.
@@ -370,6 +373,7 @@ type Config struct {
 	BtcdMode     *lncfg.Btcd     `group:"btcd" namespace:"btcd"`
 	BitcoindMode *lncfg.Bitcoind `group:"bitcoind" namespace:"bitcoind"`
 	NeutrinoMode *lncfg.Neutrino `group:"neutrino" namespace:"neutrino"`
+	ElectrumMode *lncfg.Electrum `group:"electrum" namespace:"electrum"`
 
 	BlockCacheSize uint64 `long:"blockcachesize" description:"The maximum capacity of the block cache"`
 
@@ -592,6 +596,9 @@ func DefaultConfig() Config {
 		NeutrinoMode: &lncfg.Neutrino{
 			UserAgentName:    neutrino.UserAgentName,
 			UserAgentVersion: neutrino.UserAgentVersion,
+		},
+		ElectrumMode: &lncfg.Electrum{
+			Host: defaultElectrumHost,
 		},
 		BlockCacheSize:     defaultBlockCacheSize,
 		MaxPendingChannels: lncfg.DefaultMaxPendingChannels,
@@ -1298,6 +1305,8 @@ func ValidateConfig(cfg Config, interceptor signal.Interceptor, fileParser,
 				"credentials for bitcoind: %v", err)
 		}
 	case neutrinoBackendName:
+		// No need to get RPC parameters.
+	case electrumBackendName:
 		// No need to get RPC parameters.
 
 	case "nochainbackend":

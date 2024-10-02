@@ -586,6 +586,7 @@ func (d *DefaultWalletImpl) BuildWalletConfig(ctx context.Context,
 	chainControlCfg := &chainreg.Config{
 		Bitcoin:                     d.cfg.Bitcoin,
 		HeightHintCacheQueryDisable: d.cfg.HeightHintCacheQueryDisable,
+		ElectrumMode:                d.cfg.ElectrumMode,
 		NeutrinoMode:                d.cfg.NeutrinoMode,
 		BitcoindMode:                d.cfg.BitcoindMode,
 		BtcdMode:                    d.cfg.BtcdMode,

@@ -46,6 +46,10 @@ type Config struct {
 	// queries if true.
 	HeightHintCacheQueryDisable bool
 
+	// ElectrumMode defines settings for connecting to a electrum
+	// server.
+	ElectrumMode *lncfg.Electrum
+
 	// NeutrinoMode defines settings for connecting to a neutrino
 	// light-client.
 	NeutrinoMode *lncfg.Neutrino

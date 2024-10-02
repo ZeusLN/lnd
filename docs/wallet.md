@@ -5,9 +5,9 @@ directory, for example `~/.lnd/data/chain/bitcoin/mainnet/wallet.db` on Linux)
 that contains all addresses and private keys for the on-chain **and** off-chain
 (LN) funds.
 
-The wallet is independent of the chain backend that is used (`bitcoind`, `btcd`
-or `neutrino`) and must therefore be created as the first step after starting
-up a fresh `lnd` node.
+The wallet is independent of the chain backend that is used (`bitcoind`, `btcd`,
+`electrum` or `neutrino`) and must therefore be created as the first step after
+starting up a fresh `lnd` node.
 
 To protect the sensitive content of the wallet, the database is encrypted with
 a password chosen by the user when creating the wallet (simply called "wallet
