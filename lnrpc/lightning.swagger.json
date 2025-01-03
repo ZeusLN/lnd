@@ -1430,6 +1430,13 @@
             "format": "int64"
           },
           {
+            "name": "dest_custom_records[string]",
+            "description": "This is a request variable of the map type. The query format is \"map_name[key]=value\", e.g. If the map name is Age, the key type is string, and the value type is integer, the query parameter is expressed as Age[\"bob\"]=18",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
             "name": "outgoing_chan_id",
             "description": "The channel id of the channel that must be taken to the first hop. If zero,\nany channel may be used.",
             "in": "query",
@@ -1564,6 +1571,7 @@
                 "ignored_edges": {
                   "type": "array",
                   "items": {
+                    "type": "object",
                     "$ref": "#/definitions/lnrpcEdgeLocator"
                   },
                   "description": "Deprecated. A list of edges to ignore during path finding."
@@ -1579,6 +1587,7 @@
                 "ignored_pairs": {
                   "type": "array",
                   "items": {
+                    "type": "object",
                     "$ref": "#/definitions/lnrpcNodePair"
                   },
                   "description": "A list of directed node pairs that will be ignored during path finding."
@@ -1588,7 +1597,7 @@
                   "format": "int64",
                   "description": "An optional maximum total time lock for the route. If the source is empty or\nourselves, this should not exceed lnd's `--max-cltv-expiry` setting. If\nzero, then the value of `--max-cltv-expiry` is used as the limit."
                 },
-                "dest_custom_records": {
+                "dest_custom_records[string]": {
                   "type": "object",
                   "additionalProperties": {
                     "type": "string",
@@ -1609,6 +1618,7 @@
                 "route_hints": {
                   "type": "array",
                   "items": {
+                    "type": "object",
                     "$ref": "#/definitions/lnrpcRouteHint"
                   },
                   "description": "Optional route hints to reach the destination through private channels."
@@ -1616,6 +1626,7 @@
                 "blinded_payment_paths": {
                   "type": "array",
                   "items": {
+                    "type": "object",
                     "$ref": "#/definitions/lnrpcBlindedPaymentPath"
                   },
                   "description": "An optional blinded path(s) to reach the destination. Note that the\nintroduction node must be provided as the first hop in the route."
@@ -2703,6 +2714,13 @@
         },
         "parameters": [
           {
+            "name": "AddrToAmount[string]",
+            "description": "This is a request variable of the map type. The query format is \"map_name[key]=value\", e.g. If the map name is Age, the key type is string, and the value type is integer, the query parameter is expressed as Age[\"bob\"]=18",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
             "name": "target_conf",
             "description": "The target number of blocks that this transaction should be confirmed\nby.",
             "in": "query",
@@ -3117,6 +3135,7 @@
         "pending_htlcs": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/lnrpcPendingHTLC"
           }
         },
@@ -3394,6 +3413,7 @@
         "permissions": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/lnrpcMacaroonPermission"
           },
           "description": "The list of permissions the new macaroon should grant."
@@ -3521,6 +3541,7 @@
         "channels": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/lnrpcBatchOpenChannel"
           },
           "description": "The list of channels to open."
@@ -3560,6 +3581,7 @@
         "pending_channels": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/lnrpcPendingUpdate"
           }
         }
@@ -3596,6 +3618,7 @@
         "blinded_hops": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/lnrpcBlindedHop"
           },
           "description": "A set of blinded node keys and data blobs for the blinded portion of the\nroute. Note that the first hop is expected to be the introduction node,\nso the route is always expected to have at least one hop."
@@ -3807,6 +3830,7 @@
         "pending_htlcs": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/lnrpcHTLC"
           },
           "description": "The list of active, uncleared HTLCs currently pending within the channel."
@@ -4073,6 +4097,7 @@
         "chan_backups": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/lnrpcChannelBackup"
           },
           "description": "A set of single-chan static channel backups."
@@ -4182,6 +4207,7 @@
         "resolutions": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/lnrpcResolution"
           }
         },
@@ -4221,6 +4247,7 @@
         "additional_outputs": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/lnrpcCloseOutput"
           },
           "description": "Any additional outputs that might be added for custom channel types."
@@ -4401,6 +4428,7 @@
         "nodes": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/lnrpcLightningNode"
           },
           "title": "The list of `LightningNode`s in this channel graph"
@@ -4408,6 +4436,7 @@
         "edges": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/lnrpcChannelEdge"
           },
           "title": "The list of `ChannelEdge`s in this channel graph"
@@ -4517,6 +4546,7 @@
         "permissions": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/lnrpcMacaroonPermission"
           }
         },
@@ -4598,6 +4628,7 @@
         "channels": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/lnrpcChannelCloseSummary"
           }
         }
@@ -4872,6 +4903,7 @@
         "channel_fees": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/lnrpcChannelFeeReport"
           },
           "description": "An array of channel fee reports which describes the current fee schedule\nfor each channel."
@@ -5006,6 +5038,7 @@
         "forwarding_events": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/lnrpcForwardingEvent"
           },
           "description": "A list of forwarding events from the time slice of the time series\nspecified in the request."
@@ -5192,6 +5225,7 @@
         "chains": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/lnrpcChain"
           },
           "description": "A list of active chains the node is connected to. This will only\never contain a single entry since LND will only ever have a single\nchain backend during its lifetime."
@@ -5244,18 +5278,21 @@
         "node_updates": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/lnrpcNodeUpdate"
           }
         },
         "channel_updates": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/lnrpcChannelEdgeUpdate"
           }
         },
         "closed_chans": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/lnrpcClosedChannelUpdate"
           }
         }
@@ -5555,6 +5592,7 @@
         "route_hints": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/lnrpcRouteHint"
           },
           "description": "Route hints that can each be individually used to assist in reaching the\ninvoice's destination."
@@ -5595,6 +5633,7 @@
         "htlcs": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/lnrpcInvoiceHTLC"
           },
           "description": "List of HTLCs paying to this invoice [EXPERIMENTAL].\nNote: Output only, don't specify for creating an invoice."
@@ -5776,6 +5815,7 @@
         "addresses": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/lnrpcNodeAddress"
           }
         },
@@ -5805,6 +5845,7 @@
         "alias_maps": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/lnrpcAliasMap"
           }
         }
@@ -5816,6 +5857,7 @@
         "channels": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/lnrpcChannel"
           },
           "title": "The list of active channels"
@@ -5828,6 +5870,7 @@
         "invoices": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/lnrpcInvoice"
           },
           "description": "A list of invoices from the time slice of the time series specified in the\nrequest."
@@ -5863,6 +5906,7 @@
         "payments": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/lnrpcPayment"
           },
           "title": "The list of payments"
@@ -5890,6 +5934,7 @@
         "peers": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/lnrpcPeer"
           },
           "title": "The list of currently connected peers"
@@ -5914,6 +5959,7 @@
         "utxos": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/lnrpcUtxo"
           },
           "title": "A list of utxos"
@@ -5967,6 +6013,7 @@
         "permissions": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/lnrpcMacaroonPermission"
           },
           "description": "A list of macaroon permissions."
@@ -5996,6 +6043,7 @@
         "chan_points": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/lnrpcChannelPoint"
           },
           "description": "Is the set of all channels that are included in this multi-channel backup."
@@ -6097,6 +6145,7 @@
         "channels": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/lnrpcChannelEdge"
           },
           "description": "A list of all public channels for the node."
@@ -6165,6 +6214,7 @@
         "node_addresses": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/lnrpcNodeAddress"
           }
         },
@@ -6306,6 +6356,7 @@
         "outpoints": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/lnrpcOutPoint"
           },
           "description": "A list of selected outpoints that are allocated for channel funding."
@@ -6437,6 +6488,7 @@
         "route_hints": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/lnrpcRouteHint"
           }
         },
@@ -6457,6 +6509,7 @@
         "blinded_paths": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/lnrpcBlindedPaymentPath"
           }
         }
@@ -6524,6 +6577,7 @@
         "htlcs": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/lnrpcHTLCAttempt"
           },
           "description": "The HTLCs made in attempt to settle the payment."
@@ -6614,6 +6668,7 @@
         "errors": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/lnrpcTimestampedError"
           },
           "description": "The latest errors received from our peer with timestamps, limited to the 10\nmost recent errors. These errors are tracked across peer connections, but\nare not persisted across lnd restarts. Note that these errors are only\nstored for peers that we have channels open with, to prevent peers from\nspamming us with errors at no cost."
@@ -6658,6 +6713,7 @@
         "pending_open_channels": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/PendingChannelsResponsePendingOpenChannel"
           },
           "title": "Channels pending opening"
@@ -6665,6 +6721,7 @@
         "pending_closing_channels": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/PendingChannelsResponseClosedChannel"
           },
           "description": "Deprecated: Channels pending closing previously contained cooperatively\nclosed channels with a single confirmation. These channels are now\nconsidered closed from the time we see them on chain."
@@ -6672,6 +6729,7 @@
         "pending_force_closing_channels": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/PendingChannelsResponseForceClosedChannel"
           },
           "title": "Channels pending force closing"
@@ -6679,6 +6737,7 @@
         "waiting_close_channels": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/PendingChannelsResponseWaitingCloseChannel"
           },
           "title": "Channels waiting for closing tx to confirm"
@@ -6788,6 +6847,7 @@
         "failed_updates": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/lnrpcFailedUpdate"
           },
           "description": "List of failed policy updates."
@@ -6832,6 +6892,7 @@
         "routes": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/lnrpcRoute"
           },
           "description": "The route that results from the path finding operation. This is still a\nrepeated field to retain backwards compatibility."
@@ -7017,6 +7078,7 @@
         "hops": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/lnrpcHop"
           },
           "description": "Contains details concerning the specific forwarding details at each hop."
@@ -7050,6 +7112,7 @@
         "hop_hints": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/lnrpcHopHint"
           },
           "description": "A list of hop hints that when chained together can assist in reaching a\nspecific destination."
@@ -7155,6 +7218,7 @@
         "outpoints": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/lnrpcOutPoint"
           },
           "description": "A list of selected outpoints as inputs for the transaction."
@@ -7467,6 +7531,7 @@
         "output_details": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/lnrpcOutputDetail"
           },
           "title": "Outputs that received funds for this transaction"
@@ -7482,6 +7547,7 @@
         "previous_outpoints": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/lnrpcPreviousOutPoint"
           },
           "description": "PreviousOutpoints/Inputs of this transaction."
@@ -7494,6 +7560,7 @@
         "transactions": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/lnrpcTransaction"
           },
           "description": "The list of transactions relevant to the wallet."
@@ -7646,6 +7713,7 @@
         "details": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/protobufAny"
           }
         }

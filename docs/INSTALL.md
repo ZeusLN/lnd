@@ -100,7 +100,7 @@ the following commands for your OS:
   <summary>Linux (x86-64)</summary>
   
   ```
-  wget https://dl.google.com/go/go1.22.6.linux-amd64.tar.gz
+  wget https://dl.google.com/go/go1.23.0.linux-amd64.tar.gz
   sha256sum go1.22.5.linux-amd64.tar.gz | awk -F " " '{ print $1 }'
   ```
 

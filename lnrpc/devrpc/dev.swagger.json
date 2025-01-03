@@ -103,6 +103,7 @@
         "nodes": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/lnrpcLightningNode"
           },
           "title": "The list of `LightningNode`s in this channel graph"
@@ -110,6 +111,7 @@
         "edges": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/lnrpcChannelEdge"
           },
           "title": "The list of `ChannelEdge`s in this channel graph"
@@ -147,6 +149,7 @@
         "addresses": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/lnrpcNodeAddress"
           }
         },
@@ -251,6 +254,7 @@
         "details": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/protobufAny"
           }
         }

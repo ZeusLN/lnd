@@ -57,7 +57,7 @@ func request_Router_SendPaymentV2_0(ctx context.Context, marshaler runtime.Marsh
 }
 
 var (
-	filter_Router_TrackPaymentV2_0 = &utilities.DoubleArray{Encoding: map[string]int{"payment_hash": 0}, Base: []int{1, 1, 0}, Check: []int{0, 1, 2}}
+	filter_Router_TrackPaymentV2_0 = &utilities.DoubleArray{Encoding: map[string]int{"payment_hash": 0, "paymentHash": 1}, Base: []int{1, 1, 2, 0, 0}, Check: []int{0, 1, 1, 2, 3}}
 )
 
 func request_Router_TrackPaymentV2_0(ctx context.Context, marshaler runtime.Marshaler, client RouterClient, req *http.Request, pathParams map[string]string) (Router_TrackPaymentV2Client, runtime.ServerMetadata, error) {
@@ -970,7 +970,7 @@ func RegisterRouterHandlerServer(ctx context.Context, mux *runtime.ServeMux, ser
 // RegisterRouterHandlerFromEndpoint is same as RegisterRouterHandler but
 // automatically dials to "endpoint" and closes the connection when "ctx" gets done.
 func RegisterRouterHandlerFromEndpoint(ctx context.Context, mux *runtime.ServeMux, endpoint string, opts []grpc.DialOption) (err error) {
-	conn, err := grpc.Dial(endpoint, opts...)
+	conn, err := grpc.DialContext(ctx, endpoint, opts...)
 	if err != nil {
 		return err
 	}

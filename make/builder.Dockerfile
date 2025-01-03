@@ -3,7 +3,7 @@
 # /dev.Dockerfile
 # /.github/workflows/main.yml
 # /.github/workflows/release.yml
-FROM golang:1.22.6-bookworm
+FROM golang:1.23.0-bookworm
 
 MAINTAINER Olaoluwa Osuntokun <laolu@lightning.engineering>
 
