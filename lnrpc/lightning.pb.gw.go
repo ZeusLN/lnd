@@ -882,7 +882,7 @@ func request_Lightning_ChannelAcceptor_0(ctx context.Context, marshaler runtime.
 }
 
 var (
-	filter_Lightning_CloseChannel_0 = &utilities.DoubleArray{Encoding: map[string]int{"channel_point": 0, "funding_txid_str": 1, "output_index": 2}, Base: []int{1, 1, 1, 2, 0, 0}, Check: []int{0, 1, 2, 2, 3, 4}}
+	filter_Lightning_CloseChannel_0 = &utilities.DoubleArray{Encoding: map[string]int{"channel_point": 0, "funding_txid_str": 1, "fundingTxidStr": 2, "output_index": 3, "outputIndex": 4}, Base: []int{1, 1, 1, 3, 2, 4, 0, 0, 0, 0}, Check: []int{0, 1, 2, 1, 2, 1, 3, 5, 4, 6}}
 )
 
 func request_Lightning_CloseChannel_0(ctx context.Context, marshaler runtime.Marshaler, client LightningClient, req *http.Request, pathParams map[string]string) (Lightning_CloseChannelClient, runtime.ServerMetadata, error) {
@@ -937,7 +937,7 @@ func request_Lightning_CloseChannel_0(ctx context.Context, marshaler runtime.Mar
 }
 
 var (
-	filter_Lightning_AbandonChannel_0 = &utilities.DoubleArray{Encoding: map[string]int{"channel_point": 0, "funding_txid_str": 1, "output_index": 2}, Base: []int{1, 1, 1, 2, 0, 0}, Check: []int{0, 1, 2, 2, 3, 4}}
+	filter_Lightning_AbandonChannel_0 = &utilities.DoubleArray{Encoding: map[string]int{"channel_point": 0, "funding_txid_str": 1, "fundingTxidStr": 2, "output_index": 3, "outputIndex": 4}, Base: []int{1, 1, 1, 3, 2, 4, 0, 0, 0, 0}, Check: []int{0, 1, 2, 1, 2, 1, 3, 5, 4, 6}}
 )
 
 func request_Lightning_AbandonChannel_0(ctx context.Context, marshaler runtime.Marshaler, client LightningClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -1208,7 +1208,7 @@ func local_request_Lightning_ListInvoices_0(ctx context.Context, marshaler runti
 }
 
 var (
-	filter_Lightning_LookupInvoice_0 = &utilities.DoubleArray{Encoding: map[string]int{"r_hash_str": 0}, Base: []int{1, 1, 0}, Check: []int{0, 1, 2}}
+	filter_Lightning_LookupInvoice_0 = &utilities.DoubleArray{Encoding: map[string]int{"r_hash_str": 0, "rHashStr": 1}, Base: []int{1, 1, 2, 0, 0}, Check: []int{0, 1, 1, 2, 3}}
 )
 
 func request_Lightning_LookupInvoice_0(ctx context.Context, marshaler runtime.Marshaler, client LightningClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -1538,7 +1538,7 @@ func local_request_Lightning_GetNodeMetrics_0(ctx context.Context, marshaler run
 }
 
 var (
-	filter_Lightning_GetChanInfo_0 = &utilities.DoubleArray{Encoding: map[string]int{"chan_id": 0}, Base: []int{1, 1, 0}, Check: []int{0, 1, 2}}
+	filter_Lightning_GetChanInfo_0 = &utilities.DoubleArray{Encoding: map[string]int{"chan_id": 0, "chanId": 1}, Base: []int{1, 1, 2, 0, 0}, Check: []int{0, 1, 1, 2, 3}}
 )
 
 func request_Lightning_GetChanInfo_0(ctx context.Context, marshaler runtime.Marshaler, client LightningClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -1608,7 +1608,7 @@ func local_request_Lightning_GetChanInfo_0(ctx context.Context, marshaler runtim
 }
 
 var (
-	filter_Lightning_GetNodeInfo_0 = &utilities.DoubleArray{Encoding: map[string]int{"pub_key": 0}, Base: []int{1, 1, 0}, Check: []int{0, 1, 2}}
+	filter_Lightning_GetNodeInfo_0 = &utilities.DoubleArray{Encoding: map[string]int{"pub_key": 0, "pubKey": 1}, Base: []int{1, 1, 2, 0, 0}, Check: []int{0, 1, 1, 2, 3}}
 )
 
 func request_Lightning_GetNodeInfo_0(ctx context.Context, marshaler runtime.Marshaler, client LightningClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -1678,7 +1678,7 @@ func local_request_Lightning_GetNodeInfo_0(ctx context.Context, marshaler runtim
 }
 
 var (
-	filter_Lightning_QueryRoutes_0 = &utilities.DoubleArray{Encoding: map[string]int{"pub_key": 0, "amt": 1}, Base: []int{1, 1, 2, 0, 0}, Check: []int{0, 1, 1, 2, 3}}
+	filter_Lightning_QueryRoutes_0 = &utilities.DoubleArray{Encoding: map[string]int{"pub_key": 0, "pubKey": 1, "amt": 2}, Base: []int{1, 1, 2, 4, 0, 0, 0, 0}, Check: []int{0, 1, 1, 1, 2, 3, 4, 4}}
 )
 
 func request_Lightning_QueryRoutes_0(ctx context.Context, marshaler runtime.Marshaler, client LightningClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -2045,7 +2045,7 @@ func local_request_Lightning_ForwardingHistory_0(ctx context.Context, marshaler 
 }
 
 var (
-	filter_Lightning_ExportChannelBackup_0 = &utilities.DoubleArray{Encoding: map[string]int{"chan_point": 0, "funding_txid_str": 1, "output_index": 2}, Base: []int{1, 1, 1, 2, 0, 0}, Check: []int{0, 1, 2, 2, 3, 4}}
+	filter_Lightning_ExportChannelBackup_0 = &utilities.DoubleArray{Encoding: map[string]int{"chan_point": 0, "funding_txid_str": 1, "fundingTxidStr": 2, "output_index": 3, "outputIndex": 4}, Base: []int{1, 1, 1, 3, 2, 4, 0, 0, 0, 0}, Check: []int{0, 1, 2, 1, 2, 1, 3, 5, 4, 6}}
 )
 
 func request_Lightning_ExportChannelBackup_0(ctx context.Context, marshaler runtime.Marshaler, client LightningClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -4073,7 +4073,7 @@ func RegisterLightningHandlerServer(ctx context.Context, mux *runtime.ServeMux, 
 // RegisterLightningHandlerFromEndpoint is same as RegisterLightningHandler but
 // automatically dials to "endpoint" and closes the connection when "ctx" gets done.
 func RegisterLightningHandlerFromEndpoint(ctx context.Context, mux *runtime.ServeMux, endpoint string, opts []grpc.DialOption) (err error) {
-	conn, err := grpc.Dial(endpoint, opts...)
+	conn, err := grpc.DialContext(ctx, endpoint, opts...)
 	if err != nil {
 		return err
 	}

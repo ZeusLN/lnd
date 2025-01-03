@@ -1084,6 +1084,7 @@
         "output_details": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/lnrpcOutputDetail"
           },
           "title": "Outputs that received funds for this transaction"
@@ -1099,6 +1100,7 @@
         "previous_outpoints": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/lnrpcPreviousOutPoint"
           },
           "description": "PreviousOutpoints/Inputs of this transaction."
@@ -1111,6 +1113,7 @@
         "transactions": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/lnrpcTransaction"
           },
           "description": "The list of transactions relevant to the wallet."
@@ -1170,6 +1173,7 @@
         "details": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/protobufAny"
           }
         }
@@ -1277,6 +1281,7 @@
         "addresses": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/walletrpcAddressProperty"
           },
           "description": "List of address, its type internal/external \u0026 balance.\nNote that the order of addresses will be random and not according to the\nderivation index, since that information is not stored by the underlying\nwallet."
@@ -1516,6 +1521,7 @@
         "locked_utxos": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/walletrpcUtxoLease"
           },
           "description": "The list of lock leases that were acquired for the inputs in the funded PSBT\npacket. Only inputs added to the PSBT by this RPC are locked, inputs that\nwere already present in the PSBT are not locked."
@@ -1715,6 +1721,7 @@
         "accounts": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/walletrpcAccount"
           }
         }
@@ -1726,6 +1733,7 @@
         "account_with_addresses": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/walletrpcAccountWithAddresses"
           },
           "description": "A list of all the accounts and their addresses."
@@ -1738,6 +1746,7 @@
         "locked_utxos": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/walletrpcUtxoLease"
           },
           "description": "The list of currently leased utxos."
@@ -1784,6 +1793,7 @@
         "utxos": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/lnrpcUtxo"
           },
           "description": "A list of utxos satisfying the specified number of confirmations."
@@ -1867,6 +1877,7 @@
         "pending_sweeps": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/walletrpcPendingSweep"
           },
           "description": "The set of outputs currently being swept by lnd's central batching engine."
@@ -1956,6 +1967,7 @@
         "outputs": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/signrpcTxOut"
           },
           "description": "A slice of the outputs that should be created in the transaction produced."
@@ -2061,6 +2073,7 @@
         "all_leaves": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/walletrpcTapLeaf"
           },
           "description": "The complete, ordered list of all tap leaves of the tree."
@@ -2101,6 +2114,7 @@
         "inputs": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/lnrpcOutPoint"
           },
           "description": "An optional list of inputs to use. Every input must be an UTXO known to the\nwallet that has not been locked before. The sum of all inputs must be\nsufficiently greater than the sum of all outputs to pay a miner fee with the\nfee rate specified in the parent message.\n\nIf no inputs are specified, coin selection will be performed instead and\ninputs of sufficient value will be added to the resulting PSBT."

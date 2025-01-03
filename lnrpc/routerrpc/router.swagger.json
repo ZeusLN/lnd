@@ -1084,6 +1084,7 @@
         "htlcs": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/lnrpcHTLCAttempt"
           },
           "description": "The HTLCs made in attempt to settle the payment."
@@ -1153,6 +1154,7 @@
         "hops": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/lnrpcHop"
           },
           "description": "Contains details concerning the specific forwarding details at each hop."
@@ -1186,6 +1188,7 @@
         "hop_hints": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/lnrpcHopHint"
           },
           "description": "A list of hop hints that when chained together can assist in reaching a\nspecific destination."
@@ -1207,6 +1210,7 @@
         "alias_maps": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/lnrpcAliasMap"
           }
         }
@@ -1218,6 +1222,7 @@
         "alias_maps": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/lnrpcAliasMap"
           }
         }
@@ -1348,6 +1353,7 @@
         "alias_maps": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/lnrpcAliasMap"
           }
         }
@@ -1359,6 +1365,7 @@
         "alias_maps": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/lnrpcAliasMap"
           }
         }
@@ -1768,6 +1775,7 @@
         "htlcs": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/lnrpcHTLCAttempt"
           },
           "description": "The HTLCs made in attempt to settle the payment [EXPERIMENTAL]."
@@ -1780,6 +1788,7 @@
         "pairs": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/routerrpcPairHistory"
           },
           "description": "Node pair-level mission control state."
@@ -1911,6 +1920,7 @@
         "route_hints": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/lnrpcRouteHint"
           },
           "description": "Optional route hints to reach the destination through private channels."
@@ -2084,6 +2094,7 @@
         "pairs": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/routerrpcPairHistory"
           },
           "description": "Node pair-level mission control state to be imported."
@@ -2110,6 +2121,7 @@
         "details": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/protobufAny"
           }
         }
