@@ -188,7 +188,7 @@ func CreateReverseClaimTransaction(endpoint string, id string, claimLeaf string,
 	return nil
 }
 
-func CreateRefundTransaction(endpoint string, id string, claimLeaf string, refundLeaf string, transactionHex string, privateKey string, servicePubKey string, feeRate int32, timeoutBlockHeight int32, destinationAddress string, lockupAddress string, isTestnet bool) (string, error) {
+func CreateRefundTransaction(endpoint string, id string, claimLeaf string, refundLeaf string, transactionHex string, privateKey string, servicePubKey string, feeRate int32, timeoutBlockHeight int32, destinationAddress string, lockupAddress string, cooperative bool, isTestnet bool) (string, error) {
 	var toCurrency = boltz.CurrencyBtc
 
 	var network *boltz.Network
@@ -260,7 +260,7 @@ func CreateRefundTransaction(endpoint string, id string, claimLeaf string, refun
 				PrivateKey:         keys,
 				TimeoutBlockHeight: uint32(timeoutBlockHeight),
 				SwapTree:           swapTree,
-				Cooperative:        true,
+				Cooperative:        cooperative,
 			},
 		},
 		satPerVbyte,
