@@ -252,7 +252,7 @@ func (e *ElectrumChainSource) GetBlockHash(blockHeight int64) (*chainhash.Hash, 
 	// We need the hash. Let's assume client.BlockHeader returns the header info needed.
 	// If go-electrum doesn't have a direct way, this might need adjustment.
 	// Assuming client.BlockHeader(ctx, height) returns *electrum.BlockHeader object
-	headerHex, err := e.client.GetBlockHeader(ctx, height)
+	headerHex, err := e.client.GetBlockHeader(ctx, uint32(height))
 	if err != nil {
 		// Handle potential errors, e.g., height out of range.
 		return nil, fmt.Errorf("failed to get block header for height %d: %w", height, err)
@@ -301,14 +301,14 @@ func (e *ElectrumChainSource) GetBestBlock() (*chainhash.Hash, int32, error) {
 	)
 	defer cancel()
 
-	headersChan, err := e.client.HeadersSubscribe(ctx)
+	headersChan, err := e.client.BlockHeadersSubscribe(ctx)
 	if err != nil {
 		return nil, 0, fmt.Errorf("failed to subscribe to headers "+
 			"for best block: %w", err)
 	}
 
 	// Wait for the first header, which should be the current tip.
-	var subHeader *electrum.Header
+	var subHeader *electrum.BlockHeader
 	select {
 	case subHeader = <-headersChan:
 	case <-ctx.Done():
@@ -974,7 +974,7 @@ func (e *ElectrumChainSource) handleScriptHashUpdate(scriptHash, newStatus strin
 // processScriptHistory iterates through the history of a script hash and
 // notifies relevant confirmation and spend clients.
 func (e *ElectrumChainSource) processScriptHistory(scriptHash string,
-	history electrum.HistoryResult) {
+	history electrum.ScriptHashGetHistoryResult) {
 
 	e.scriptHashClientMtx.Lock()
 	confClients := e.confClientsByScriptHash[scriptHash]
