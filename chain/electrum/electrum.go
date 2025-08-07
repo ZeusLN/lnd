@@ -262,7 +262,7 @@ func (e *ElectrumChainSource) GetBlockHash(blockHeight int64) (*chainhash.Hash, 
 
 	// The hex string is the full block header. We need to decode it and
 	// then calculate the block hash from it.
-	headerBytes, err := hex.DecodeString(headerHex)
+	headerBytes, err := hex.DecodeString(headerHex.Hex)
 	if err != nil {
 		return nil, fmt.Errorf("failed to decode block header hex for "+
 			"height %d: %w", height, err)
@@ -303,14 +303,14 @@ func (e *ElectrumChainSource) GetBestBlock() (*chainhash.Hash, int32, error) {
 	)
 	defer cancel()
 
-	headersChan, err := e.client.HeadersSubscribe(ctx)
+	headersChan, err := e.client.BlockchainHeadersSubscribe(ctx)
 	if err != nil {
 		return nil, 0, fmt.Errorf("failed to subscribe to headers "+
 			"for best block: %w", err)
 	}
 
 	// Wait for the first header, which should be the current tip.
-	var subHeader *electrum.Header
+	var subHeader *electrum.BlockchainHeader
 	select {
 	case subHeader = <-headersChan:
 	case <-ctx.Done():
@@ -439,7 +439,7 @@ func (e *ElectrumChainSource) GetTransaction(txid *chainhash.Hash) (*wire.MsgTx,
 	}
 
 	// Verify the TxHash matches the requested txid.
-	if *msgTx.TxHash() != *txid {
+	if msgTx.TxHash() != *txid {
 		return nil, fmt.Errorf("mismatch tx hash for txid %s (got %s)",
 			txid, msgTx.TxHash())
 	}
@@ -529,7 +529,7 @@ func (e *ElectrumChainSource) RegisterConfirmationsNtfn(txid *chainhash.Hash,
 
 	var txFoundHeight int32
 	for _, item := range history {
-		if item.TxHash == txid.String() {
+		if item.Tx_hash == txid.String() {
 			txHeight := int32(item.Height)
 			if txHeight > 0 { // Found and confirmed
 				txFoundHeight = txHeight
@@ -663,10 +663,10 @@ func (e *ElectrumChainSource) RegisterSpendNtfn(outpoint *wire.OutPoint, pkScrip
 
 	// Check history for a spending transaction.
 	for _, item := range history {
-		spendingTxHash, err := chainhash.NewHashFromStr(item.TxHash)
+		spendingTxHash, err := chainhash.NewHashFromStr(item.Tx_hash)
 		if err != nil {
 			ltndLog.Warnf("Failed to parse tx hash %s from history: %v",
-				item.TxHash, err)
+				item.Tx_hash, err)
 			continue
 		}
 
@@ -674,7 +674,7 @@ func (e *ElectrumChainSource) RegisterSpendNtfn(outpoint *wire.OutPoint, pkScrip
 		spendingTx, err := e.GetTransaction(spendingTxHash)
 		if err != nil {
 			ltndLog.Warnf("Failed to get tx %s while checking spend "+
-				"for %s: %v", item.TxHash, outpoint, err)
+				"for %s: %v", item.Tx_hash, outpoint, err)
 			continue // Skip this history item if we can't fetch it
 		}
 
@@ -683,7 +683,7 @@ func (e *ElectrumChainSource) RegisterSpendNtfn(outpoint *wire.OutPoint, pkScrip
 			if txIn.PreviousOutPoint == *outpoint {
 				ltndLog.Infof("Outpoint %s already spent by tx %s, "+
 					"dispatching spend notification immediately.",
-					outpoint, item.TxHash)
+					outpoint, item.Tx_hash)
 
 				spendDetails := &chainntnfs.SpendDetail{
 					SpentOutPoint:     outpoint,
@@ -976,7 +976,7 @@ func (e *ElectrumChainSource) handleScriptHashUpdate(scriptHash, newStatus strin
 // processScriptHistory iterates through the history of a script hash and
 // notifies relevant confirmation and spend clients.
 func (e *ElectrumChainSource) processScriptHistory(scriptHash string,
-	history []*electrum.GetHistoryResult) {
+	history []*electrum.GetMempoolResult) {
 
 	e.scriptHashClientMtx.Lock()
 	confClients := e.confClientsByScriptHash[scriptHash]
@@ -1023,7 +1023,7 @@ func (e *ElectrumChainSource) processScriptHistory(scriptHash string,
 
 		// Search history for the target txid.
 		for _, item := range history {
-			if item.TxHash == client.txid.String() {
+			if item.Tx_hash == client.txid.String() {
 				txHeight := int32(item.Height)
 				// Electrum uses 0 for unconfirmed, >0 for confirmed height.
 				if txHeight > 0 {
@@ -1066,10 +1066,10 @@ func (e *ElectrumChainSource) processScriptHistory(scriptHash string,
 
 		// Check history for a spending transaction.
 		for _, item := range history {
-			spendingTxHash, err := chainhash.NewHashFromStr(item.TxHash)
+			spendingTxHash, err := chainhash.NewHashFromStr(item.Tx_hash)
 			if err != nil {
 				ltndLog.Warnf("Failed to parse tx hash %s from history: %v",
-					item.TxHash, err)
+					item.Tx_hash, err)
 				continue
 			}
 
@@ -1080,7 +1080,7 @@ func (e *ElectrumChainSource) processScriptHistory(scriptHash string,
 			spendingTx, err := e.GetTransaction(spendingTxHash)
 			if err != nil {
 				ltndLog.Warnf("Failed to get tx %s while checking spend "+
-					"for %s: %v", item.TxHash, client.outpoint, err)
+					"for %s: %v", item.Tx_hash, client.outpoint, err)
 				continue // Skip this history item if we can't fetch it
 			}
 
@@ -1089,7 +1089,7 @@ func (e *ElectrumChainSource) processScriptHistory(scriptHash string,
 				if txIn.PreviousOutPoint == *client.outpoint {
 					ltndLog.Infof("Dispatching spend notification for "+
 						"client %d, outpoint %s spent by tx %s",
-						client.id, client.outpoint, item.TxHash)
+						client.id, client.outpoint, item.Tx_hash)
 
 					spendDetails := &chainntnfs.SpendDetail{
 						SpentOutPoint:     client.outpoint,
