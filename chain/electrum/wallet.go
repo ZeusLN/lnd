@@ -285,6 +285,7 @@ func (w *Wallet) SubscribeTransactions() (*lnwallet.TransactionSubscription, err
 	return nil, fmt.Errorf("SubscribeTransactions not implemented for electrum wallet")
 }
 
+/*
 // ListAccounts retrieves all accounts belonging to the wallet by default.
 // TODO: Implement proper account handling if needed beyond default.
 func (w *Wallet) ListAccounts(name string, acctType lnwallet.AddressType) ([]*lnwallet.AccountProperties, error) {
@@ -314,6 +315,7 @@ func (w *Wallet) ListAccounts(name string, acctType lnwallet.AddressType) ([]*ln
 		},
 	}, nil
 }
+*/
 
 // RequiredReserve specifies the minimum amount that should be reserved for
 // anchor channel lock-in.

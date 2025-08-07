@@ -19,8 +19,9 @@ import (
 	"github.com/btcsuite/btcd/wire"
 	"github.com/btcsuite/btcwallet/chain"
 	"github.com/checksum0/go-electrum/electrum"
+	"github.com/lightningnetwork/lnd/build"
 	"github.com/lightningnetwork/lnd/chainntnfs"
-	"github.com/lightningnetwork/lnd/fn"
+	fn "github.com/lightningnetwork/lnd/fn/v2"
 	"github.com/lightningnetwork/lnd/input"
 	"github.com/lightningnetwork/lnd/keychain"
 	"github.com/lightningnetwork/lnd/lncfg"
@@ -52,6 +53,8 @@ var (
 	// ErrUnimplemented is returned for features that are not yet
 	// implemented.
 	ErrUnimplemented = errors.New("unimplemented")
+
+	ltndLog = build.NewSubLogger("ETRM", nil)
 )
 
 // blockEpochClient holds the state for a client subscribing to block epochs.
@@ -81,6 +84,7 @@ type confirmationClient struct {
 	event         *chainntnfs.ConfirmationEvent
 	scriptHash    string // Electrum script hash format
 	txFoundHeight int32  // Height where the tx was found, 0 if not found yet
+	canceled      atomic.Bool
 }
 
 // spendClient holds the state for a client subscribing to outpoint spends.
@@ -91,6 +95,7 @@ type spendClient struct {
 	heightHint uint32
 	event      *chainntnfs.SpendEvent
 	scriptHash string // Electrum script hash format
+	canceled   atomic.Bool
 }
 
 // ElectrumChainSource is a chain backend implementation that uses an Electrum
@@ -474,13 +479,9 @@ func (e *ElectrumChainSource) RegisterConfirmationsNtfn(txid *chainhash.Hash,
 		opt(ntfnOpts)
 	}
 
-	// Create the event struct to be returned. The caller can use this to
-	// cancel the notification or receive the event.
-	event := &chainntnfs.ConfirmationEvent{
-		Confirmed:  make(chan *chainntnfs.TxConfirmation, 1),
-		CancelChan: make(chan struct{}),
-		// CancelID will be assigned later.
-	}
+	// The cancel function is set later on, so we'll initialize a dummy
+	// one for now.
+	event := chainntnfs.NewConfirmationEvent(numConfs, func() {})
 
 	electrumScriptHash := scriptHashToElectrumScriptHash(pkScript)
 
@@ -494,7 +495,7 @@ func (e *ElectrumChainSource) RegisterConfirmationsNtfn(txid *chainhash.Hash,
 	// Fetch initial history to check if already confirmed.
 	ctx, cancel := context.WithTimeout(context.Background(), e.cfg.RequestTimeout)
 	defer cancel()
-	history, err := e.client.ScriptHashGetHistory(ctx, electrumScriptHash)
+	history, err := e.client.GetHistory(ctx, electrumScriptHash)
 	if err != nil {
 		return nil, fmt.Errorf("failed to get history for script hash %s "+
 			"for conf ntfn: %w", electrumScriptHash, err)
@@ -538,9 +539,6 @@ func (e *ElectrumChainSource) RegisterConfirmationsNtfn(txid *chainhash.Hash,
 							"notification not ready", txid)
 					}
 
-					// Set CancelID to 1 to indicate immediate dispatch.
-					atomic.StoreUint32(&event.CancelID, 1)
-
 					// Return the event immediately.
 					return event, nil
 				}
@@ -561,7 +559,6 @@ func (e *ElectrumChainSource) RegisterConfirmationsNtfn(txid *chainhash.Hash,
 	e.scriptHashClientMtx.Lock()
 	clientID := e.nextClientID
 	e.nextClientID++
-	event.CancelID = clientID // Assign the unique ID for cancellation.
 
 	client := &confirmationClient{
 		id:            clientID,
@@ -574,6 +571,15 @@ func (e *ElectrumChainSource) RegisterConfirmationsNtfn(txid *chainhash.Hash,
 		txFoundHeight: txFoundHeight, // Store height if found but not enough confs
 	}
 
+	// Now that we have the client, we can create the cancel function and
+	// assign it to the event.
+	event.Cancel = func() {
+		client.canceled.Store(true)
+		ltndLog.Debugf("Confirmation notification cancelled by caller "+
+			"for client %d, txid %s", client.id, client.txid)
+		e.removeConfirmationClient(client.scriptHash, client.id)
+	}
+
 	e.confClientsByScriptHash[electrumScriptHash] = append(
 		e.confClientsByScriptHash[electrumScriptHash], client,
 	)
@@ -582,18 +588,6 @@ func (e *ElectrumChainSource) RegisterConfirmationsNtfn(txid *chainhash.Hash,
 	ltndLog.Debugf("Registered confirmation notification for client %d, "+
 		"txid %s, script hash %s, num_confs %d",
 		clientID, txid, electrumScriptHash, numConfs)
-
-	// Set up the cancellation logic.
-	go func() {
-		select {
-		case <-event.CancelChan:
-			ltndLog.Debugf("Confirmation notification cancelled by caller "+
-				"for client %d, txid %s", client.id, client.txid)
-			e.removeConfirmationClient(client.scriptHash, client.id)
-		case <-e.quit:
-			// Daemon shutting down. The main stop logic will handle cleanup.
-		}
-	}()
 
 	return event, nil
 }
@@ -624,12 +618,9 @@ func (e *ElectrumChainSource) removeConfirmationClient(scriptHash string, client
 func (e *ElectrumChainSource) RegisterSpendNtfn(outpoint *wire.OutPoint, pkScript []byte,
 	heightHint uint32) (*chainntnfs.SpendEvent, error) {
 
-	// Create the event struct to be returned.
-	event := &chainntnfs.SpendEvent{
-		Spend:      make(chan *chainntnfs.SpendDetail, 1),
-		CancelChan: make(chan struct{}),
-		// CancelID will be assigned later.
-	}
+	// The cancel function is set later on, so we'll initialize a dummy
+	// one for now.
+	event := chainntnfs.NewSpendEvent(func() {})
 
 	electrumScriptHash := scriptHashToElectrumScriptHash(pkScript)
 
@@ -643,7 +634,7 @@ func (e *ElectrumChainSource) RegisterSpendNtfn(outpoint *wire.OutPoint, pkScrip
 	// Fetch initial history to check if already spent.
 	ctx, cancel := context.WithTimeout(context.Background(), e.cfg.RequestTimeout)
 	defer cancel()
-	history, err := e.client.ScriptHashGetHistory(ctx, electrumScriptHash)
+	history, err := e.client.GetHistory(ctx, electrumScriptHash)
 	if err != nil {
 		return nil, fmt.Errorf("failed to get history for script hash %s "+
 			"for spend ntfn: %w", electrumScriptHash, err)
@@ -682,9 +673,6 @@ func (e *ElectrumChainSource) RegisterSpendNtfn(outpoint *wire.OutPoint, pkScrip
 						"notification not ready", outpoint)
 				}
 
-				// Set CancelID to 1 to indicate immediate dispatch.
-				atomic.StoreUint32(&event.CancelID, 1)
-
 				// Return the event immediately.
 				return event, nil
 			}
@@ -696,7 +684,6 @@ func (e *ElectrumChainSource) RegisterSpendNtfn(outpoint *wire.OutPoint, pkScrip
 	e.scriptHashClientMtx.Lock()
 	clientID := e.nextClientID
 	e.nextClientID++
-	event.CancelID = clientID // Assign the unique ID for cancellation.
 
 	client := &spendClient{
 		id:         clientID,
@@ -707,6 +694,15 @@ func (e *ElectrumChainSource) RegisterSpendNtfn(outpoint *wire.OutPoint, pkScrip
 		scriptHash: electrumScriptHash,
 	}
 
+	// Now that we have the client, we can create the cancel function and
+	// assign it to the event.
+	event.Cancel = func() {
+		client.canceled.Store(true)
+		ltndLog.Debugf("Spend notification cancelled by caller "+
+			"for client %d, outpoint %s", client.id, client.outpoint)
+		e.removeSpendClient(client.scriptHash, client.id)
+	}
+
 	e.spendClientsByScriptHash[electrumScriptHash] = append(
 		e.spendClientsByScriptHash[electrumScriptHash], client,
 	)
@@ -715,18 +711,6 @@ func (e *ElectrumChainSource) RegisterSpendNtfn(outpoint *wire.OutPoint, pkScrip
 	ltndLog.Debugf("Registered spend notification for client %d, "+
 		"outpoint %s, script hash %s",
 		clientID, outpoint, electrumScriptHash)
-
-	// Set up the cancellation logic.
-	go func() {
-		select {
-		case <-event.CancelChan:
-			ltndLog.Debugf("Spend notification cancelled by caller "+
-				"for client %d, outpoint %s", client.id, client.outpoint)
-			e.removeSpendClient(client.scriptHash, client.id)
-		case <-e.quit:
-			// Daemon shutting down. The main stop logic will handle cleanup.
-		}
-	}()
 
 	return event, nil
 }
@@ -951,7 +935,7 @@ func (e *ElectrumChainSource) handleScriptHashUpdate(scriptHash, newStatus strin
 	// Fetch the latest history for this script hash.
 	ctx, cancel := context.WithTimeout(context.Background(), e.cfg.RequestTimeout)
 	defer cancel()
-	history, err := e.client.ScriptHashGetHistory(ctx, scriptHash)
+	history, err := e.client.GetHistory(ctx, scriptHash)
 	if err != nil {
 		ltndLog.Errorf("Failed to get history for script hash %s after status update: %v", scriptHash, err)
 		return
@@ -964,7 +948,7 @@ func (e *ElectrumChainSource) handleScriptHashUpdate(scriptHash, newStatus strin
 // processScriptHistory iterates through the history of a script hash and
 // notifies relevant confirmation and spend clients.
 func (e *ElectrumChainSource) processScriptHistory(scriptHash string,
-	history electrum.ScriptHashGetHistoryResult) {
+	history electrum.HistoryResult) {
 
 	e.scriptHashClientMtx.Lock()
 	confClients := e.confClientsByScriptHash[scriptHash]
@@ -986,11 +970,10 @@ func (e *ElectrumChainSource) processScriptHistory(scriptHash string,
 	ltndLog.Debugf("Checking %d confirmation clients for script hash %s",
 		len(confClients), scriptHash)
 	for _, client := range confClients {
-		clientID := atomic.LoadUint32(&client.event.CancelID) // Use CancelID as the client ID
 		// Skip if client has cancelled.
-		if clientID == 0 { // Cancel sets ID to 0 in chainntnfs/height_hint_cache.go#L105 (or similar logic)
+		if client.canceled.Load() {
 			ltndLog.Tracef("Skipping cancelled confirmation client %d for script hash %s",
-				client.id, scriptHash) // Use internal client.id for logging if needed
+				client.id, scriptHash)
 			continue
 		}
 
@@ -1002,8 +985,6 @@ func (e *ElectrumChainSource) processScriptHistory(scriptHash string,
 					confs, client.id, client.txid)
 				select {
 				case client.event.Confirmed <- &chainntnfs.TxConfirmation{BlockHeight: uint32(currentHeight)}: // TODO: Need actual block hash/details
-					confirmedClientsToRemove = append(confirmedClientsToRemove, client.id)
-				case <-client.event.CancelChan: // Assuming CancelChan exists
 					confirmedClientsToRemove = append(confirmedClientsToRemove, client.id)
 				case <-e.quit:
 					return
@@ -1029,8 +1010,6 @@ func (e *ElectrumChainSource) processScriptHistory(scriptHash string,
 						select {
 						case client.event.Confirmed <- &chainntnfs.TxConfirmation{BlockHeight: uint32(currentHeight)}: // TODO: Need actual block hash/details
 							confirmedClientsToRemove = append(confirmedClientsToRemove, client.id)
-						case <-client.event.CancelChan:
-							confirmedClientsToRemove = append(confirmedClientsToRemove, client.id)
 						case <-e.quit:
 							return
 						}
@@ -1050,11 +1029,10 @@ func (e *ElectrumChainSource) processScriptHistory(scriptHash string,
 	ltndLog.Debugf("Checking %d spend clients for script hash %s",
 		len(spendClients), scriptHash)
 	for _, client := range spendClients {
-		clientID := atomic.LoadUint32(&client.event.CancelID) // Use CancelID as the client ID
 		// Skip if client has cancelled.
-		if clientID == 0 {
+		if client.canceled.Load() {
 			ltndLog.Tracef("Skipping cancelled spend client %d for script hash %s",
-				client.id, scriptHash) // Use internal client.id for logging if needed
+				client.id, scriptHash)
 			continue
 		}
 
@@ -1089,8 +1067,6 @@ func (e *ElectrumChainSource) processScriptHistory(scriptHash string,
 					// Send notification non-blockingly.
 					select {
 					case client.event.Spend <- spendDetails:
-						spentClientsToRemove = append(spentClientsToRemove, client.id)
-					case <-client.event.CancelChan: // Assuming CancelChan exists
 						spentClientsToRemove = append(spentClientsToRemove, client.id)
 					case <-e.quit:
 						return
@@ -1258,10 +1234,10 @@ func (e *ElectrumChainSource) CancelMempoolSpendEvent(
 
 // LookupInputMempoolSpend looks up a spend of the given outpoint in the
 // mempool.
-func (e *ElectrumChainSource) LookupInputMempoolSpend(op wire.OutPoint) (
-	fn.Option[*wire.MsgTx], error) {
+func (e *ElectrumChainSource) LookupInputMempoolSpend(
+	op wire.OutPoint) fn.Option[wire.MsgTx] {
 
-	return fn.None[*wire.MsgTx](), ErrUnimplemented
+	return fn.None[wire.MsgTx]()
 }
 
 // BackEnd returns the name of the backend.
@@ -1290,6 +1266,7 @@ func (e *ElectrumChainSource) SubscribeTransactions() (*lnwallet.TransactionSubs
 	return nil, fmt.Errorf("SubscribeTransactions not implemented for electrum backend")
 }
 
+/*
 // ListAccounts retrieves all accounts belonging to the wallet by default.
 // TODO: Implement proper account handling if needed beyond default.
 func (e *ElectrumChainSource) ListAccounts(name string, acctType lnwallet.AddressType) ([]*lnwallet.AccountProperties, error) {
@@ -1319,6 +1296,7 @@ func (e *ElectrumChainSource) ListAccounts(name string, acctType lnwallet.Addres
 		},
 	}, nil
 }
+*/
 
 // RequiredReserve specifies the minimum amount that should be reserved for
 // anchor channel lock-in.
@@ -1379,11 +1357,13 @@ func (e *ElectrumChainSource) ChangePassword(old []byte, new []byte) error {
 	return fmt.Errorf("ChangePassword not implemented for electrum wallet")
 }
 
+/*
 // AddressInfo returns information about an address. This is a stub to satisfy
 // the lnwallet.WalletController interface.
 func (e *ElectrumChainSource) AddressInfo(address btcutil.Address) (lnwallet.ManagedAddress, error) {
 	return nil, ErrUnimplemented
 }
+*/
 
 // TODO: Add helper methods for interacting with the Electrum client, managing
 // subscriptions, handling responses, etc.
@@ -1459,3 +1439,11 @@ func (e *ElectrumChainSource) ComputeInputScript(tx *wire.MsgTx,
 // func (e *ElectrumChainSource) MuSig2Cleanup(sessionID [32]byte) error {
 // 	return ErrUnimplemented
 // }
+
+// ECDH performs a scalar multiplication (ECDH) between the private key specified
+// by the key descriptor and the given public key.
+func (e *ElectrumChainSource) ECDH(keyDesc keychain.KeyDescriptor,
+	pub *btcec.PublicKey) ([32]byte, error) {
+
+	return [32]byte{}, ErrUnimplemented
+}
