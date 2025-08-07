@@ -1064,8 +1064,7 @@ func (w *Wallet) SignMessageSchnorr(keyLoc keychain.KeyLocator, msg []byte,
 
 // MuSig2CreateSession is a stub to satisfy the input.Signer interface.
 func (w *Wallet) MuSig2CreateSession(version input.MuSig2Version,
-	pubKeys []*btcec.PublicKey, opts ...input.SignerOption) (
-	*musig2.Session, error) {
+	pubKeys []*btcec.PublicKey) (*musig2.Session, error) {
 
 	return nil, fmt.Errorf("MuSig2CreateSession not implemented")
 }
@@ -1078,8 +1077,8 @@ func (w *Wallet) MuSig2RegisterNonces(sessionID input.MuSig2SessionID,
 }
 
 // MuSig2Sign is a stub to satisfy the input.Signer interface.
-func (w *Wallet) MuSig2Sign(sessionID input.MuSig2SessionID, msg [32]byte,
-	opts ...input.SignerOption) (*musig2.PartialSignature, error) {
+func (w *Wallet) MuSig2Sign(sessionID input.MuSig2SessionID,
+	msg [32]byte) (*musig2.PartialSignature, error) {
 
 	return nil, fmt.Errorf("MuSig2Sign not implemented")
 }
