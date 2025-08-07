@@ -137,7 +137,7 @@ func (w *Wallet) FetchInputInfo(prevOut *wire.OutPoint) (*lnwallet.Utxo, error) 
 			if err != nil {
 				continue
 			}
-			script, err := lnwallet.PayToAddrScript(addr)
+			script, err := txscript.PayToAddrScript(addr)
 			if err != nil {
 				continue
 			}
@@ -149,9 +149,9 @@ func (w *Wallet) FetchInputInfo(prevOut *wire.OutPoint) (*lnwallet.Utxo, error) 
 	}
 
 	// Scan external keys
-	if desc, found := findKey(keychain.KeyFamilyWitness, 0, externalIdx+lookahead); found {
+	if desc, found := findKey(keychain.KeyFamily(6), 0, externalIdx+lookahead); found {
 		keyDesc = desc
-	} else if desc, found := findKey(keychain.KeyFamilyWitnessChange, 0, internalIdx+lookahead); found {
+	} else if desc, found := findKey(keychain.KeyFamily(7), 0, internalIdx+lookahead); found {
 		keyDesc = desc
 	}
 
@@ -198,7 +198,7 @@ func (w *Wallet) ListUnspentWitness(minConfs, maxConfs int32, account string) ([
 
 	// Scan external addresses
 	for i := uint32(0); i < externalIdx+lookahead; i++ {
-		keyLoc := keychain.KeyLocator{Family: keychain.KeyFamilyWitness, Index: i}
+		keyLoc := keychain.KeyLocator{Family: keychain.KeyFamily(6), Index: i}
 		utxosForKey, err := w.listUnspentForKey(keyLoc, addressType, minConfs, maxConfs, currentHeight)
 		if err != nil {
 			// Log error but continue scanning other keys
@@ -210,7 +210,7 @@ func (w *Wallet) ListUnspentWitness(minConfs, maxConfs int32, account string) ([
 
 	// Scan internal (change) addresses
 	for i := uint32(0); i < internalIdx+lookahead; i++ {
-		keyLoc := keychain.KeyLocator{Family: keychain.KeyFamilyWitnessChange, Index: i}
+		keyLoc := keychain.KeyLocator{Family: keychain.KeyFamily(7), Index: i}
 		utxosForKey, err := w.listUnspentForKey(keyLoc, addressType, minConfs, maxConfs, currentHeight)
 		if err != nil {
 			// Log error but continue scanning other keys
@@ -242,7 +242,7 @@ func (w *Wallet) listUnspentForKey(keyLoc keychain.KeyLocator, addrType lnwallet
 	}
 
 	// Convert address pkScript to Electrum script hash format.
-	pkScript, err := lnwallet.PayToAddrScript(addr)
+	pkScript, err := txscript.PayToAddrScript(addr)
 	if err != nil {
 		return nil, fmt.Errorf("failed to get pkScript for address %s: %w", addr, err)
 	}
@@ -583,7 +583,7 @@ func (w *Wallet) CreateSimpleTx(outputs []*wire.TxOut, feeRate chainfee.SatPerKW
 		if err != nil {
 			return nil, fmt.Errorf("failed to get change address: %w", err)
 		}
-		changePkScript, err := lnwallet.PayToAddrScript(changeAddr)
+		changePkScript, err := txscript.PayToAddrScript(changeAddr)
 		if err != nil {
 			return nil, fmt.Errorf("failed to get change pkScript: %w", err)
 		}
@@ -644,11 +644,11 @@ func (w *Wallet) NewAddress(addrType lnwallet.AddressType, change bool, account 
 	)
 
 	if change {
-		keyFam = keychain.KeyFamilyWitnessChange
+		keyFam = keychain.KeyFamily(7)
 		index = w.internalKeyIdx
 		w.internalKeyIdx++ // Increment for next time
 	} else {
-		keyFam = keychain.KeyFamilyWitness
+		keyFam = keychain.KeyFamily(6)
 		index = w.externalKeyIdx
 		w.externalKeyIdx++ // Increment for next time
 	}
@@ -764,7 +764,7 @@ func (w *Wallet) SignOutputRaw(tx *wire.MsgTx, signDesc *input.SignDescriptor) (
 			return nil, fmt.Errorf("unable to create p2wkh addr: %w", err)
 		}
 
-		pkScript, err := lnwallet.PayToAddrScript(pkhAddr)
+		pkScript, err := txscript.PayToAddrScript(pkhAddr)
 		if err != nil {
 			return nil, err
 		}
@@ -785,7 +785,7 @@ func (w *Wallet) SignOutputRaw(tx *wire.MsgTx, signDesc *input.SignDescriptor) (
 			return nil, fmt.Errorf("unable to create p2wsh addr: %w", err)
 		}
 
-		pkScript, err := lnwallet.PayToAddrScript(pkhAddr)
+		pkScript, err := txscript.PayToAddrScript(pkhAddr)
 		if err != nil {
 			return nil, err
 		}
@@ -808,7 +808,7 @@ func (w *Wallet) SignOutputRaw(tx *wire.MsgTx, signDesc *input.SignDescriptor) (
 			return nil, fmt.Errorf("unable to create p2tr addr: %w", err)
 		}
 
-		pkScript, err := lnwallet.PayToAddrScript(addr)
+		pkScript, err := txscript.PayToAddrScript(addr)
 		if err != nil {
 			return nil, err
 		}
@@ -904,10 +904,10 @@ func (w *Wallet) DeriveNextKey(keyFam keychain.KeyFamily) (keychain.KeyDescripto
 	var index uint32
 	// TODO: Handle other key families if needed.
 	switch keyFam {
-	case keychain.KeyFamilyWitness:
+	case keychain.KeyFamily(6):
 		index = w.externalKeyIdx
 		w.externalKeyIdx++
-	case keychain.KeyFamilyWitnessChange:
+	case keychain.KeyFamily(7):
 		index = w.internalKeyIdx
 		w.internalKeyIdx++
 	default:
@@ -934,9 +934,9 @@ func (w *Wallet) deriveKey(keyLoc keychain.KeyLocator) (*hdkeychain.ExtendedKey,
 
 	var change uint32
 	switch keyLoc.Family {
-	case keychain.KeyFamilyWitness:
+	case keychain.KeyFamily(6):
 		change = 0
-	case keychain.KeyFamilyWitnessChange:
+	case keychain.KeyFamily(7):
 		change = 1
 	default:
 		return nil, fmt.Errorf("unsupported key family: %v", keyLoc.Family)
