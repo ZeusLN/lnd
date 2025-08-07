@@ -1001,7 +1001,7 @@ func (e *ElectrumChainSource) processScriptHistory(scriptHash string,
 				ltndLog.Infof("Dispatching %d confirmation(s) for client %d, txid %s",
 					confs, client.id, client.txid)
 				select {
-				case client.event.Confirmed <- &chainntnfs.TxConfirmation{BlockHeight: currentHeight}: // TODO: Need actual block hash/details
+				case client.event.Confirmed <- &chainntnfs.TxConfirmation{BlockHeight: uint32(currentHeight)}: // TODO: Need actual block hash/details
 					confirmedClientsToRemove = append(confirmedClientsToRemove, client.id)
 				case <-client.event.CancelChan: // Assuming CancelChan exists
 					confirmedClientsToRemove = append(confirmedClientsToRemove, client.id)
@@ -1027,7 +1027,7 @@ func (e *ElectrumChainSource) processScriptHistory(scriptHash string,
 						ltndLog.Infof("Dispatching %d confirmation(s) for client %d, txid %s",
 							confs, client.id, client.txid)
 						select {
-						case client.event.Confirmed <- &chainntnfs.TxConfirmation{BlockHeight: currentHeight}: // TODO: Need actual block hash/details
+						case client.event.Confirmed <- &chainntnfs.TxConfirmation{BlockHeight: uint32(currentHeight)}: // TODO: Need actual block hash/details
 							confirmedClientsToRemove = append(confirmedClientsToRemove, client.id)
 						case <-client.event.CancelChan:
 							confirmedClientsToRemove = append(confirmedClientsToRemove, client.id)
@@ -1292,7 +1292,7 @@ func (e *ElectrumChainSource) SubscribeTransactions() (*lnwallet.TransactionSubs
 
 // ListAccounts retrieves all accounts belonging to the wallet by default.
 // TODO: Implement proper account handling if needed beyond default.
-func (e *ElectrumChainSource) ListAccounts(name string, acctType lnwallet.AddressType) ([]*lnwallet.Account, error) {
+func (e *ElectrumChainSource) ListAccounts(name string, acctType lnwallet.AddressType) ([]*lnwallet.AccountProperties, error) {
 	ltndLog.Warnf("ListAccounts not implemented for electrum wallet (returning default)")
 	// For now, just return the default account structure if requested.
 	if name != "" && name != lnwallet.DefaultAccountName {
@@ -1309,7 +1309,7 @@ func (e *ElectrumChainSource) ListAccounts(name string, acctType lnwallet.Addres
 	e.mu.Unlock()
 
 	// Return a single default account representation.
-	return []*lnwallet.Account{
+	return []*lnwallet.AccountProperties{
 		{
 			Name:             lnwallet.DefaultAccountName,
 			AddressType:      acctType,

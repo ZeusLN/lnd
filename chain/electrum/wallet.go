@@ -337,7 +337,7 @@ func (w *Wallet) PublishTransaction(tx *wire.MsgTx, label string) error {
 
 	// Broadcast the transaction using the Electrum client.
 	// The label is not used by the Electrum protocol itself.
-	txHashStr, err := w.client.BroadcastTransaction(ctx, rawTxHex)
+	txHashStr, err := w.client.TransactionBroadcast(ctx, rawTxHex)
 	if err != nil {
 		// TODO: Map specific Electrum broadcast errors if possible.
 		return fmt.Errorf("failed to broadcast transaction via electrum: %w", err)
@@ -417,12 +417,6 @@ func (w *Wallet) SendOutputs(outputs []*wire.TxOut, feeRate chainfee.SatPerKWeig
 			SigHashes:  sigHashes,
 			HashType:   txscript.SigHashAll, // Default sighash type
 			// SingleTweak and DoubleTweak are nil for standard P2WKH
-		}
-
-		// Sign the input.
-		sig, err := w.SignOutputRaw(tx, signDesc)
-		if err != nil {
-			return nil, fmt.Errorf("failed to sign input %d (%s): %w", i, prevOut, err)
 		}
 
 		// Compute the witness stack.
@@ -784,7 +778,7 @@ func (w *Wallet) SignOutputRaw(tx *wire.MsgTx, signDesc *input.SignDescriptor) (
 	// Generate the signature using the provided signature scheme.
 	// TODO: Handle different sighash types if needed.
 	sig, err := input.RawTxInWitnessSignature(
-		tx, signDesc.SigHashes, signDesc.InputIndex,
+		tx, signDesc.SigHashes, int(signDesc.InputIndex),
 		signDesc.Output.Value, witnessScript, signDesc.HashType, privKey,
 	)
 	if err != nil {
