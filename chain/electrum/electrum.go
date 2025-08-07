@@ -864,6 +864,8 @@ func (e *ElectrumChainSource) notificationHandler() {
 	// The warning below highlights that this needs implementation.
 	ltndLog.Warnf("Electrum notificationHandler needs implementation " +
 		"based on go-electrum's message handling API (client.Listen?)")
+}
+
 // keepaliveHandler periodically pings the Electrum server to maintain the
 // connection and detect potential disconnections.
 func (e *ElectrumChainSource) keepaliveHandler() {
