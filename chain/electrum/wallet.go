@@ -6,6 +6,7 @@ import (
 	"crypto/sha256"
 	"encoding/hex"
 	"fmt"
+	"math"
 	"sort"
 	"sync"
 	"time"
@@ -133,7 +134,7 @@ func (w *Wallet) FetchInputInfo(prevOut *wire.OutPoint) (*lnwallet.Utxo, error) 
 // NOTE: This implementation queries the server for each address individually
 // and can be inefficient for wallets with many addresses. A caching mechanism
 // based on address subscriptions is recommended for production use.
-func (w *Wallet) ListUnspentWitness(minConfs int32) ([]*lnwallet.Utxo, error) {
+func (w *Wallet) ListUnspentWitness(minConfs, maxConfs int32, account string) ([]*lnwallet.Utxo, error) {
 	ltndLog.Infof("Listing unspent witness outputs with min %d confs (inefficient scan)", minConfs)
 
 	var utxos []*lnwallet.Utxo
@@ -156,7 +157,7 @@ func (w *Wallet) ListUnspentWitness(minConfs int32) ([]*lnwallet.Utxo, error) {
 	// Scan external addresses
 	for i := uint32(0); i < externalIdx+lookahead; i++ {
 		keyLoc := keychain.KeyLocator{Family: keychain.KeyFamilyWitness, Index: i}
-		utxosForKey, err := w.listUnspentForKey(keyLoc, addressType, minConfs, currentHeight)
+		utxosForKey, err := w.listUnspentForKey(keyLoc, addressType, minConfs, maxConfs, currentHeight)
 		if err != nil {
 			// Log error but continue scanning other keys
 			ltndLog.Errorf("Failed to list unspent for key %v: %v", keyLoc, err)
@@ -168,7 +169,7 @@ func (w *Wallet) ListUnspentWitness(minConfs int32) ([]*lnwallet.Utxo, error) {
 	// Scan internal (change) addresses
 	for i := uint32(0); i < internalIdx+lookahead; i++ {
 		keyLoc := keychain.KeyLocator{Family: keychain.KeyFamilyWitnessChange, Index: i}
-		utxosForKey, err := w.listUnspentForKey(keyLoc, addressType, minConfs, currentHeight)
+		utxosForKey, err := w.listUnspentForKey(keyLoc, addressType, minConfs, maxConfs, currentHeight)
 		if err != nil {
 			// Log error but continue scanning other keys
 			ltndLog.Errorf("Failed to list unspent for key %v: %v", keyLoc, err)
@@ -183,7 +184,7 @@ func (w *Wallet) ListUnspentWitness(minConfs int32) ([]*lnwallet.Utxo, error) {
 
 // listUnspentForKey fetches and processes UTXOs for a single derived key.
 func (w *Wallet) listUnspentForKey(keyLoc keychain.KeyLocator, addrType lnwallet.AddressType,
-	minConfs int32, currentHeight int32) ([]*lnwallet.Utxo, error) {
+	minConfs, maxConfs int32, currentHeight int32) ([]*lnwallet.Utxo, error) {
 
 	keyDesc, err := w.DeriveKey(keyLoc)
 	if err != nil {
@@ -239,6 +240,9 @@ func (w *Wallet) listUnspentForKey(keyLoc keychain.KeyLocator, addrType lnwallet
 
 		// Skip if not enough confirmations.
 		if confirmations < int64(minConfs) {
+			continue
+		}
+		if maxConfs < math.MaxInt32 && confirmations > int64(maxConfs) {
 			continue
 		}
 
@@ -453,7 +457,7 @@ func (w *Wallet) CreateSimpleTx(outputs []*wire.TxOut, feeRate chainfee.SatPerKW
 
 	// 2. List available UTXOs (0-conf for selection).
 	// TODO: Consider using minConfs > 0 depending on requirements.
-	availableUtxos, err := w.ListUnspentWitness(0)
+	availableUtxos, err := w.ListUnspentWitness(0, math.MaxInt32, "")
 	if err != nil {
 		return nil, fmt.Errorf("failed to list unspent witness outputs: %w", err)
 	}
