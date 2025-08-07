@@ -253,6 +253,10 @@ func (e *ElectrumChainSource) GetBlockHash(blockHeight int64) (*chainhash.Hash, 
 	// Note: go-electrum's BlockHeader method might return the header hex, not just the hash.
 	// We need the hash. Let's assume client.BlockHeader returns the header info needed.
 	// If go-electrum doesn't have a direct way, this might need adjustment.
+	// Use the Electrum client to get the block header for the given height.
+	// Note: go-electrum's BlockHeader method might return the header hex, not just the hash.
+	// We need the hash. Let's assume client.BlockHeader returns the header info needed.
+	// If go-electrum doesn't have a direct way, this might need adjustment.
 	// Assuming client.BlockHeader(ctx, height) returns *electrum.BlockHeader object
 	headerHex, err := e.client.GetBlockHeader(ctx, uint32(height))
 	if err != nil {
@@ -262,7 +266,7 @@ func (e *ElectrumChainSource) GetBlockHash(blockHeight int64) (*chainhash.Hash, 
 
 	// The hex string is the full block header. We need to decode it and
 	// then calculate the block hash from it.
-	headerBytes, err := hex.DecodeString(string(*headerHex))
+	headerBytes, err := hex.DecodeString(headerHex)
 	if err != nil {
 		return nil, fmt.Errorf("failed to decode block header hex for "+
 			"height %d: %w", height, err)
@@ -303,14 +307,14 @@ func (e *ElectrumChainSource) GetBestBlock() (*chainhash.Hash, int32, error) {
 	)
 	defer cancel()
 
-	headersChan, err := e.client.HeadersSubscribe(ctx)
+	headersChan, err := e.client.BlockchainHeadersSubscribe(ctx)
 	if err != nil {
 		return nil, 0, fmt.Errorf("failed to subscribe to headers "+
 			"for best block: %w", err)
 	}
 
 	// Wait for the first header, which should be the current tip.
-	var subHeader *electrum.Header
+	var subHeader *electrum.BlockchainHeader
 	select {
 	case subHeader = <-headersChan:
 	case <-ctx.Done():
@@ -323,7 +327,7 @@ func (e *ElectrumChainSource) GetBestBlock() (*chainhash.Hash, int32, error) {
 
 	// The hex string is the full block header. We need to decode it and
 	// then calculate the block hash from it.
-	headerBytes, err := hex.DecodeString(subHeader.Header)
+	headerBytes, err := hex.DecodeString(subHeader.Hex)
 	if err != nil {
 		return nil, 0, fmt.Errorf("failed to decode best block "+
 			"header hex: %w", err)
@@ -516,7 +520,7 @@ func (e *ElectrumChainSource) RegisterConfirmationsNtfn(txid *chainhash.Hash,
 	// Fetch initial history to check if already confirmed.
 	ctx, cancel := context.WithTimeout(context.Background(), e.cfg.RequestTimeout)
 	defer cancel()
-	history, err := e.client.GetHistory(ctx, electrumScriptHash)
+	history, err := e.client.BlockchainScripthashGetHistory(ctx, electrumScriptHash)
 	if err != nil {
 		return nil, fmt.Errorf("failed to get history for script hash %s "+
 			"for conf ntfn: %w", electrumScriptHash, err)
@@ -655,7 +659,7 @@ func (e *ElectrumChainSource) RegisterSpendNtfn(outpoint *wire.OutPoint, pkScrip
 	// Fetch initial history to check if already spent.
 	ctx, cancel := context.WithTimeout(context.Background(), e.cfg.RequestTimeout)
 	defer cancel()
-	history, err := e.client.GetHistory(ctx, electrumScriptHash)
+	history, err := e.client.BlockchainScripthashGetHistory(ctx, electrumScriptHash)
 	if err != nil {
 		return nil, fmt.Errorf("failed to get history for script hash %s "+
 			"for spend ntfn: %w", electrumScriptHash, err)
@@ -931,7 +935,7 @@ func (e *ElectrumChainSource) handleScriptHashUpdate(scriptHash, newStatus strin
 	// Fetch the latest history for this script hash.
 	ctx, cancel := context.WithTimeout(context.Background(), e.cfg.RequestTimeout)
 	defer cancel()
-	history, err := e.client.GetHistory(ctx, scriptHash)
+	history, err := e.client.BlockchainScripthashGetHistory(ctx, scriptHash)
 	if err != nil {
 		ltndLog.Errorf("Failed to get history for script hash %s after status update: %v", scriptHash, err)
 		return
@@ -1174,7 +1178,7 @@ func (e *ElectrumChainSource) subscribeScriptHash(pkScript []byte) (string, erro
 	// channel on the client. Our `notificationHandler` is responsible for
 	// listening to this channel and dispatching updates. The subscribe
 	// method itself only returns the initial status.
-	initialStatus, err := e.client.ScriptHashSubscribe(ctxSub, electrumScriptHash)
+	initialStatus, err := e.client.BlockchainScripthashSubscribe(ctxSub, electrumScriptHash)
 	if err != nil {
 		return "", fmt.Errorf("failed to subscribe to script hash %s: %w",
 			electrumScriptHash, err)
