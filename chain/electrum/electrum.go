@@ -163,19 +163,21 @@ type ElectrumChainSource struct {
 func New(cfg *lncfg.ElectrumConfig, netParams *chaincfg.Params) (*ElectrumChainSource, error) {
 	// TODO: Establish connection to Electrum server using cfg.ServerAddr,
 	// cfg.UseTLS, cfg.ConnectTimeout, etc.
-	client := electrum.NewClient()
 	ctx, cancel := context.WithTimeout(context.Background(), cfg.ConnectTimeout)
 	defer cancel()
 
-	var err error
+	var (
+		client *electrum.Client
+		err    error
+	)
 	if cfg.UseTLS {
 		// TODO: Handle TLS connection properly, including certificate validation
 		// if cfg.ValidateServerCertificate is true.
 		// For now, assuming ConnectTLS exists and handles this.
-		// err = client.ConnectTLS(ctx, cfg.ServerAddr, tlsConfig)
+		// client, err = electrum.NewClientTLS(ctx, cfg.ServerAddr, tlsConfig)
 		return nil, fmt.Errorf("TLS connection not yet implemented")
 	} else {
-		err = client.ConnectTCP(ctx, cfg.ServerAddr)
+		client, err = electrum.NewClientTCP(ctx, cfg.ServerAddr)
 	}
 	if err != nil {
 		return nil, fmt.Errorf("failed to connect to electrum server %s: %w", cfg.ServerAddr, err)
@@ -260,7 +262,7 @@ func (e *ElectrumChainSource) GetBlockHash(blockHeight int64) (*chainhash.Hash, 
 
 	// The hex string is the full block header. We need to decode it and
 	// then calculate the block hash from it.
-	headerBytes, err := hex.DecodeString(headerHex)
+	headerBytes, err := hex.DecodeString(string(*headerHex))
 	if err != nil {
 		return nil, fmt.Errorf("failed to decode block header hex for "+
 			"height %d: %w", height, err)
@@ -301,14 +303,14 @@ func (e *ElectrumChainSource) GetBestBlock() (*chainhash.Hash, int32, error) {
 	)
 	defer cancel()
 
-	headersChan, err := e.client.BlockHeadersSubscribe(ctx)
+	headersChan, err := e.client.BlockchainHeadersSubscribe(ctx)
 	if err != nil {
 		return nil, 0, fmt.Errorf("failed to subscribe to headers "+
 			"for best block: %w", err)
 	}
 
 	// Wait for the first header, which should be the current tip.
-	var subHeader *electrum.BlockHeader
+	var subHeader *electrum.BlockchainHeader
 	select {
 	case subHeader = <-headersChan:
 	case <-ctx.Done():
@@ -974,7 +976,7 @@ func (e *ElectrumChainSource) handleScriptHashUpdate(scriptHash, newStatus strin
 // processScriptHistory iterates through the history of a script hash and
 // notifies relevant confirmation and spend clients.
 func (e *ElectrumChainSource) processScriptHistory(scriptHash string,
-	history electrum.ScriptHashGetHistoryResult) {
+	history []*electrum.HistoryResult) {
 
 	e.scriptHashClientMtx.Lock()
 	confClients := e.confClientsByScriptHash[scriptHash]
