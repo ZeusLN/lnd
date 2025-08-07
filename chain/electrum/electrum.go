@@ -252,7 +252,7 @@ func (e *ElectrumChainSource) GetBlockHash(blockHeight int64) (*chainhash.Hash, 
 	// We need the hash. Let's assume client.BlockHeader returns the header info needed.
 	// If go-electrum doesn't have a direct way, this might need adjustment.
 	// Assuming client.BlockHeader(ctx, height) returns *electrum.BlockHeader object
-	headerInfo, err := e.client.BlockHeader(ctx, height)
+	headerInfo, err := e.client.GetBlockHeader(ctx, height)
 	if err != nil {
 		// Handle potential errors, e.g., height out of range.
 		return nil, fmt.Errorf("failed to get block header for height %d: %w", height, err)
