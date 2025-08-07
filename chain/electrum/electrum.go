@@ -37,7 +37,7 @@ import (
 // are partially implemented or pending.
 var _ chainntnfs.ChainNotifier = (*ElectrumChainSource)(nil)
 var _ chainfee.Estimator = (*ElectrumChainSource)(nil)
-var _ keychain.SecretKeyRing = (*ElectrumChainSource)(nil)
+// var _ keychain.SecretKeyRing = (*ElectrumChainSource)(nil)
 // var _ input.Signer = (*ElectrumChainSource)(nil)
 // var _ lnwallet.WalletController = (*ElectrumChainSource)(nil) // Partially implemented
 var _ lnwallet.BlockChainIO = (*ElectrumChainSource)(nil)     // Partially implemented
@@ -1402,42 +1402,7 @@ func (e *ElectrumChainSource) AddressInfo(address btcutil.Address) (lnwallet.Man
 // TODO: Add helper methods for interacting with the Electrum client, managing
 // subscriptions, handling responses, etc.
 
-// DeriveKey derives a key from the wallet's keychain.
-func (e *ElectrumChainSource) DeriveKey(keyLoc keychain.KeyLocator) (
-	keychain.KeyDescriptor, error) {
 
-	return keychain.KeyDescriptor{}, ErrUnimplemented
-}
-
-// DerivePrivKey derives the private key for the given key descriptor.
-func (e *ElectrumChainSource) DerivePrivKey(keyDesc keychain.KeyDescriptor) (
-	*btcec.PrivateKey, error) {
-
-	return nil, ErrUnimplemented
-}
-
-// DeriveNextKey derives the next key for the given family. This is a stub to
-// satisfy the keychain.SecretKeyRing interface.
-func (e *ElectrumChainSource) DeriveNextKey(keyFam keychain.KeyFamily) (
-	keychain.KeyDescriptor, error) {
-	return keychain.KeyDescriptor{}, ErrUnimplemented
-}
-
-// SignOutputRaw generates a signature for the passed transaction according to
-// the data within the passed SignDescriptor.
-func (e *ElectrumChainSource) SignOutputRaw(tx *wire.MsgTx,
-	signDesc *input.SignDescriptor) (input.Signature, error) {
-
-	return nil, ErrUnimplemented
-}
-
-// ComputeInputScript generates a complete InputScript for the passed
-// transaction with the signature as defined by the passed SignDescriptor.
-func (e *ElectrumChainSource) ComputeInputScript(tx *wire.MsgTx,
-	signDesc *input.SignDescriptor) (*input.Script, error) {
-
-	return nil, ErrUnimplemented
-}
 
 // MuSig2CreateSession is a stub to satisfy the input.Signer interface.
 // func (e *ElectrumChainSource) MuSig2CreateSession(version musig2.Version,
@@ -1474,35 +1439,3 @@ func (e *ElectrumChainSource) ComputeInputScript(tx *wire.MsgTx,
 // 	return ErrUnimplemented
 // }
 
-// ECDH performs a scalar multiplication (ECDH) between the private key specified
-// by the key descriptor and the given public key.
-func (e *ElectrumChainSource) ECDH(keyDesc keychain.KeyDescriptor,
-	pub *btcec.PublicKey) ([32]byte, error) {
-
-	return [32]byte{}, ErrUnimplemented
-}
-
-// SignMessage signs a double-sha256 digest of the message with the private key
-// specified by the key locator.
-func (e *ElectrumChainSource) SignMessage(keyLoc keychain.KeyLocator, msg []byte,
-	doubleHash bool) (*ecdsa.Signature, error) {
-
-	return nil, ErrUnimplemented
-}
-
-// SignMessageCompact signs a double-sha256 digest of the message with the
-// private key specified by the key locator and returns the signature in the
-// compact, recoverable format.
-func (e *ElectrumChainSource) SignMessageCompact(keyLoc keychain.KeyLocator,
-	msg []byte, doubleHash bool) ([]byte, error) {
-
-	return nil, ErrUnimplemented
-}
-
-// SignMessageSchnorr signs a tagged digest of the message with the private key
-// specified by the key locator and returns a schnorr signature.
-func (e *ElectrumChainSource) SignMessageSchnorr(keyLoc keychain.KeyLocator,
-	msg []byte, tag *string) (*schnorr.Signature, error) {
-
-	return nil, ErrUnimplemented
-}

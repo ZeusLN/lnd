@@ -1012,7 +1012,14 @@ func (w *Wallet) SignMessageCompact(keyLoc keychain.KeyLocator, message []byte, 
 	return nil, fmt.Errorf("SignMessageCompact not implemented for electrum wallet")
 }
 
+// SignMessageSchnorr signs a tagged digest of the message with the private key
+// specified by the key locator and returns a schnorr signature.
+func (w *Wallet) SignMessageSchnorr(keyLoc keychain.KeyLocator, msg []byte, tag *string) (*schnorr.Signature, error) {
+	ltndLog.Warnf("SignMessageSchnorr not implemented for electrum wallet")
+	return nil, fmt.Errorf("SignMessageSchnorr not implemented for electrum wallet")
+}
+
 // Compile-time checks to ensure Wallet satisfies the interfaces (will fail until implemented).
 // var _ lnwallet.WalletController = (*Wallet)(nil)
-// var _ input.Signer = (*Wallet)(nil)
-// var _ keychain.SecretKeyRing = (*Wallet)(nil)
+var _ input.Signer = (*Wallet)(nil)
+var _ keychain.SecretKeyRing = (*Wallet)(nil)
