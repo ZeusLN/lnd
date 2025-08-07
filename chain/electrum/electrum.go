@@ -3,27 +3,28 @@ package electrum
 import (
 	"bytes"
 	"context"
+	"crypto/sha256"
+	"encoding/hex"
 	"errors"
 	"fmt"
 	"sync"
 	"sync/atomic"
 	"time"
 
+	"github.com/btcsuite/btcd/btcec/v2"
 	"github.com/btcsuite/btcd/btcutil"
-	"crypto/sha256"
-
 	"github.com/btcsuite/btcd/chaincfg"
 	"github.com/btcsuite/btcd/chaincfg/chainhash"
-	"github.com/btcsuite/btcd/btcec/v2"
 	"github.com/btcsuite/btcd/wire"
-	"github.com/checksum0/go-electrum/electrum"
 	"github.com/btcsuite/btcwallet/chain"
+	"github.com/checksum0/go-electrum/electrum"
 	"github.com/lightningnetwork/lnd/chainntnfs"
 	"github.com/lightningnetwork/lnd/input"
 	"github.com/lightningnetwork/lnd/keychain"
-	"github.com/lightningnetwork/lnd/routing/chainview"
 	"github.com/lightningnetwork/lnd/lncfg"
+	"github.com/lightningnetwork/lnd/lnwallet"
 	"github.com/lightningnetwork/lnd/lnwallet/chainfee"
+	"github.com/lightningnetwork/lnd/routing/chainview"
 )
 
 // Compile time check to ensure ElectrumChainSource satisfies the chain notifier
@@ -34,7 +35,7 @@ var _ chainfee.Estimator = (*ElectrumChainSource)(nil)
 var _ keychain.SecretKeyRing = (*ElectrumChainSource)(nil)
 var _ input.Signer = (*ElectrumChainSource)(nil)
 var _ lnwallet.WalletController = (*ElectrumChainSource)(nil) // Partially implemented
-var _ lnwallet.BlockChainIO = (*ElectrumChainSource)(nil)     // Partially implemented (via chainio.Interface)
+var _ lnwallet.BlockChainIO = (*ElectrumChainSource)(nil)     // Partially implemented
 
 var _ chain.Interface = (*ElectrumChainSource)(nil)
 var _ chainview.FilteredChainView = (*ElectrumChainSource)(nil) // Partially done
@@ -93,6 +94,8 @@ type spendClient struct {
 // ElectrumChainSource is a chain backend implementation that uses an Electrum
 // server for chain data and notifications.
 type ElectrumChainSource struct {
+	started atomic.Bool
+
 	// TODO: Add necessary fields like Electrum client, config, etc.
 	cfg       *lncfg.ElectrumConfig
 	netParams *chaincfg.Params
@@ -190,6 +193,7 @@ func New(cfg *lncfg.ElectrumConfig, netParams *chaincfg.Params) (*ElectrumChainS
 // Start starts the ElectrumChainSource.
 func (e *ElectrumChainSource) Start() error {
 	// TODO: Start necessary goroutines for handling subscriptions, pings, etc.
+	e.started.Store(true)
 	return nil
 }
 
@@ -200,6 +204,11 @@ func (e *ElectrumChainSource) Stop() error {
 	// TODO: Close Electrum client connection?
 	// e.client.Shutdown()
 	return nil
+}
+
+// Started returns true if the chain source has been started.
+func (e *ElectrumChainSource) Started() bool {
+	return e.started.Load()
 }
 
 // GetBlock implements the chainio.Interface.
@@ -258,6 +267,11 @@ func (e *ElectrumChainSource) GetBlockHash(blockHeight int64) (*chainhash.Hash, 
 	// The block hash is the double-SHA256 of the header.
 	hash := header.BlockHash()
 	return &hash, nil
+}
+
+// BlockStamp returns the latest block stamp.
+func (e *ElectrumChainSource) BlockStamp() (*chain.BlockStamp, error) {
+	return nil, ErrUnimplemented
 }
 
 // GetBestBlock implements the chainio.Interface.
@@ -948,7 +962,7 @@ func (e *ElectrumChainSource) handleScriptHashUpdate(scriptHash, newStatus strin
 // processScriptHistory iterates through the history of a script hash and
 // notifies relevant confirmation and spend clients.
 func (e *ElectrumChainSource) processScriptHistory(scriptHash string,
-	history electrum.HistoryResult) {
+	history electrum.History) {
 
 	e.scriptHashClientMtx.Lock()
 	confClients := e.confClientsByScriptHash[scriptHash]
@@ -1213,22 +1227,24 @@ func (e *ElectrumChainSource) FilterBlockConnected(blockHash *chainhash.Hash) (*
 	return nil, ErrUnimplemented
 }
 
-// SubscribeTxNotifications implements the chainntnfs.MempoolWatcher interface.
-// NOTE: Electrum protocol does not support general mempool transaction
-// notifications. Marked as unimplemented.
-func (e *ElectrumChainSource) SubscribeTxNotifications() (*chainntnfs.TxNotifications, error) {
-	ltndLog.Warnf("SubscribeTxNotifications called (unimplemented)")
+// DisconnectedBlocks returns a channel that sends notifications for blocks
+// that have been disconnected from the main chain.
+func (e *ElectrumChainSource) DisconnectedBlocks() <-chan *chainview.FilteredBlock {
+	return nil
+}
+
+// SubscribeMempoolSpent subscribes to notifications for a spend of the given
+// outpoint in the mempool.
+func (e *ElectrumChainSource) SubscribeMempoolSpent(op wire.OutPoint) (
+	*chainntnfs.MempoolSpendEvent, error) {
+
 	return nil, ErrUnimplemented
 }
 
-// SubscribeSpendNotifications implements the chainntnfs.MempoolWatcher interface.
-// NOTE: Electrum protocol does not support general mempool spend
-// notifications. Marked as unimplemented.
-func (e *ElectrumChainSource) SubscribeSpendNotifications(
-	outpoint wire.OutPoint) (*chainntnfs.SpendNotifications, error) {
-
-	ltndLog.Warnf("SubscribeSpendNotifications called for %s (unimplemented)", outpoint)
-	return nil, ErrUnimplemented
+// CancelMempoolSpendEvent cancels a subscription to notifications for a spend
+// of the given outpoint in the mempool.
+func (e *ElectrumChainSource) CancelMempoolSpendEvent(
+	sub *chainntnfs.MempoolSpendEvent) {
 }
 
 // BackEnd returns the name of the backend.
@@ -1348,3 +1364,26 @@ func (e *ElectrumChainSource) ChangePassword(old []byte, new []byte) error {
 
 // TODO: Add helper methods for interacting with the Electrum client, managing
 // subscriptions, handling responses, etc.
+
+// DeriveKey derives a key from the wallet's keychain.
+func (e *ElectrumChainSource) DeriveKey(keyLoc keychain.KeyLocator) (
+	keychain.KeyDescriptor, error) {
+
+	return keychain.KeyDescriptor{}, ErrUnimplemented
+}
+
+// SignOutputRaw generates a signature for the passed transaction according to
+// the data within the passed SignDescriptor.
+func (e *ElectrumChainSource) SignOutputRaw(tx *wire.MsgTx,
+	signDesc *input.SignDescriptor) (input.Signature, error) {
+
+	return nil, ErrUnimplemented
+}
+
+// ComputeInputScript generates a complete InputScript for the passed
+// transaction with the signature as defined by the passed SignDescriptor.
+func (e *ElectrumChainSource) ComputeInputScript(tx *wire.MsgTx,
+	signDesc *input.SignDescriptor) (*input.Script, error) {
+
+	return nil, ErrUnimplemented
+}
