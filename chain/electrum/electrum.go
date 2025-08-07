@@ -262,7 +262,7 @@ func (e *ElectrumChainSource) GetBlockHash(blockHeight int64) (*chainhash.Hash, 
 
 	// The hex string is the full block header. We need to decode it and
 	// then calculate the block hash from it.
-	headerBytes, err := hex.DecodeString(string(*headerHex))
+	headerBytes, err := hex.DecodeString(headerHex)
 	if err != nil {
 		return nil, fmt.Errorf("failed to decode block header hex for "+
 			"height %d: %w", height, err)
@@ -303,14 +303,14 @@ func (e *ElectrumChainSource) GetBestBlock() (*chainhash.Hash, int32, error) {
 	)
 	defer cancel()
 
-	headersChan, err := e.client.BlockchainHeadersSubscribe(ctx)
+	headersChan, err := e.client.HeadersSubscribe(ctx)
 	if err != nil {
 		return nil, 0, fmt.Errorf("failed to subscribe to headers "+
 			"for best block: %w", err)
 	}
 
 	// Wait for the first header, which should be the current tip.
-	var subHeader *electrum.BlockchainHeader
+	var subHeader *electrum.Header
 	select {
 	case subHeader = <-headersChan:
 	case <-ctx.Done():
@@ -420,7 +420,7 @@ func (e *ElectrumChainSource) GetTransaction(txid *chainhash.Hash) (*wire.MsgTx,
 	defer cancel()
 
 	// Get the transaction hex from the Electrum server.
-	txHex, err := e.client.GetTransactionHex(ctx, txid.String())
+	tx, err := e.client.GetTransaction(ctx, txid.String())
 	if err != nil {
 		// Handle errors, e.g., transaction not found.
 		// TODO: Map Electrum errors to chainio/btcwallet errors if necessary.
@@ -428,7 +428,7 @@ func (e *ElectrumChainSource) GetTransaction(txid *chainhash.Hash) (*wire.MsgTx,
 	}
 
 	// Decode the hex string into a wire.MsgTx.
-	txBytes, err := hex.DecodeString(txHex)
+	txBytes, err := hex.DecodeString(tx.Hex)
 	if err != nil {
 		return nil, fmt.Errorf("failed to decode transaction hex for %s: %w", txid, err)
 	}
@@ -976,7 +976,7 @@ func (e *ElectrumChainSource) handleScriptHashUpdate(scriptHash, newStatus strin
 // processScriptHistory iterates through the history of a script hash and
 // notifies relevant confirmation and spend clients.
 func (e *ElectrumChainSource) processScriptHistory(scriptHash string,
-	history []*electrum.HistoryResult) {
+	history []*electrum.GetHistoryResult) {
 
 	e.scriptHashClientMtx.Lock()
 	confClients := e.confClientsByScriptHash[scriptHash]
