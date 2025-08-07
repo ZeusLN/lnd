@@ -385,7 +385,7 @@ func (w *Wallet) PublishTransaction(tx *wire.MsgTx, label string) error {
 
 	// Broadcast the transaction using the Electrum client.
 	// The label is not used by the Electrum protocol itself.
-	txHashStr, err := w.client.TransactionBroadcast(ctx, rawTxHex)
+	txHashStr, err := w.client.BroadcastTransaction(ctx, rawTxHex)
 	if err != nil {
 		// TODO: Map specific Electrum broadcast errors if possible.
 		return fmt.Errorf("failed to broadcast transaction via electrum: %w", err)

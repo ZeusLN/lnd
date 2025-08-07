@@ -266,7 +266,7 @@ func (e *ElectrumChainSource) GetBlockHash(blockHeight int64) (*chainhash.Hash, 
 
 	// The hex string is the full block header. We need to decode it and
 	// then calculate the block hash from it.
-	headerBytes, err := hex.DecodeString(string(*headerHex))
+	headerBytes, err := hex.DecodeString(headerHex.Hex)
 	if err != nil {
 		return nil, fmt.Errorf("failed to decode block header hex for "+
 			"height %d: %w", height, err)
@@ -307,14 +307,14 @@ func (e *ElectrumChainSource) GetBestBlock() (*chainhash.Hash, int32, error) {
 	)
 	defer cancel()
 
-	headersChan, err := e.client.HeadersSubscribe(ctx)
+	headersChan, err := e.client.BlockchainHeadersSubscribe(ctx)
 	if err != nil {
 		return nil, 0, fmt.Errorf("failed to subscribe to headers "+
 			"for best block: %w", err)
 	}
 
 	// Wait for the first header, which should be the current tip.
-	var subHeader *electrum.Header
+	var subHeader *electrum.BlockchainHeader
 	select {
 	case subHeader = <-headersChan:
 	case <-ctx.Done():
@@ -327,7 +327,7 @@ func (e *ElectrumChainSource) GetBestBlock() (*chainhash.Hash, int32, error) {
 
 	// The hex string is the full block header. We need to decode it and
 	// then calculate the block hash from it.
-	headerBytes, err := hex.DecodeString(subHeader.Header)
+	headerBytes, err := hex.DecodeString(subHeader.Hex)
 	if err != nil {
 		return nil, 0, fmt.Errorf("failed to decode best block "+
 			"header hex: %w", err)
@@ -948,7 +948,7 @@ func (e *ElectrumChainSource) handleScriptHashUpdate(scriptHash, newStatus strin
 // processScriptHistory iterates through the history of a script hash and
 // notifies relevant confirmation and spend clients.
 func (e *ElectrumChainSource) processScriptHistory(scriptHash string,
-	history []*electrum.GetMempoolResult) {
+	history []*electrum.HistoryResult) {
 
 	e.scriptHashClientMtx.Lock()
 	confClients := e.confClientsByScriptHash[scriptHash]
