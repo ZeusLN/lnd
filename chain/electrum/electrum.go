@@ -290,7 +290,7 @@ func (e *ElectrumChainSource) GetBestBlock() (*chainhash.Hash, int32, error) {
 		hash := e.bestBlock.Hash
 		height := e.bestBlock.Height
 		e.bestBlockMtx.RUnlock()
-		return &hash, height, nil
+		return hash, height, nil
 	}
 	e.bestBlockMtx.RUnlock()
 
@@ -339,7 +339,7 @@ func (e *ElectrumChainSource) GetBestBlock() (*chainhash.Hash, int32, error) {
 	// Cache the new best block.
 	e.bestBlockMtx.Lock()
 	e.bestBlock = chainntnfs.BlockEpoch{
-		Hash:   hash,
+		Hash:   &hash,
 		Height: height,
 	}
 	e.bestBlockMtx.Unlock()
@@ -974,7 +974,7 @@ func (e *ElectrumChainSource) handleScriptHashUpdate(scriptHash, newStatus strin
 // processScriptHistory iterates through the history of a script hash and
 // notifies relevant confirmation and spend clients.
 func (e *ElectrumChainSource) processScriptHistory(scriptHash string,
-	history []*electrum.HistoryResult) {
+	history electrum.HistoryResult) {
 
 	e.scriptHashClientMtx.Lock()
 	confClients := e.confClientsByScriptHash[scriptHash]
