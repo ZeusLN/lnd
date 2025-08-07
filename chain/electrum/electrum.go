@@ -262,7 +262,7 @@ func (e *ElectrumChainSource) GetBlockHash(blockHeight int64) (*chainhash.Hash, 
 
 	// The hex string is the full block header. We need to decode it and
 	// then calculate the block hash from it.
-	headerBytes, err := hex.DecodeString(headerHex.Hex)
+	headerBytes, err := hex.DecodeString(string(*headerHex))
 	if err != nil {
 		return nil, fmt.Errorf("failed to decode block header hex for "+
 			"height %d: %w", height, err)
@@ -303,14 +303,14 @@ func (e *ElectrumChainSource) GetBestBlock() (*chainhash.Hash, int32, error) {
 	)
 	defer cancel()
 
-	headersChan, err := e.client.BlockchainHeadersSubscribe(ctx)
+	headersChan, err := e.client.HeadersSubscribe(ctx)
 	if err != nil {
 		return nil, 0, fmt.Errorf("failed to subscribe to headers "+
 			"for best block: %w", err)
 	}
 
 	// Wait for the first header, which should be the current tip.
-	var subHeader *electrum.BlockchainHeader
+	var subHeader *electrum.Header
 	select {
 	case subHeader = <-headersChan:
 	case <-ctx.Done():
@@ -323,7 +323,7 @@ func (e *ElectrumChainSource) GetBestBlock() (*chainhash.Hash, int32, error) {
 
 	// The hex string is the full block header. We need to decode it and
 	// then calculate the block hash from it.
-	headerBytes, err := hex.DecodeString(subHeader.Hex)
+	headerBytes, err := hex.DecodeString(subHeader.Header)
 	if err != nil {
 		return nil, 0, fmt.Errorf("failed to decode best block "+
 			"header hex: %w", err)
@@ -458,7 +458,7 @@ func (e *ElectrumChainSource) SendRawTransaction(tx *wire.MsgTx, allowHighFees b
 	ctx, cancel := context.WithTimeout(context.Background(), e.cfg.RequestTimeout)
 	defer cancel()
 
-	txidStr, err := e.client.TransactionBroadcast(ctx, txHex)
+	txidStr, err := e.client.BroadcastTransaction(ctx, txHex)
 	if err != nil {
 		return nil, fmt.Errorf("failed to broadcast tx: %w", err)
 	}
@@ -529,7 +529,7 @@ func (e *ElectrumChainSource) RegisterConfirmationsNtfn(txid *chainhash.Hash,
 
 	var txFoundHeight int32
 	for _, item := range history {
-		if item.Tx_hash == txid.String() {
+		if item.TxHash == txid.String() {
 			txHeight := int32(item.Height)
 			if txHeight > 0 { // Found and confirmed
 				txFoundHeight = txHeight
@@ -663,10 +663,10 @@ func (e *ElectrumChainSource) RegisterSpendNtfn(outpoint *wire.OutPoint, pkScrip
 
 	// Check history for a spending transaction.
 	for _, item := range history {
-		spendingTxHash, err := chainhash.NewHashFromStr(item.Tx_hash)
+		spendingTxHash, err := chainhash.NewHashFromStr(item.TxHash)
 		if err != nil {
 			ltndLog.Warnf("Failed to parse tx hash %s from history: %v",
-				item.Tx_hash, err)
+				item.TxHash, err)
 			continue
 		}
 
@@ -674,7 +674,7 @@ func (e *ElectrumChainSource) RegisterSpendNtfn(outpoint *wire.OutPoint, pkScrip
 		spendingTx, err := e.GetTransaction(spendingTxHash)
 		if err != nil {
 			ltndLog.Warnf("Failed to get tx %s while checking spend "+
-				"for %s: %v", item.Tx_hash, outpoint, err)
+				"for %s: %v", item.TxHash, outpoint, err)
 			continue // Skip this history item if we can't fetch it
 		}
 
@@ -683,7 +683,7 @@ func (e *ElectrumChainSource) RegisterSpendNtfn(outpoint *wire.OutPoint, pkScrip
 			if txIn.PreviousOutPoint == *outpoint {
 				ltndLog.Infof("Outpoint %s already spent by tx %s, "+
 					"dispatching spend notification immediately.",
-					outpoint, item.Tx_hash)
+					outpoint, item.TxHash)
 
 				spendDetails := &chainntnfs.SpendDetail{
 					SpentOutPoint:     outpoint,
@@ -854,44 +854,12 @@ func (e *ElectrumChainSource) notificationHandler() {
 	ltndLog.Info("Starting Electrum notification handler")
 	defer ltndLog.Info("Stopped Electrum notification handler")
 
-	// Create a context that we can cancel from the main shutdown signal.
-	ctx, cancel := context.WithCancel(context.Background())
-	defer cancel()
-	go func() {
-		<-e.quit
-		ltndLog.Info("Notification handler shutting down...")
-		cancel()
-	}()
-
-	// TODO: Replace this with the actual mechanism from go-electrum.
-	// This might be client.Listen(ctx) or involve setting callbacks before
-	// starting a client run loop.
-	// We assume Listen blocks until context is cancelled or an error occurs.
-	// We also assume it internally handles different notification types
-	// and we can somehow hook into it or parse its output.
-
-	// --- Conceptual Example ---
-	// err := e.client.Listen(ctx, func(notification interface{}) {
-	//	 switch ntf := notification.(type) {
-	//	 case *electrum.ScriptHashSubscription: // Assuming this type exists
-	//		 e.handleScriptHashUpdate(ntf.ScriptHash, ntf.Status)
-	//	 case *electrum.BlockHeader: // Header updates might also come here
-	//		 // Handle header updates if not handled by headerSubscriptionHandler
-	//		 ltndLog.Debugf("Received header via main listener: %v", ntf)
-	//	 default:
-	//		 ltndLog.Warnf("Received unknown notification type: %T", ntf)
-	//	 }
-	// })
-	// if err != nil && !errors.Is(err, context.Canceled) {
-	//	 ltndLog.Errorf("Electrum client Listen exited with error: %v", err)
-	//	 // TODO: Trigger reconnection or shutdown?
-	// }
-	// --- End Conceptual Example ---
-
 	// Since the actual mechanism is unknown, we just wait for quit for now.
 	// The warning below highlights that this needs implementation.
 	ltndLog.Warnf("Electrum notificationHandler needs implementation " +
 		"based on go-electrum's message handling API (client.Listen?)")
+
+	<-e.quit
 }
 
 // keepaliveHandler periodically pings the Electrum server to maintain the
@@ -976,7 +944,7 @@ func (e *ElectrumChainSource) handleScriptHashUpdate(scriptHash, newStatus strin
 // processScriptHistory iterates through the history of a script hash and
 // notifies relevant confirmation and spend clients.
 func (e *ElectrumChainSource) processScriptHistory(scriptHash string,
-	history []*electrum.GetMempoolResult) {
+	history []*electrum.GetHistoryResult) {
 
 	e.scriptHashClientMtx.Lock()
 	confClients := e.confClientsByScriptHash[scriptHash]
@@ -1023,7 +991,7 @@ func (e *ElectrumChainSource) processScriptHistory(scriptHash string,
 
 		// Search history for the target txid.
 		for _, item := range history {
-			if item.Tx_hash == client.txid.String() {
+			if item.TxHash == client.txid.String() {
 				txHeight := int32(item.Height)
 				// Electrum uses 0 for unconfirmed, >0 for confirmed height.
 				if txHeight > 0 {
@@ -1066,10 +1034,10 @@ func (e *ElectrumChainSource) processScriptHistory(scriptHash string,
 
 		// Check history for a spending transaction.
 		for _, item := range history {
-			spendingTxHash, err := chainhash.NewHashFromStr(item.Tx_hash)
+			spendingTxHash, err := chainhash.NewHashFromStr(item.TxHash)
 			if err != nil {
 				ltndLog.Warnf("Failed to parse tx hash %s from history: %v",
-					item.Tx_hash, err)
+					item.TxHash, err)
 				continue
 			}
 
@@ -1080,7 +1048,7 @@ func (e *ElectrumChainSource) processScriptHistory(scriptHash string,
 			spendingTx, err := e.GetTransaction(spendingTxHash)
 			if err != nil {
 				ltndLog.Warnf("Failed to get tx %s while checking spend "+
-					"for %s: %v", item.Tx_hash, client.outpoint, err)
+					"for %s: %v", item.TxHash, client.outpoint, err)
 				continue // Skip this history item if we can't fetch it
 			}
 
@@ -1089,7 +1057,7 @@ func (e *ElectrumChainSource) processScriptHistory(scriptHash string,
 				if txIn.PreviousOutPoint == *client.outpoint {
 					ltndLog.Infof("Dispatching spend notification for "+
 						"client %d, outpoint %s spent by tx %s",
-						client.id, client.outpoint, item.Tx_hash)
+						client.id, client.outpoint, item.TxHash)
 
 					spendDetails := &chainntnfs.SpendDetail{
 						SpentOutPoint:     client.outpoint,
