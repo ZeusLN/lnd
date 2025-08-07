@@ -886,7 +886,13 @@ func (w *Wallet) deriveKey(keyLoc keychain.KeyLocator) (*hdkeychain.ExtendedKey,
 	// and uses keyLoc.Family as the 'change' component (0=external, 1=internal)
 	// and keyLoc.Index as the address index. Account is assumed 0 for now.
 
-	if keyLoc.Family != keychain.KeyFamilyWitness && keyLoc.Family != keychain.KeyFamilyWitnessChange {
+	var change uint32
+	switch keyLoc.Family {
+	case keychain.KeyFamilyWitness:
+		change = 0
+	case keychain.KeyFamilyWitnessChange:
+		change = 1
+	default:
 		return nil, fmt.Errorf("unsupported key family: %v", keyLoc.Family)
 	}
 
@@ -895,7 +901,6 @@ func (w *Wallet) deriveKey(keyLoc keychain.KeyLocator) (*hdkeychain.ExtendedKey,
 	purpose := uint32(hdkeychain.HardenedKeyStart + 84)
 	coinType := uint32(hdkeychain.HardenedKeyStart + w.netCfg.HDCoinType)
 	account := uint32(hdkeychain.HardenedKeyStart + 0) // Assuming account 0
-	change := uint32(keyLoc.Family)                    // 0 for external, 1 for internal
 	index := keyLoc.Index
 
 	// Derive the child key.

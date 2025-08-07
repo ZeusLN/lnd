@@ -642,8 +642,15 @@ func (e *ElectrumChainSource) RegisterSpendNtfn(outpoint *wire.OutPoint, pkScrip
 
 	// Check history for a spending transaction.
 	for _, item := range history {
+		spendingTxHash, err := chainhash.NewHashFromStr(item.TxHash)
+		if err != nil {
+			ltndLog.Warnf("Failed to parse tx hash %s from history: %v",
+				item.TxHash, err)
+			continue
+		}
+
 		// Fetch the full transaction details.
-		spendingTx, err := e.GetTransaction(&item.TxHash)
+		spendingTx, err := e.GetTransaction(spendingTxHash)
 		if err != nil {
 			ltndLog.Warnf("Failed to get tx %s while checking spend "+
 				"for %s: %v", item.TxHash, outpoint, err)
@@ -659,7 +666,7 @@ func (e *ElectrumChainSource) RegisterSpendNtfn(outpoint *wire.OutPoint, pkScrip
 
 				spendDetails := &chainntnfs.SpendDetail{
 					SpentOutPoint:     outpoint,
-					SpenderTxHash:     &item.TxHash,
+					SpenderTxHash:     spendingTxHash,
 					SpendingTx:        spendingTx,
 					SpenderInputIndex: uint32(i),
 					SpendingHeight:    int32(item.Height), // Can be 0 if mempool spend
@@ -1038,11 +1045,18 @@ func (e *ElectrumChainSource) processScriptHistory(scriptHash string,
 
 		// Check history for a spending transaction.
 		for _, item := range history {
+			spendingTxHash, err := chainhash.NewHashFromStr(item.TxHash)
+			if err != nil {
+				ltndLog.Warnf("Failed to parse tx hash %s from history: %v",
+					item.TxHash, err)
+				continue
+			}
+
 			// TODO: This is potentially very inefficient as it fetches
 			// the full transaction for every item in the history on
 			// every status update. Consider optimizations if possible,
 			// maybe only fetch txs confirmed since last check?
-			spendingTx, err := e.GetTransaction(&item.TxHash)
+			spendingTx, err := e.GetTransaction(spendingTxHash)
 			if err != nil {
 				ltndLog.Warnf("Failed to get tx %s while checking spend "+
 					"for %s: %v", item.TxHash, client.outpoint, err)
@@ -1058,7 +1072,7 @@ func (e *ElectrumChainSource) processScriptHistory(scriptHash string,
 
 					spendDetails := &chainntnfs.SpendDetail{
 						SpentOutPoint:     client.outpoint,
-						SpenderTxHash:     &item.TxHash,
+						SpenderTxHash:     spendingTxHash,
 						SpendingTx:        spendingTx,
 						SpenderInputIndex: uint32(i),
 						SpendingHeight:    int32(item.Height), // Can be 0 if mempool spend
