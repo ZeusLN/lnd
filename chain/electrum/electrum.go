@@ -12,6 +12,7 @@ import (
 	"time"
 
 	"github.com/btcsuite/btcd/btcec/v2"
+	"github.com/btcsuite/btcd/btcec/v2/ecdsa"
 	"github.com/btcsuite/btcd/btcec/v2/schnorr/musig2"
 	"github.com/btcsuite/btcd/btcutil"
 	"github.com/btcsuite/btcd/chaincfg"
@@ -37,7 +38,7 @@ var _ chainntnfs.ChainNotifier = (*ElectrumChainSource)(nil)
 var _ chainfee.Estimator = (*ElectrumChainSource)(nil)
 var _ keychain.SecretKeyRing = (*ElectrumChainSource)(nil)
 // var _ input.Signer = (*ElectrumChainSource)(nil)
-var _ lnwallet.WalletController = (*ElectrumChainSource)(nil) // Partially implemented
+// var _ lnwallet.WalletController = (*ElectrumChainSource)(nil) // Partially implemented
 var _ lnwallet.BlockChainIO = (*ElectrumChainSource)(nil)     // Partially implemented
 
 // var _ chain.Interface = (*ElectrumChainSource)(nil)
@@ -297,7 +298,7 @@ func (e *ElectrumChainSource) GetBestBlock() (*chainhash.Hash, int32, error) {
 	// height 0 to get the current tip.
 	ctx, cancel := context.WithTimeout(context.Background(), e.cfg.RequestTimeout)
 	defer cancel()
-	headerInfo, err := e.client.BlockHeader(ctx, 0)
+	headerInfo, err := e.client.GetBlockHeader(ctx, 0)
 	if err != nil {
 		return nil, 0, fmt.Errorf("failed to get best block header: %w", err)
 	}
@@ -955,7 +956,7 @@ func (e *ElectrumChainSource) handleScriptHashUpdate(scriptHash, newStatus strin
 // processScriptHistory iterates through the history of a script hash and
 // notifies relevant confirmation and spend clients.
 func (e *ElectrumChainSource) processScriptHistory(scriptHash string,
-	history electrum.HistoryResult) {
+	history []*electrum.HistoryRes) {
 
 	e.scriptHashClientMtx.Lock()
 	confClients := e.confClientsByScriptHash[scriptHash]
@@ -1460,4 +1461,21 @@ func (e *ElectrumChainSource) ECDH(keyDesc keychain.KeyDescriptor,
 	pub *btcec.PublicKey) ([32]byte, error) {
 
 	return [32]byte{}, ErrUnimplemented
+}
+
+// SignMessage signs a double-sha256 digest of the message with the private key
+// specified by the key locator.
+func (e *ElectrumChainSource) SignMessage(keyLoc keychain.KeyLocator, msg []byte,
+	doubleHash bool) (*ecdsa.Signature, error) {
+
+	return nil, ErrUnimplemented
+}
+
+// SignMessageCompact signs a double-sha256 digest of the message with the
+// private key specified by the key locator and returns the signature in the
+// compact, recoverable format.
+func (e *ElectrumChainSource) SignMessageCompact(keyLoc keychain.KeyLocator,
+	msg []byte, doubleHash bool) ([]byte, error) {
+
+	return nil, ErrUnimplemented
 }
