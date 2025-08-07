@@ -13,6 +13,7 @@ import (
 
 	"github.com/btcsuite/btcd/btcec/v2"
 	"github.com/btcsuite/btcd/btcec/v2/ecdsa"
+	"github.com/btcsuite/btcd/btcec/v2/schnorr"
 	"github.com/btcsuite/btcd/btcec/v2/schnorr/musig2"
 	"github.com/btcsuite/btcd/btcutil"
 	"github.com/btcsuite/btcd/chaincfg"
@@ -252,7 +253,7 @@ func (e *ElectrumChainSource) GetBlockHash(blockHeight int64) (*chainhash.Hash, 
 	// We need the hash. Let's assume client.BlockHeader returns the header info needed.
 	// If go-electrum doesn't have a direct way, this might need adjustment.
 	// Assuming client.BlockHeader(ctx, height) returns *electrum.BlockHeader object
-	headerInfo, err := e.client.GetBlockHeader(ctx, height)
+	headerHex, err := e.client.GetBlockHeader(ctx, height)
 	if err != nil {
 		// Handle potential errors, e.g., height out of range.
 		return nil, fmt.Errorf("failed to get block header for height %d: %w", height, err)
@@ -260,7 +261,7 @@ func (e *ElectrumChainSource) GetBlockHash(blockHeight int64) (*chainhash.Hash, 
 
 	// The hex string is the full block header. We need to decode it and
 	// then calculate the block hash from it.
-	headerBytes, err := hex.DecodeString(headerInfo.Hex)
+	headerBytes, err := hex.DecodeString(headerHex)
 	if err != nil {
 		return nil, fmt.Errorf("failed to decode block header hex for "+
 			"height %d: %w", height, err)
@@ -294,29 +295,47 @@ func (e *ElectrumChainSource) GetBestBlock() (*chainhash.Hash, int32, error) {
 	}
 	e.bestBlockMtx.RUnlock()
 
-	// If no block is cached, fetch the current tip from the server. We use
-	// height 0 to get the current tip.
-	ctx, cancel := context.WithTimeout(context.Background(), e.cfg.RequestTimeout)
+	// If no block is cached, fetch the current tip from the server. We do
+	// this by subscribing and taking the first received header.
+	ctx, cancel := context.WithTimeout(
+		context.Background(), e.cfg.RequestTimeout,
+	)
 	defer cancel()
-	headerInfo, err := e.client.GetBlockHeader(ctx, 0)
+
+	headersChan, err := e.client.BlockHeadersSubscribe(ctx)
 	if err != nil {
-		return nil, 0, fmt.Errorf("failed to get best block header: %w", err)
+		return nil, 0, fmt.Errorf("failed to subscribe to headers "+
+			"for best block: %w", err)
+	}
+
+	// Wait for the first header, which should be the current tip.
+	var subHeader *electrum.BlockHeader
+	select {
+	case subHeader = <-headersChan:
+	case <-ctx.Done():
+		return nil, 0, ctx.Err()
+	}
+	if subHeader == nil {
+		return nil, 0, fmt.Errorf("received nil header from " +
+			"subscription")
 	}
 
 	// The hex string is the full block header. We need to decode it and
 	// then calculate the block hash from it.
-	headerBytes, err := hex.DecodeString(headerInfo.Hex)
+	headerBytes, err := hex.DecodeString(subHeader.Hex)
 	if err != nil {
-		return nil, 0, fmt.Errorf("failed to decode best block header hex: %w", err)
+		return nil, 0, fmt.Errorf("failed to decode best block "+
+			"header hex: %w", err)
 	}
 
 	var header wire.BlockHeader
 	if err := header.Deserialize(bytes.NewReader(headerBytes)); err != nil {
-		return nil, 0, fmt.Errorf("failed to deserialize best block header: %w", err)
+		return nil, 0, fmt.Errorf("failed to deserialize best block "+
+			"header: %w", err)
 	}
 
 	hash := header.BlockHash()
-	height := int32(headerInfo.Height)
+	height := int32(subHeader.Height)
 
 	// Cache the new best block.
 	e.bestBlockMtx.Lock()
@@ -956,7 +975,7 @@ func (e *ElectrumChainSource) handleScriptHashUpdate(scriptHash, newStatus strin
 // processScriptHistory iterates through the history of a script hash and
 // notifies relevant confirmation and spend clients.
 func (e *ElectrumChainSource) processScriptHistory(scriptHash string,
-	history []*electrum.HistoryRes) {
+	history []*electrum.HistoryResult) {
 
 	e.scriptHashClientMtx.Lock()
 	confClients := e.confClientsByScriptHash[scriptHash]
@@ -1476,6 +1495,14 @@ func (e *ElectrumChainSource) SignMessage(keyLoc keychain.KeyLocator, msg []byte
 // compact, recoverable format.
 func (e *ElectrumChainSource) SignMessageCompact(keyLoc keychain.KeyLocator,
 	msg []byte, doubleHash bool) ([]byte, error) {
+
+	return nil, ErrUnimplemented
+}
+
+// SignMessageSchnorr signs a tagged digest of the message with the private key
+// specified by the key locator and returns a schnorr signature.
+func (e *ElectrumChainSource) SignMessageSchnorr(keyLoc keychain.KeyLocator,
+	msg []byte, doubleHash bool, tag *string) (*schnorr.Signature, error) {
 
 	return nil, ErrUnimplemented
 }
