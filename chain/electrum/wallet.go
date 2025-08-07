@@ -1063,37 +1063,37 @@ func (w *Wallet) SignMessageSchnorr(keyLoc keychain.KeyLocator, msg []byte,
 }
 
 // MuSig2CreateSession is a stub to satisfy the input.Signer interface.
-func (w *Wallet) MuSig2CreateSession(version musig2.Version,
-	pubKeys []*btcec.PublicKey, opts ...input.SignerOption) (
+func (w *Wallet) MuSig2CreateSession(version input.MuSig2Version,
+	pubKeys []*btcec.PublicKey, opts ...input.MuSig2SignerOpts) (
 	*musig2.Session, error) {
 
 	return nil, fmt.Errorf("MuSig2CreateSession not implemented")
 }
 
 // MuSig2RegisterNonces is a stub to satisfy the input.Signer interface.
-func (w *Wallet) MuSig2RegisterNonces(sessionID [32]byte,
+func (w *Wallet) MuSig2RegisterNonces(sessionID input.MuSig2SessionID,
 	nonces [][66]byte) (bool, error) {
 
 	return false, fmt.Errorf("MuSig2RegisterNonces not implemented")
 }
 
 // MuSig2Sign is a stub to satisfy the input.Signer interface.
-func (w *Wallet) MuSig2Sign(sessionID [32]byte, msg [32]byte,
-	opts ...input.SignerOption) (*musig2.PartialSignature, error) {
+func (w *Wallet) MuSig2Sign(sessionID input.MuSig2SessionID, msg [32]byte,
+	opts ...input.MuSig2SignerOpts) (*musig2.PartialSignature, error) {
 
 	return nil, fmt.Errorf("MuSig2Sign not implemented")
 }
 
 // MuSig2CombineSig is a stub to satisfy the input.Signer interface.
-func (w *Wallet) MuSig2CombineSig(sessionID [32]byte,
-	otherPartialSigs ...*musig2.PartialSignature) (*musig2.Signature,
+func (w *Wallet) MuSig2CombineSig(sessionID input.MuSig2SessionID,
+	otherPartialSigs ...*musig2.PartialSignature) (*schnorr.Signature,
 	bool, error) {
 
 	return nil, false, fmt.Errorf("MuSig2CombineSig not implemented")
 }
 
 // MuSig2Cleanup is a stub to satisfy the input.Signer interface.
-func (w *Wallet) MuSig2Cleanup(sessionID [32]byte) error {
+func (w *Wallet) MuSig2Cleanup(sessionID input.MuSig2SessionID) error {
 	return fmt.Errorf("MuSig2Cleanup not implemented")
 }
 
