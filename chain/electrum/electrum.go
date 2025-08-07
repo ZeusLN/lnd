@@ -975,7 +975,7 @@ func (e *ElectrumChainSource) handleScriptHashUpdate(scriptHash, newStatus strin
 // processScriptHistory iterates through the history of a script hash and
 // notifies relevant confirmation and spend clients.
 func (e *ElectrumChainSource) processScriptHistory(scriptHash string,
-	history []*electrum.HistoryResult) {
+	history []*electrum.HistoryRes) {
 
 	e.scriptHashClientMtx.Lock()
 	confClients := e.confClientsByScriptHash[scriptHash]
@@ -1502,7 +1502,7 @@ func (e *ElectrumChainSource) SignMessageCompact(keyLoc keychain.KeyLocator,
 // SignMessageSchnorr signs a tagged digest of the message with the private key
 // specified by the key locator and returns a schnorr signature.
 func (e *ElectrumChainSource) SignMessageSchnorr(keyLoc keychain.KeyLocator,
-	msg []byte, doubleHash bool, tag *string) (*schnorr.Signature, error) {
+	msg []byte, tag *string) (*schnorr.Signature, error) {
 
 	return nil, ErrUnimplemented
 }
