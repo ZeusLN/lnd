@@ -15,6 +15,7 @@ import (
 	"github.com/btcsuite/btcd/btcec/v2/ecdsa"
 	"github.com/btcsuite/btcd/btcutil"
 	"github.com/btcsuite/btcd/btcec/v2/schnorr"
+	"github.com/btcsuite/btcd/btcec/v2/schnorr/musig2"
 	"github.com/btcsuite/btcd/btcutil/hdkeychain"
 	"github.com/btcsuite/btcd/chaincfg"
 	"github.com/btcsuite/btcd/chaincfg/chainhash"
@@ -1055,9 +1056,45 @@ func (w *Wallet) SignMessageCompact(keyLoc keychain.KeyLocator, message []byte, 
 
 // SignMessageSchnorr signs a tagged digest of the message with the private key
 // specified by the key locator and returns a schnorr signature.
-func (w *Wallet) SignMessageSchnorr(keyLoc keychain.KeyLocator, msg []byte, tag *string) (*schnorr.Signature, error) {
+func (w *Wallet) SignMessageSchnorr(keyLoc keychain.KeyLocator, msg []byte,
+	doubleHash bool, tag, extraData []byte) (*schnorr.Signature, error) {
 	ltndLog.Warnf("SignMessageSchnorr not implemented for electrum wallet")
 	return nil, fmt.Errorf("SignMessageSchnorr not implemented for electrum wallet")
+}
+
+// MuSig2CreateSession is a stub to satisfy the input.Signer interface.
+func (w *Wallet) MuSig2CreateSession(version musig2.Version,
+	pubKeys []*btcec.PublicKey, opts ...input.SignerOption) (
+	*musig2.Session, error) {
+
+	return nil, fmt.Errorf("MuSig2CreateSession not implemented")
+}
+
+// MuSig2RegisterNonces is a stub to satisfy the input.Signer interface.
+func (w *Wallet) MuSig2RegisterNonces(sessionID [32]byte,
+	nonces [][66]byte) (bool, error) {
+
+	return false, fmt.Errorf("MuSig2RegisterNonces not implemented")
+}
+
+// MuSig2Sign is a stub to satisfy the input.Signer interface.
+func (w *Wallet) MuSig2Sign(sessionID [32]byte, msg [32]byte,
+	opts ...input.SignerOption) (*musig2.PartialSignature, error) {
+
+	return nil, fmt.Errorf("MuSig2Sign not implemented")
+}
+
+// MuSig2CombineSig is a stub to satisfy the input.Signer interface.
+func (w *Wallet) MuSig2CombineSig(sessionID [32]byte,
+	otherPartialSigs ...*musig2.PartialSignature) (*musig2.Signature,
+	bool, error) {
+
+	return nil, false, fmt.Errorf("MuSig2CombineSig not implemented")
+}
+
+// MuSig2Cleanup is a stub to satisfy the input.Signer interface.
+func (w *Wallet) MuSig2Cleanup(sessionID [32]byte) error {
+	return fmt.Errorf("MuSig2Cleanup not implemented")
 }
 
 // Compile-time checks to ensure Wallet satisfies the interfaces (will fail until implemented).
