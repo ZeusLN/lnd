@@ -114,6 +114,50 @@ func (w *Wallet) FetchInputInfo(prevOut *wire.OutPoint) (*lnwallet.Utxo, error) 
 	ltndLog.Warnf("FetchInputInfo for %s returning placeholder confirmation count (0) "+
 		"due to Electrum protocol limitations.", prevOut)
 
+	// Try to find the KeyDescriptor for this UTXO by scanning derived keys.
+	// This is inefficient and should ideally be replaced with a cache or db lookup.
+	w.mu.Lock()
+	externalIdx := w.externalKeyIdx
+	internalIdx := w.internalKeyIdx
+	w.mu.Unlock()
+
+	const lookahead = 50 // Look ahead 50 keys from the last known index.
+	var keyDesc keychain.KeyDescriptor
+
+	// findKey scans a range of keys for a given family to find a match for the pkscript.
+	findKey := func(family keychain.KeyFamily, startIndex, numToScan uint32) (keychain.KeyDescriptor, bool) {
+		for i := uint32(0); i < startIndex+numToScan; i++ {
+			keyLoc := keychain.KeyLocator{Family: family, Index: i}
+			desc, err := w.DeriveKey(keyLoc)
+			if err != nil {
+				continue
+			}
+			addr, err := btcutil.NewAddressWitnessPubKeyHash(btcutil.Hash160(desc.PubKey.SerializeCompressed()), w.netCfg)
+			if err != nil {
+				continue
+			}
+			script, err := lnwallet.PayToAddrScript(addr)
+			if err != nil {
+				continue
+			}
+			if bytes.Equal(script, txOut.PkScript) {
+				return desc, true
+			}
+		}
+		return keychain.KeyDescriptor{}, false
+	}
+
+	// Scan external keys
+	if desc, found := findKey(keychain.KeyFamilyWitness, 0, externalIdx+lookahead); found {
+		keyDesc = desc
+	} else if desc, found := findKey(keychain.KeyFamilyWitnessChange, 0, internalIdx+lookahead); found {
+		keyDesc = desc
+	}
+
+	if keyDesc.PubKey == nil {
+		ltndLog.Warnf("Could not find KeyDescriptor for UTXO %s", prevOut)
+	}
+
 	// Construct the Utxo object.
 	utxo := &lnwallet.Utxo{
 		AddressType:   lnwallet.WitnessPubKey, // Assuming P2WPKH for now
@@ -121,11 +165,8 @@ func (w *Wallet) FetchInputInfo(prevOut *wire.OutPoint) (*lnwallet.Utxo, error) 
 		PkScript:      txOut.PkScript,
 		Confirmations: confirmations,
 		OutPoint:      *prevOut,
-		// KeyDescriptor information is missing here. Need to derive/lookup.
-		// KeyDescriptor: keychain.KeyDescriptor{...},
+		KeyDescriptor: keyDesc,
 	}
-
-	ltndLog.Warnf("FetchInputInfo returning UTXO %s with placeholder confirmations and missing KeyDescriptor", prevOut)
 
 	return utxo, nil
 }
@@ -200,7 +241,7 @@ func (w *Wallet) listUnspentForKey(keyLoc keychain.KeyLocator, addrType lnwallet
 	}
 
 	// Convert address pkScript to Electrum script hash format.
-	pkScript, err := lnwallet.WitnessPubKeyHashToScript(addr.WitnessProgram())
+	pkScript, err := lnwallet.PayToAddrScript(addr)
 	if err != nil {
 		return nil, fmt.Errorf("failed to get pkScript for address %s: %w", addr, err)
 	}

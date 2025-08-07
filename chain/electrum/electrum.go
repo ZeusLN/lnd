@@ -46,7 +46,6 @@ var _ lnwallet.BlockChainIO = (*ElectrumChainSource)(nil)     // Partially imple
 // var _ chainview.FilteredChainView = (*ElectrumChainSource)(nil) // Partially done
 var _ chainntnfs.MempoolWatcher = (*ElectrumChainSource)(nil)   // Partially done
 // var _ input.Signer = (*ElectrumChainSource)(nil) // Requires key management
-// var _ keychain.SecretKeyRing = (*Wallet)(nil) // Requires key management
 
 // BackendName is the name of this backend.
 const BackendName = "electrum"
