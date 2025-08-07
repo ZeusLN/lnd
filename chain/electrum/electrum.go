@@ -20,6 +20,7 @@ import (
 	"github.com/btcsuite/btcwallet/chain"
 	"github.com/checksum0/go-electrum/electrum"
 	"github.com/lightningnetwork/lnd/chainntnfs"
+	"github.com/lightningnetwork/lnd/fn"
 	"github.com/lightningnetwork/lnd/input"
 	"github.com/lightningnetwork/lnd/keychain"
 	"github.com/lightningnetwork/lnd/lncfg"
@@ -34,12 +35,12 @@ import (
 var _ chainntnfs.ChainNotifier = (*ElectrumChainSource)(nil)
 var _ chainfee.Estimator = (*ElectrumChainSource)(nil)
 var _ keychain.SecretKeyRing = (*ElectrumChainSource)(nil)
-var _ input.Signer = (*ElectrumChainSource)(nil)
+// var _ input.Signer = (*ElectrumChainSource)(nil)
 var _ lnwallet.WalletController = (*ElectrumChainSource)(nil) // Partially implemented
 var _ lnwallet.BlockChainIO = (*ElectrumChainSource)(nil)     // Partially implemented
 
 // var _ chain.Interface = (*ElectrumChainSource)(nil)
-var _ chainview.FilteredChainView = (*ElectrumChainSource)(nil) // Partially done
+// var _ chainview.FilteredChainView = (*ElectrumChainSource)(nil) // Partially done
 var _ chainntnfs.MempoolWatcher = (*ElectrumChainSource)(nil)   // Partially done
 // var _ input.Signer = (*ElectrumChainSource)(nil) // Requires key management
 // var _ keychain.SecretKeyRing = (*Wallet)(nil) // Requires key management
@@ -963,7 +964,7 @@ func (e *ElectrumChainSource) handleScriptHashUpdate(scriptHash, newStatus strin
 // processScriptHistory iterates through the history of a script hash and
 // notifies relevant confirmation and spend clients.
 func (e *ElectrumChainSource) processScriptHistory(scriptHash string,
-	history electrum.ScriptHashHistory) {
+	history electrum.ScriptHashGetHistoryResult) {
 
 	e.scriptHashClientMtx.Lock()
 	confClients := e.confClientsByScriptHash[scriptHash]
@@ -1258,9 +1259,9 @@ func (e *ElectrumChainSource) CancelMempoolSpendEvent(
 // LookupInputMempoolSpend looks up a spend of the given outpoint in the
 // mempool.
 func (e *ElectrumChainSource) LookupInputMempoolSpend(op wire.OutPoint) (
-	*chainntnfs.SpendDetail, error) {
+	fn.Option[*wire.MsgTx], error) {
 
-	return nil, ErrUnimplemented
+	return fn.None[*wire.MsgTx](), ErrUnimplemented
 }
 
 // BackEnd returns the name of the backend.
@@ -1291,7 +1292,7 @@ func (e *ElectrumChainSource) SubscribeTransactions() (*lnwallet.TransactionSubs
 
 // ListAccounts retrieves all accounts belonging to the wallet by default.
 // TODO: Implement proper account handling if needed beyond default.
-func (e *ElectrumChainSource) ListAccounts(name string, acctType lnwallet.AddressType) ([]*lnwallet.AccountProperties, error) {
+func (e *ElectrumChainSource) ListAccounts(name string, acctType lnwallet.AddressType) ([]*lnwallet.Account, error) {
 	ltndLog.Warnf("ListAccounts not implemented for electrum wallet (returning default)")
 	// For now, just return the default account structure if requested.
 	if name != "" && name != lnwallet.DefaultAccountName {
@@ -1308,7 +1309,7 @@ func (e *ElectrumChainSource) ListAccounts(name string, acctType lnwallet.Addres
 	e.mu.Unlock()
 
 	// Return a single default account representation.
-	return []*lnwallet.AccountProperties{
+	return []*lnwallet.Account{
 		{
 			Name:             lnwallet.DefaultAccountName,
 			AddressType:      acctType,
@@ -1380,7 +1381,7 @@ func (e *ElectrumChainSource) ChangePassword(old []byte, new []byte) error {
 
 // AddressInfo returns information about an address. This is a stub to satisfy
 // the lnwallet.WalletController interface.
-func (e *ElectrumChainSource) AddressInfo(address btcutil.Address) (lnwallet.Address, error) {
+func (e *ElectrumChainSource) AddressInfo(address btcutil.Address) (lnwallet.ManagedAddress, error) {
 	return nil, ErrUnimplemented
 }
 
@@ -1392,6 +1393,13 @@ func (e *ElectrumChainSource) DeriveKey(keyLoc keychain.KeyLocator) (
 	keychain.KeyDescriptor, error) {
 
 	return keychain.KeyDescriptor{}, ErrUnimplemented
+}
+
+// DerivePrivKey derives the private key for the given key descriptor.
+func (e *ElectrumChainSource) DerivePrivKey(keyDesc keychain.KeyDescriptor) (
+	*btcec.PrivateKey, error) {
+
+	return nil, ErrUnimplemented
 }
 
 // DeriveNextKey derives the next key for the given family. This is a stub to
@@ -1418,36 +1426,36 @@ func (e *ElectrumChainSource) ComputeInputScript(tx *wire.MsgTx,
 }
 
 // MuSig2CreateSession is a stub to satisfy the input.Signer interface.
-func (e *ElectrumChainSource) MuSig2CreateSession(version musig2.Version,
-	pubKeys []*btcec.PublicKey, opts ...input.SignerOption) (
-	*musig2.Session, error) {
-
-	return nil, ErrUnimplemented
-}
+// func (e *ElectrumChainSource) MuSig2CreateSession(version musig2.Version,
+// 	pubKeys []*btcec.PublicKey, opts ...input.SignerOption) (
+// 	*musig2.Session, error) {
+//
+// 	return nil, ErrUnimplemented
+// }
 
 // MuSig2RegisterNonces is a stub to satisfy the input.Signer interface.
-func (e *ElectrumChainSource) MuSig2RegisterNonces(sessionID [32]byte,
-	nonces [][66]byte) (bool, error) {
-
-	return false, ErrUnimplemented
-}
+// func (e *ElectrumChainSource) MuSig2RegisterNonces(sessionID [32]byte,
+// 	nonces [][66]byte) (bool, error) {
+//
+// 	return false, ErrUnimplemented
+// }
 
 // MuSig2Sign is a stub to satisfy the input.Signer interface.
-func (e *ElectrumChainSource) MuSig2Sign(sessionID [32]byte, msg [32]byte,
-	opts ...input.SignerOption) (*musig2.PartialSignature, error) {
-
-	return nil, ErrUnimplemented
-}
+// func (e *ElectrumChainSource) MuSig2Sign(sessionID [32]byte, msg [32]byte,
+// 	opts ...input.SignerOption) (*musig2.PartialSignature, error) {
+//
+// 	return nil, ErrUnimplemented
+// }
 
 // MuSig2CombineSig is a stub to satisfy the input.Signer interface.
-func (e *ElectrumChainSource) MuSig2CombineSig(sessionID [32]byte,
-	otherPartialSigs ...*musig2.PartialSignature) (*musig2.Signature,
-	bool, error) {
-
-	return nil, false, ErrUnimplemented
-}
+// func (e *ElectrumChainSource) MuSig2CombineSig(sessionID [32]byte,
+// 	otherPartialSigs ...*musig2.PartialSignature) (*musig2.Signature,
+// 	bool, error) {
+//
+// 	return nil, false, ErrUnimplemented
+// }
 
 // MuSig2Cleanup is a stub to satisfy the input.Signer interface.
-func (e *ElectrumChainSource) MuSig2Cleanup(sessionID [32]byte) error {
-	return ErrUnimplemented
-}
+// func (e *ElectrumChainSource) MuSig2Cleanup(sessionID [32]byte) error {
+// 	return ErrUnimplemented
+// }
