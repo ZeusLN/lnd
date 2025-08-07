@@ -286,7 +286,7 @@ func (w *Wallet) SubscribeTransactions() (*lnwallet.TransactionSubscription, err
 
 // ListAccounts retrieves all accounts belonging to the wallet by default.
 // TODO: Implement proper account handling if needed beyond default.
-func (w *Wallet) ListAccounts(name string, acctType lnwallet.AddressType) ([]*lnwallet.Account, error) {
+func (w *Wallet) ListAccounts(name string, acctType lnwallet.AddressType) ([]*lnwallet.AccountProperties, error) {
 	ltndLog.Warnf("ListAccounts not implemented for electrum wallet (returning default)")
 	// For now, just return the default account structure if requested.
 	if name != "" && name != lnwallet.DefaultAccountName {
@@ -303,7 +303,7 @@ func (w *Wallet) ListAccounts(name string, acctType lnwallet.AddressType) ([]*ln
 	w.mu.Unlock()
 
 	// Return a single default account representation.
-	return []*lnwallet.Account{
+	return []*lnwallet.AccountProperties{
 		{
 			Name:             lnwallet.DefaultAccountName,
 			AddressType:      acctType,
@@ -970,7 +970,7 @@ func (w *Wallet) ECDH(keyDesc keychain.KeyDescriptor, pub *btcec.PublicKey) ([32
 // SignMessage signs a double-sha256 digest of the message with the private key
 // specified by the key locator.
 // TODO: Implement SignMessage.
-func (w *Wallet) SignMessage(keyLoc keychain.KeyLocator, message []byte, doubleHash bool) (*btcec.Signature, error) {
+func (w *Wallet) SignMessage(keyLoc keychain.KeyLocator, message []byte, doubleHash bool) (*ecdsa.Signature, error) {
 	ltndLog.Warnf("SignMessage not implemented for electrum wallet")
 	// privKey, err := w.DerivePrivKey(keychain.KeyDescriptor{KeyLocator: keyLoc})
 	// if err != nil {

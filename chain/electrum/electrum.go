@@ -12,6 +12,7 @@ import (
 	"time"
 
 	"github.com/btcsuite/btcd/btcec/v2"
+	"github.com/btcsuite/btcd/btcec/v2/schnorr/musig2"
 	"github.com/btcsuite/btcd/btcutil"
 	"github.com/btcsuite/btcd/chaincfg"
 	"github.com/btcsuite/btcd/chaincfg/chainhash"
@@ -37,7 +38,7 @@ var _ input.Signer = (*ElectrumChainSource)(nil)
 var _ lnwallet.WalletController = (*ElectrumChainSource)(nil) // Partially implemented
 var _ lnwallet.BlockChainIO = (*ElectrumChainSource)(nil)     // Partially implemented
 
-var _ chain.Interface = (*ElectrumChainSource)(nil)
+// var _ chain.Interface = (*ElectrumChainSource)(nil)
 var _ chainview.FilteredChainView = (*ElectrumChainSource)(nil) // Partially done
 var _ chainntnfs.MempoolWatcher = (*ElectrumChainSource)(nil)   // Partially done
 // var _ input.Signer = (*ElectrumChainSource)(nil) // Requires key management
@@ -270,9 +271,9 @@ func (e *ElectrumChainSource) GetBlockHash(blockHeight int64) (*chainhash.Hash, 
 }
 
 // BlockStamp returns the latest block stamp.
-func (e *ElectrumChainSource) BlockStamp() (*chain.BlockStamp, error) {
-	return nil, ErrUnimplemented
-}
+// func (e *ElectrumChainSource) BlockStamp() (*chain.BlockStamp, error) {
+// 	return nil, ErrUnimplemented
+// }
 
 // GetBestBlock implements the chainio.Interface.
 func (e *ElectrumChainSource) GetBestBlock() (*chainhash.Hash, int32, error) {
@@ -962,7 +963,7 @@ func (e *ElectrumChainSource) handleScriptHashUpdate(scriptHash, newStatus strin
 // processScriptHistory iterates through the history of a script hash and
 // notifies relevant confirmation and spend clients.
 func (e *ElectrumChainSource) processScriptHistory(scriptHash string,
-	history electrum.History) {
+	history electrum.ScriptHashHistory) {
 
 	e.scriptHashClientMtx.Lock()
 	confClients := e.confClientsByScriptHash[scriptHash]
@@ -1233,6 +1234,13 @@ func (e *ElectrumChainSource) DisconnectedBlocks() <-chan *chainview.FilteredBlo
 	return nil
 }
 
+// FilteredBlocks returns a channel for receiving filtered blocks.
+func (e *ElectrumChainSource) FilteredBlocks() <-chan *chainview.FilteredBlock {
+	// Returning nil to satisfy the interface. A proper implementation would
+	// return a channel that delivers filtered blocks.
+	return nil
+}
+
 // SubscribeMempoolSpent subscribes to notifications for a spend of the given
 // outpoint in the mempool.
 func (e *ElectrumChainSource) SubscribeMempoolSpent(op wire.OutPoint) (
@@ -1245,6 +1253,14 @@ func (e *ElectrumChainSource) SubscribeMempoolSpent(op wire.OutPoint) (
 // of the given outpoint in the mempool.
 func (e *ElectrumChainSource) CancelMempoolSpendEvent(
 	sub *chainntnfs.MempoolSpendEvent) {
+}
+
+// LookupInputMempoolSpend looks up a spend of the given outpoint in the
+// mempool.
+func (e *ElectrumChainSource) LookupInputMempoolSpend(op wire.OutPoint) (
+	*chainntnfs.SpendDetail, error) {
+
+	return nil, ErrUnimplemented
 }
 
 // BackEnd returns the name of the backend.
@@ -1275,7 +1291,7 @@ func (e *ElectrumChainSource) SubscribeTransactions() (*lnwallet.TransactionSubs
 
 // ListAccounts retrieves all accounts belonging to the wallet by default.
 // TODO: Implement proper account handling if needed beyond default.
-func (e *ElectrumChainSource) ListAccounts(name string, acctType lnwallet.AddressType) ([]*lnwallet.Account, error) {
+func (e *ElectrumChainSource) ListAccounts(name string, acctType lnwallet.AddressType) ([]*lnwallet.AccountProperties, error) {
 	ltndLog.Warnf("ListAccounts not implemented for electrum wallet (returning default)")
 	// For now, just return the default account structure if requested.
 	if name != "" && name != lnwallet.DefaultAccountName {
@@ -1292,7 +1308,7 @@ func (e *ElectrumChainSource) ListAccounts(name string, acctType lnwallet.Addres
 	e.mu.Unlock()
 
 	// Return a single default account representation.
-	return []*lnwallet.Account{
+	return []*lnwallet.AccountProperties{
 		{
 			Name:             lnwallet.DefaultAccountName,
 			AddressType:      acctType,
@@ -1362,6 +1378,12 @@ func (e *ElectrumChainSource) ChangePassword(old []byte, new []byte) error {
 	return fmt.Errorf("ChangePassword not implemented for electrum wallet")
 }
 
+// AddressInfo returns information about an address. This is a stub to satisfy
+// the lnwallet.WalletController interface.
+func (e *ElectrumChainSource) AddressInfo(address btcutil.Address) (lnwallet.Address, error) {
+	return nil, ErrUnimplemented
+}
+
 // TODO: Add helper methods for interacting with the Electrum client, managing
 // subscriptions, handling responses, etc.
 
@@ -1369,6 +1391,13 @@ func (e *ElectrumChainSource) ChangePassword(old []byte, new []byte) error {
 func (e *ElectrumChainSource) DeriveKey(keyLoc keychain.KeyLocator) (
 	keychain.KeyDescriptor, error) {
 
+	return keychain.KeyDescriptor{}, ErrUnimplemented
+}
+
+// DeriveNextKey derives the next key for the given family. This is a stub to
+// satisfy the keychain.SecretKeyRing interface.
+func (e *ElectrumChainSource) DeriveNextKey(keyFam keychain.KeyFamily) (
+	keychain.KeyDescriptor, error) {
 	return keychain.KeyDescriptor{}, ErrUnimplemented
 }
 
@@ -1386,4 +1415,39 @@ func (e *ElectrumChainSource) ComputeInputScript(tx *wire.MsgTx,
 	signDesc *input.SignDescriptor) (*input.Script, error) {
 
 	return nil, ErrUnimplemented
+}
+
+// MuSig2CreateSession is a stub to satisfy the input.Signer interface.
+func (e *ElectrumChainSource) MuSig2CreateSession(version musig2.Version,
+	pubKeys []*btcec.PublicKey, opts ...input.SignerOption) (
+	*musig2.Session, error) {
+
+	return nil, ErrUnimplemented
+}
+
+// MuSig2RegisterNonces is a stub to satisfy the input.Signer interface.
+func (e *ElectrumChainSource) MuSig2RegisterNonces(sessionID [32]byte,
+	nonces [][66]byte) (bool, error) {
+
+	return false, ErrUnimplemented
+}
+
+// MuSig2Sign is a stub to satisfy the input.Signer interface.
+func (e *ElectrumChainSource) MuSig2Sign(sessionID [32]byte, msg [32]byte,
+	opts ...input.SignerOption) (*musig2.PartialSignature, error) {
+
+	return nil, ErrUnimplemented
+}
+
+// MuSig2CombineSig is a stub to satisfy the input.Signer interface.
+func (e *ElectrumChainSource) MuSig2CombineSig(sessionID [32]byte,
+	otherPartialSigs ...*musig2.PartialSignature) (*musig2.Signature,
+	bool, error) {
+
+	return nil, false, ErrUnimplemented
+}
+
+// MuSig2Cleanup is a stub to satisfy the input.Signer interface.
+func (e *ElectrumChainSource) MuSig2Cleanup(sessionID [32]byte) error {
+	return ErrUnimplemented
 }
