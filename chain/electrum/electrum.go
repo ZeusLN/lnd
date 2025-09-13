@@ -307,7 +307,7 @@ func (e *ElectrumChainSource) GetBestBlock() (*chainhash.Hash, int32, error) {
 	)
 	defer cancel()
 
-	headersChan, err := e.client.HeadersSubscribe(ctx)
+	headersChan, err := e.client.BlockchainHeadersSubscribe(ctx)
 	if err != nil {
 		return nil, 0, fmt.Errorf("failed to subscribe to headers "+
 			"for best block: %w", err)
