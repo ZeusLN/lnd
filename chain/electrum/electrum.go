@@ -307,14 +307,14 @@ func (e *ElectrumChainSource) GetBestBlock() (*chainhash.Hash, int32, error) {
 	)
 	defer cancel()
 
-	headersChan, err := e.client.BlockchainHeadersSubscribe(ctx)
+	headersChan, err := e.client.Blockchain.HeadersSubscribe(ctx)
 	if err != nil {
 		return nil, 0, fmt.Errorf("failed to subscribe to headers "+
 			"for best block: %w", err)
 	}
 
 	// Wait for the first header, which should be the current tip.
-	var subHeader *electrum.Header
+	var subHeader *electrum.ServerHeader
 	select {
 	case subHeader = <-headersChan:
 	case <-ctx.Done():
