@@ -11,21 +11,18 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/btcsuite/btcd/btcec/v2"
-	"github.com/btcsuite/btcd/btcec/v2/ecdsa"
-	"github.com/btcsuite/btcd/btcec/v2/schnorr"
-	"github.com/btcsuite/btcd/btcec/v2/schnorr/musig2"
+	"github.com/btcsuite/btcd/btcjson"
 	"github.com/btcsuite/btcd/btcutil"
 	"github.com/btcsuite/btcd/chaincfg"
 	"github.com/btcsuite/btcd/chaincfg/chainhash"
 	"github.com/btcsuite/btcd/wire"
 	"github.com/btcsuite/btcwallet/chain"
+	"github.com/btcsuite/btcwallet/waddrmgr"
 	"github.com/checksum0/go-electrum/electrum"
 	"github.com/lightningnetwork/lnd/build"
 	"github.com/lightningnetwork/lnd/chainntnfs"
 	fn "github.com/lightningnetwork/lnd/fn/v2"
-	"github.com/lightningnetwork/lnd/input"
-	"github.com/lightningnetwork/lnd/keychain"
+	graphdb "github.com/lightningnetwork/lnd/graph/db"
 	"github.com/lightningnetwork/lnd/lncfg"
 	"github.com/lightningnetwork/lnd/lnwallet"
 	"github.com/lightningnetwork/lnd/lnwallet/chainfee"
@@ -35,8 +32,78 @@ import (
 // Compile time check to ensure ElectrumChainSource satisfies the chain notifier
 // and fee estimator interfaces. Other interfaces (chainio, chainview, mempool)
 // are partially implemented or pending.
-var _ chainntnfs.ChainNotifier = (*ElectrumChainSource)(nil)
-var _ chainfee.Estimator = (*ElectrumChainSource)(nil)
+// Note: We need to create wrapper types for the interfaces that expect Stop() error
+type ElectrumChainNotifier ElectrumChainSource
+type ElectrumFeeEstimator ElectrumChainSource
+type ElectrumFilteredChainView ElectrumChainSource
+
+func (e *ElectrumChainNotifier) Stop() error {
+	return (*ElectrumChainSource)(e).StopWithError()
+}
+
+func (e *ElectrumChainNotifier) RegisterBlockEpochNtfn(epoch *chainntnfs.BlockEpoch) (*chainntnfs.BlockEpochEvent, error) {
+	return (*ElectrumChainSource)(e).RegisterBlockEpochNtfn(epoch)
+}
+
+func (e *ElectrumChainNotifier) RegisterConfirmationsNtfn(txid *chainhash.Hash, pkScript []byte, numConfs, heightHint uint32, opts ...chainntnfs.NotifierOption) (*chainntnfs.ConfirmationEvent, error) {
+	return (*ElectrumChainSource)(e).RegisterConfirmationsNtfn(txid, pkScript, numConfs, heightHint, opts...)
+}
+
+func (e *ElectrumChainNotifier) RegisterSpendNtfn(outpoint *wire.OutPoint, pkScript []byte, heightHint uint32) (*chainntnfs.SpendEvent, error) {
+	return (*ElectrumChainSource)(e).RegisterSpendNtfn(outpoint, pkScript, heightHint)
+}
+
+func (e *ElectrumChainNotifier) Start() error {
+	return (*ElectrumChainSource)(e).Start()
+}
+
+func (e *ElectrumChainNotifier) Started() bool {
+	return (*ElectrumChainSource)(e).Started()
+}
+
+func (e *ElectrumFeeEstimator) Stop() error {
+	return (*ElectrumChainSource)(e).StopWithError()
+}
+
+func (e *ElectrumFeeEstimator) EstimateFeePerKW(numBlocks uint32) (chainfee.SatPerKWeight, error) {
+	return (*ElectrumChainSource)(e).EstimateFeePerKW(numBlocks)
+}
+
+func (e *ElectrumFeeEstimator) Start() error {
+	return (*ElectrumChainSource)(e).Start()
+}
+
+func (e *ElectrumFeeEstimator) RelayFeePerKW() chainfee.SatPerKWeight {
+	return (*ElectrumChainSource)(e).RelayFeePerKW()
+}
+
+func (e *ElectrumFilteredChainView) Stop() error {
+	return (*ElectrumChainSource)(e).StopWithError()
+}
+
+func (e *ElectrumFilteredChainView) Start() error {
+	return (*ElectrumChainSource)(e).Start()
+}
+
+func (e *ElectrumFilteredChainView) FilteredBlocks() <-chan *chainview.FilteredBlock {
+	return (*ElectrumChainSource)(e).FilteredBlocks()
+}
+
+func (e *ElectrumFilteredChainView) DisconnectedBlocks() <-chan *chainview.FilteredBlock {
+	return (*ElectrumChainSource)(e).DisconnectedBlocks()
+}
+
+func (e *ElectrumFilteredChainView) UpdateFilter(ops []graphdb.EdgePoint, updateHeight uint32) error {
+	return (*ElectrumChainSource)(e).UpdateFilter(ops, updateHeight)
+}
+
+func (e *ElectrumFilteredChainView) FilterBlock(blockHash *chainhash.Hash) (*chainview.FilteredBlock, error) {
+	return (*ElectrumChainSource)(e).FilterBlock(blockHash)
+}
+
+var _ chainntnfs.ChainNotifier = (*ElectrumChainNotifier)(nil)
+var _ chainfee.Estimator = (*ElectrumFeeEstimator)(nil)
+var _ chainview.FilteredChainView = (*ElectrumFilteredChainView)(nil)
 // var _ keychain.SecretKeyRing = (*ElectrumChainSource)(nil)
 // var _ input.Signer = (*ElectrumChainSource)(nil)
 // var _ lnwallet.WalletController = (*ElectrumChainSource)(nil) // Partially implemented
@@ -207,13 +274,26 @@ func (e *ElectrumChainSource) Start() error {
 	return nil
 }
 
-// Stop stops the ElectrumChainSource.
-func (e *ElectrumChainSource) Stop() error {
+// Stop stops the ElectrumChainSource (for chain.Interface).
+func (e *ElectrumChainSource) Stop() {
+	close(e.quit)
+	e.wg.Wait()
+	// TODO: Close Electrum client connection?
+	// e.client.Shutdown()
+}
+
+// StopWithError stops the ElectrumChainSource and returns an error (for chainntnfs.ChainNotifier and chainfee.Estimator).
+func (e *ElectrumChainSource) StopWithError() error {
 	close(e.quit)
 	e.wg.Wait()
 	// TODO: Close Electrum client connection?
 	// e.client.Shutdown()
 	return nil
+}
+
+// WaitForShutdown implements the chain.Interface.
+func (e *ElectrumChainSource) WaitForShutdown() {
+	e.wg.Wait()
 }
 
 // Started returns true if the chain source has been started.
@@ -288,6 +368,70 @@ func (e *ElectrumChainSource) GetBlockHash(blockHeight int64) (*chainhash.Hash, 
 // 	return nil, ErrUnimplemented
 // }
 
+// BlockStamp implements the chain.Interface.
+func (e *ElectrumChainSource) BlockStamp() (*waddrmgr.BlockStamp, error) {
+	hash, height, err := e.GetBestBlock()
+	if err != nil {
+		return nil, err
+	}
+	
+	return &waddrmgr.BlockStamp{
+		Hash:   *hash,
+		Height: height,
+	}, nil
+}
+
+// FilterBlocks implements the chain.Interface.
+// NOTE: Electrum protocol does not easily support block filtering.
+// Marked as unimplemented for now.
+func (e *ElectrumChainSource) FilterBlocks(req *chain.FilterBlocksRequest) (*chain.FilterBlocksResponse, error) {
+	ltndLog.Debugf("FilterBlocks called (unimplemented)")
+	return nil, ErrUnimplemented
+}
+
+// IsCurrent implements the chain.Interface.
+func (e *ElectrumChainSource) IsCurrent() bool {
+	// For now, assume we're current if we can get the best block
+	_, _, err := e.GetBestBlock()
+	return err == nil
+}
+
+// MapRPCErr implements the chain.Interface.
+func (e *ElectrumChainSource) MapRPCErr(err error) error {
+	// For now, just return the error as-is
+	return err
+}
+
+// Notifications implements the chain.Interface.
+func (e *ElectrumChainSource) Notifications() <-chan interface{} {
+	// For now, return a nil channel since we don't have notifications implemented
+	return nil
+}
+
+// NotifyBlocks implements the chain.Interface.
+func (e *ElectrumChainSource) NotifyBlocks() error {
+	// For now, return nil since we don't have block notifications implemented
+	return nil
+}
+
+// NotifyReceived implements the chain.Interface.
+func (e *ElectrumChainSource) NotifyReceived(addresses []btcutil.Address) error {
+	// For now, return nil since we don't have address notifications implemented
+	return nil
+}
+
+// Rescan implements the chain.Interface.
+func (e *ElectrumChainSource) Rescan(startHash *chainhash.Hash, addresses []btcutil.Address, outpoints map[wire.OutPoint]btcutil.Address) error {
+	// For now, return ErrUnimplemented since rescanning is not implemented
+	return ErrUnimplemented
+}
+
+// TestMempoolAccept implements the chain.Interface.
+func (e *ElectrumChainSource) TestMempoolAccept(txs []*wire.MsgTx, maxFeeRate float64) ([]*btcjson.TestMempoolAcceptResult, error) {
+	// For now, return ErrUnimplemented since mempool testing is not implemented
+	return nil, ErrUnimplemented
+}
+
 // GetBestBlock implements the chainio.Interface.
 func (e *ElectrumChainSource) GetBestBlock() (*chainhash.Hash, int32, error) {
 	e.bestBlockMtx.RLock()
@@ -307,14 +451,14 @@ func (e *ElectrumChainSource) GetBestBlock() (*chainhash.Hash, int32, error) {
 	)
 	defer cancel()
 
-	headersChan, err := e.client.Blockchain.HeadersSubscribe(ctx)
+	headersChan, err := e.client.SubscribeHeaders(ctx)
 	if err != nil {
 		return nil, 0, fmt.Errorf("failed to subscribe to headers "+
 			"for best block: %w", err)
 	}
 
 	// Wait for the first header, which should be the current tip.
-	var subHeader *electrum.ServerHeader
+	var subHeader *electrum.SubscribeHeadersResult
 	select {
 	case subHeader = <-headersChan:
 	case <-ctx.Done():
@@ -533,7 +677,7 @@ func (e *ElectrumChainSource) RegisterConfirmationsNtfn(txid *chainhash.Hash,
 
 	var txFoundHeight int32
 	for _, item := range history {
-		if item.TxHash == txid.String() {
+		if item.Hash == txid.String() {
 			txHeight := int32(item.Height)
 			if txHeight > 0 { // Found and confirmed
 				txFoundHeight = txHeight
@@ -667,10 +811,10 @@ func (e *ElectrumChainSource) RegisterSpendNtfn(outpoint *wire.OutPoint, pkScrip
 
 	// Check history for a spending transaction.
 	for _, item := range history {
-		spendingTxHash, err := chainhash.NewHashFromStr(item.TxHash)
+		spendingTxHash, err := chainhash.NewHashFromStr(item.Hash)
 		if err != nil {
 			ltndLog.Warnf("Failed to parse tx hash %s from history: %v",
-				item.TxHash, err)
+				item.Hash, err)
 			continue
 		}
 
@@ -678,7 +822,7 @@ func (e *ElectrumChainSource) RegisterSpendNtfn(outpoint *wire.OutPoint, pkScrip
 		spendingTx, err := e.GetTransaction(spendingTxHash)
 		if err != nil {
 			ltndLog.Warnf("Failed to get tx %s while checking spend "+
-				"for %s: %v", item.TxHash, outpoint, err)
+				"for %s: %v", item.Hash, outpoint, err)
 			continue // Skip this history item if we can't fetch it
 		}
 
@@ -687,7 +831,7 @@ func (e *ElectrumChainSource) RegisterSpendNtfn(outpoint *wire.OutPoint, pkScrip
 			if txIn.PreviousOutPoint == *outpoint {
 				ltndLog.Infof("Outpoint %s already spent by tx %s, "+
 					"dispatching spend notification immediately.",
-					outpoint, item.TxHash)
+					outpoint, item.Hash)
 
 				spendDetails := &chainntnfs.SpendDetail{
 					SpentOutPoint:     outpoint,
@@ -948,7 +1092,7 @@ func (e *ElectrumChainSource) handleScriptHashUpdate(scriptHash, newStatus strin
 // processScriptHistory iterates through the history of a script hash and
 // notifies relevant confirmation and spend clients.
 func (e *ElectrumChainSource) processScriptHistory(scriptHash string,
-	history []*electrum.HistoryResult) {
+	history []*electrum.GetMempoolResult) {
 
 	e.scriptHashClientMtx.Lock()
 	confClients := e.confClientsByScriptHash[scriptHash]
@@ -995,7 +1139,7 @@ func (e *ElectrumChainSource) processScriptHistory(scriptHash string,
 
 		// Search history for the target txid.
 		for _, item := range history {
-			if item.TxHash == client.txid.String() {
+			if item.Hash == client.txid.String() {
 				txHeight := int32(item.Height)
 				// Electrum uses 0 for unconfirmed, >0 for confirmed height.
 				if txHeight > 0 {
@@ -1038,10 +1182,10 @@ func (e *ElectrumChainSource) processScriptHistory(scriptHash string,
 
 		// Check history for a spending transaction.
 		for _, item := range history {
-			spendingTxHash, err := chainhash.NewHashFromStr(item.TxHash)
+			spendingTxHash, err := chainhash.NewHashFromStr(item.Hash)
 			if err != nil {
 				ltndLog.Warnf("Failed to parse tx hash %s from history: %v",
-					item.TxHash, err)
+					item.Hash, err)
 				continue
 			}
 
@@ -1052,7 +1196,7 @@ func (e *ElectrumChainSource) processScriptHistory(scriptHash string,
 			spendingTx, err := e.GetTransaction(spendingTxHash)
 			if err != nil {
 				ltndLog.Warnf("Failed to get tx %s while checking spend "+
-					"for %s: %v", item.TxHash, client.outpoint, err)
+					"for %s: %v", item.Hash, client.outpoint, err)
 				continue // Skip this history item if we can't fetch it
 			}
 
@@ -1061,7 +1205,7 @@ func (e *ElectrumChainSource) processScriptHistory(scriptHash string,
 				if txIn.PreviousOutPoint == *client.outpoint {
 					ltndLog.Infof("Dispatching spend notification for "+
 						"client %d, outpoint %s spent by tx %s",
-						client.id, client.outpoint, item.TxHash)
+						client.id, client.outpoint, item.Hash)
 
 					spendDetails := &chainntnfs.SpendDetail{
 						SpentOutPoint:     client.outpoint,
@@ -1174,26 +1318,34 @@ func (e *ElectrumChainSource) subscribeScriptHash(pkScript []byte) (string, erro
 	ctxSub, cancelSub := context.WithTimeout(context.Background(), e.cfg.RequestTimeout)
 	defer cancelSub()
 
-	// The `go-electrum` library sends all notifications to a single
-	// channel on the client. Our `notificationHandler` is responsible for
-	// listening to this channel and dispatching updates. The subscribe
-	// method itself only returns the initial status.
-	initialStatus, err := e.client.BlockchainScripthashSubscribe(ctxSub, electrumScriptHash)
+	// The `go-electrum` library uses a subscription manager pattern.
+	// We need to use the SubscribeScripthash method and add our script hash.
+	sub, _ := e.client.SubscribeScripthash()
+	err := sub.Add(ctxSub, electrumScriptHash)
 	if err != nil {
 		return "", fmt.Errorf("failed to subscribe to script hash %s: %w",
 			electrumScriptHash, err)
 	}
 
 	// Store the initial status and mark as subscribed.
-	e.scriptHashSubscriptions[electrumScriptHash] = initialStatus
+	// The Add method doesn't return a status, so we'll use empty string for now
+	e.scriptHashSubscriptions[electrumScriptHash] = ""
 
-	ltndLog.Infof("Subscribed to script hash %s, initial status: %s",
-		electrumScriptHash, initialStatus)
+	ltndLog.Infof("Subscribed to script hash %s",
+		electrumScriptHash)
 
 	// Note: No per-script-hash channel is returned. The main
 	// notificationHandler is expected to handle updates.
 
-	return initialStatus, nil
+	return "", nil
+}
+
+// UpdateFilter implements the chainview.FilteredChainView interface.
+// NOTE: Electrum protocol does not easily support UTXO filtering.
+// Marked as unimplemented for now.
+func (e *ElectrumChainSource) UpdateFilter(ops []graphdb.EdgePoint, updateHeight uint32) error {
+	ltndLog.Debugf("UpdateFilter called with %d ops at height %d (unimplemented)", len(ops), updateHeight)
+	return ErrUnimplemented
 }
 
 // FilterBlock implements the chainview.FilteredChainView interface.

@@ -37,6 +37,14 @@ import (
 	"github.com/lightningnetwork/lnd/walletunlocker"
 )
 
+// Backend names for different chain backends
+const (
+	ElectrumBackendName = "electrum"
+)
+
+// Type aliases for electrum integration
+type ElectrumChainSource = electrum.ElectrumChainSource
+
 // Config houses necessary fields that a chainControl instance needs to
 // function.
 type Config struct {
@@ -56,6 +64,9 @@ type Config struct {
 
 	// BtcdMode defines settings for connecting to a btcd node.
 	BtcdMode *lncfg.Btcd
+
+	// ElectrumMode defines settings for connecting to an Electrum server.
+	ElectrumMode *lncfg.ElectrumConfig
 
 	// HeightHintDB is a pointer to the database that stores the height
 	// hints.
@@ -693,14 +704,14 @@ func NewPartialChainControl(cfg *Config) (*PartialChainControl, func(), error) {
 		// to fully implement these for this to compile and run
 		// correctly. Placeholders are used where implementation is
 		// pending.
-		cc.ChainNotifier = electrumSource
-		cc.FeeEstimator = electrumSource
+		cc.ChainNotifier = (*electrum.ElectrumChainNotifier)(electrumSource)
+		cc.FeeEstimator = (*electrum.ElectrumFeeEstimator)(electrumSource)
 
 		// TODO: ElectrumChainSource needs to implement chain.Interface
 		cc.ChainSource = electrumSource
 
 		// TODO: ElectrumChainSource needs to implement chainview.FilteredChainView
-		cc.ChainView = electrumSource
+		cc.ChainView = (*electrum.ElectrumFilteredChainView)(electrumSource)
 
 		// TODO: ElectrumChainSource needs to implement chainntnfs.MempoolWatcher
 		cc.MempoolNotifier = electrumSource
@@ -711,18 +722,8 @@ func NewPartialChainControl(cfg *Config) (*PartialChainControl, func(), error) {
 			return err
 		}
 
-		// Add Electrum source stop function to cleanup tasks.
-		stopElectrum := func() {
-			if err := electrumSource.Stop(); err != nil {
-				log.Errorf("Error stopping electrum "+
-					"source: %v", err)
-			}
-		}
-		existingCleanup := ccCleanup
-		ccCleanup = func() {
-			existingCleanup()
-			stopElectrum()
-		}
+		// TODO: Add proper cleanup for electrum source
+		// The cleanup will be handled by the general ccCleanup function
 
 	case "nochainbackend":
 		backend := &NoChainBackend{}

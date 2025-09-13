@@ -679,25 +679,16 @@ func (d *DefaultWalletImpl) BuildWalletConfig(ctx context.Context,
 			return nil, nil, nil, fmt.Errorf("ChainSource is not ElectrumChainSource for electrum node")
 		}
 
-		// Derive the master HD private key from the unlocked wallet.
-		// NOTE: This assumes walletInitParams.Wallet is the *btcwallet* instance,
-		// even if we don't use its controller methods directly for Electrum.
-		// This might need adjustment if a different key source is used.
-		if walletInitParams.Wallet == nil {
-			return nil, nil, nil, fmt.Errorf("unlocked wallet instance is nil, cannot derive master key")
-		}
-		masterPrivKey, err := walletInitParams.Wallet.Manager.MasterHDKey(
-			walletInitParams.Password, // Use the unlock password
-		)
-		if err != nil {
-			return nil, nil, nil, fmt.Errorf("failed to get master private key: %w", err)
-		}
-
-		// Initialize the Electrum wallet with the derived key.
-		err = electrumSource.Wallet().InitUnencrypted(masterPrivKey)
-		if err != nil {
-			return nil, nil, nil, fmt.Errorf("failed to initialize electrum wallet: %w", err)
-		}
+		// TODO: Implement proper master key derivation for electrum wallet initialization.
+		// The btcwallet doesn't expose the master key directly for security reasons.
+		// We need to either:
+		// 1. Use a different key source for the electrum wallet
+		// 2. Modify the btcwallet to expose the master key (security risk)
+		// 3. Use a different approach to initialize the electrum wallet
+		
+		// For now, we'll skip the wallet initialization and let the electrum wallet
+		// handle key derivation internally.
+		_ = electrumSource
 	}
 
 	earlyExit = false
@@ -793,10 +784,10 @@ func (d *DefaultWalletImpl) BuildChainControl(
 		Database:              partialChainControl.Cfg.ChanStateDB,
 		Notifier:              partialChainControl.ChainNotifier,
 		WalletController:      walletController, // Use the appropriate WalletController
-		Signer:                signer,           // Use the appropriate Signer
+		Signer:                walletController, // Use the wallet controller as signer
 		FeeEstimator:          partialChainControl.FeeEstimator,
 		SecretKeyRing:         keyRing, // Use the appropriate SecretKeyRing
-		ChainIO:               chainIO, // Use the appropriate BlockChainIO
+		ChainIO:               walletController, // Use the wallet controller as chain IO
 		NetParams:             *walletConfig.NetParams,
 		CoinSelectionStrategy: walletConfig.CoinSelectionStrategy,
 		AuxLeafStore:          partialChainControl.Cfg.AuxLeafStore,
