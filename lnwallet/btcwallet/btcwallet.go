@@ -108,6 +108,10 @@ type BtcWallet struct {
 	// electrumRescanCompleted tracks if the initial Electrum rescan has been completed
 	electrumRescanCompleted bool
 	
+	// processedTransactions tracks transaction hashes that have already been processed
+	processedTransactionsMtx sync.RWMutex
+	processedTransactions    map[string]bool // Key: transaction hash
+	
 	// processedAddresses tracks which addresses have already been processed for Electrum notifications
 	processedAddresses map[string]bool
 	processedAddressesMtx sync.RWMutex
@@ -173,14 +177,15 @@ func New(cfg Config, blockCache *blockcache.BlockCache) (*BtcWallet, error) {
 	}
 
 	finalWallet := &BtcWallet{
-		cfg:                &cfg,
-		wallet:             wallet,
-		db:                 wallet.Database(),
-		chain:              cfg.ChainSource,
-		netParams:          cfg.NetParams,
-		chainKeyScope:      chainKeyScope,
-		blockCache:         blockCache,
-		processedAddresses: make(map[string]bool),
+		cfg:                  &cfg,
+		wallet:               wallet,
+		db:                   wallet.Database(),
+		chain:                cfg.ChainSource,
+		netParams:            cfg.NetParams,
+		chainKeyScope:        chainKeyScope,
+		blockCache:           blockCache,
+		processedAddresses:   make(map[string]bool),
+		processedTransactions: make(map[string]bool),
 	}
 
 	finalWallet.MusigSessionManager = input.NewMusigSessionManager(
@@ -508,6 +513,17 @@ func (b *BtcWallet) setupElectrumTransactionCallback() {
 func (b *BtcWallet) integrateDiscoveredTransaction(txHash string, address string, value btcutil.Amount, confirmations int32, height int32) error {
 	log.Infof("BTCWALLET: Integrating discovered transaction %s for address %s (value: %d, confirmations: %d)", 
 		txHash, address, value, confirmations)
+	
+	// Check if this transaction has already been processed (regardless of address)
+	b.processedTransactionsMtx.Lock()
+	if b.processedTransactions[txHash] {
+		b.processedTransactionsMtx.Unlock()
+		log.Infof("BTCWALLET: Transaction %s already processed, skipping duplicate", txHash)
+		return nil
+	}
+	// Mark this transaction as being processed
+	b.processedTransactions[txHash] = true
+	b.processedTransactionsMtx.Unlock()
 	
 	// Parse the transaction hash
 	txHashParsed, err := chainhash.NewHashFromStr(txHash)
