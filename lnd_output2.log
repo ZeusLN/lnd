@@ -1,0 +1,5 @@
+2025-09-14 13:42:33.623 [INF] LTND lnd.go:186: Version Info rev=4d1c86 version=0.19.99-beta commit=sqldb/v1.0.10-645-g4d1c86bd6-dirty debuglevel=development logging=debug
+2025-09-14 13:42:33.623 [INF] LTND lnd.go:213: Network Info rev=4d1c86 active_chain=Bitcoin network=mainnet
+2025-09-14 13:42:33.624 [ERR] LTND lnd.go:169: Shutting down due to error in main method rev=4d1c86 err="listen tcp4 127.0.0.1:10009: bind: address already in use" endpoint=127.0.0.1:10009
+2025-09-14 13:42:33.624 [INF] LTND lnd.go:152: Shutdown complete
+unable to listen on grpc endpoint: listen tcp4 127.0.0.1:10009: bind: address already in use endpoint=127.0.0.1:10009

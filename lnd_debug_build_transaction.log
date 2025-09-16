@@ -1,0 +1,815 @@
+2025-09-16 10:32:15.203 [INF] LTND lnd.go:186: Version Info rev=4d1c86 version=0.19.99-beta commit=sqldb/v1.0.10-645-g4d1c86bd6-dirty debuglevel=development logging=debug
+2025-09-16 10:32:15.204 [INF] LTND lnd.go:213: Network Info rev=4d1c86 active_chain=Bitcoin network=testnet
+2025-09-16 10:32:15.205 [DBG] NTFR chain_server.go:210: ChainNotifier RPC server successfully registered with root gRPC server
+2025-09-16 10:32:15.205 [DBG] NTFR chain_server.go:214: ChainKit RPC server successfully registered with root gRPC server
+2025-09-16 10:32:15.205 [DBG] IRPC invoices_server.go:190: Invoices RPC server successfully registered with root gRPC server
+2025-09-16 10:32:15.206 [DBG] RRPC router_server.go:301: Router RPC server successfully registered with root gRPC server
+2025-09-16 10:32:15.206 [DBG] SGNR signer_server.go:216: Signer RPC server successfully registered with root gRPC server
+2025-09-16 10:32:15.206 [DBG] VRPC server.go:66: Versioner RPC server successfully registered with root gRPC server
+2025-09-16 10:32:15.206 [DBG] DRPC dev_server.go:137: DEV RPC server successfully registered with root the gRPC server
+2025-09-16 10:32:15.206 [DBG] PRPC peers_server.go:119: Peers RPC server successfully registered with root gRPC server
+2025-09-16 10:32:15.206 [DBG] WLKT walletkit_server.go:344: WalletKit RPC server successfully registered with root gRPC server
+2025-09-16 10:32:15.206 [INF] RPCS lnd.go:925: RPC server listening on 127.0.0.1:10009
+2025-09-16 10:32:15.207 [DBG] NTFR chain_server.go:237: ChainNotifier REST server successfully registered with root REST server
+2025-09-16 10:32:15.207 [DBG] NTFR chain_server.go:248: ChainKit REST server successfully registered with root REST server
+2025-09-16 10:32:15.207 [DBG] IRPC invoices_server.go:213: Invoices REST server successfully registered with root REST server
+2025-09-16 10:32:15.208 [DBG] RRPC router_server.go:324: Router REST server successfully registered with root REST server
+2025-09-16 10:32:15.208 [DBG] SGNR signer_server.go:239: Signer REST server successfully registered with root REST server
+2025-09-16 10:32:15.209 [DBG] VRPC server.go:89: Versioner REST server successfully registered with root REST server
+2025-09-16 10:32:15.209 [DBG] DRPC dev_server.go:160: DEV REST server successfully registered with the root REST server
+2025-09-16 10:32:15.209 [DBG] PRPC peers_server.go:142: Peers REST server successfully registered with root REST server
+2025-09-16 10:32:15.210 [DBG] WLKT walletkit_server.go:367: WalletKit REST server successfully registered with root REST server
+2025-09-16 10:32:15.214 [INF] RPCS lnd.go:1046: gRPC proxy started at 127.0.0.1:8080
+2025-09-16 10:32:15.214 [INF] LTND config_builder.go:1009: Opening the main database, this might take a few minutes...
+2025-09-16 10:32:15.214 [INF] LTND config_builder.go:1014: Opening bbolt database, sync_freelist=false, auto_compact=false
+2025-09-16 10:32:15.215 [INF] LTND config_builder.go:1057: Creating local graph and channel state DB instances
+2025-09-16 10:32:15.238 [INF] CHDB db.go:1687: Checking for schema update: latest_version=33, db_version=33
+2025-09-16 10:32:15.238 [INF] CHDB db.go:1781: Applying 2 optional migrations
+2025-09-16 10:32:15.238 [INF] CHDB db.go:1785: Checking for optional update: name=prune_revocation_log
+2025-09-16 10:32:15.238 [DBG] CHDB db.go:1789: Skipping optional migration: name=prune_revocation_log as it is not specified in the config
+2025-09-16 10:32:15.238 [INF] CHDB db.go:1785: Checking for optional update: name=gc_decayed_log
+2025-09-16 10:32:15.238 [DBG] CHDB db.go:1799: Skipping optional migration: name=gc_decayed_log as it has already been applied
+2025-09-16 10:32:15.259 [INF] LTND config_builder.go:1289: Database(s) now open (time_to_open=44.7475ms)!
+2025-09-16 10:32:15.259 [INF] LTND signal.go:45: We're not running within systemd or the service type is not 'notify'
+2025-09-16 10:32:15.259 [INF] LTND config_builder.go:1302: Waiting for wallet encryption password. Use `lncli create` to create a wallet, `lncli unlock` to unlock an existing wallet, or `lncli changepassword` to change the password of an existing wallet and unlock it.
+2025-09-16 10:32:28.263 [DBG] RPCS interceptor.go:775: [/lnrpc.WalletUnlocker/UnlockWallet] requested
+2025-09-16 10:32:29.298 [INF] BTWL wallet.go:4340: Opened wallet
+2025-09-16 10:32:29.298 [INF] BTWL history.go:28: Dropping btcwallet transaction history
+2025-09-16 10:32:29.298 [WRN] BTWL history.go:67: Wallet does not have a birthday block set, falling back to rescan from genesis
+2025-09-16 10:32:30.333 [INF] BTWL wallet.go:4340: Opened wallet
+2025-09-16 10:32:30.333 [WRN] LTND config_builder.go:1432: Dropped all transaction history from on-chain wallet. Remember to disable reset-wallet-transactions flag for next start of lnd
+2025-09-16 10:32:30.433 [INF] CHRE chainregistry.go:694: Initializing electrum backend
+2025-09-16 10:32:30.433 [INF] CHRE chainregistry.go:695: ElectrumMode config: &{ServerAddr:testnet.aranguren.org:51002 UseTLS:true ValidateServerCertificate:false ConnectTimeout:30s RequestTimeout:30s PersistTxHistory:false}
+2025-09-16 10:32:30.433 [INF] CHRE chainregistry.go:699: ElectrumMode server: testnet.aranguren.org:51002
+2025/09/16 10:32:30 ELECTRUM: Config - ServerAddr: testnet.aranguren.org:51002, UseTLS: true, ValidateServerCertificate: false
+2025/09/16 10:32:30 ELECTRUM: Creating TLS client for server: testnet.aranguren.org:51002
+2025/09/16 10:32:30 ELECTRUM: Successfully created TLS client
+2025/09/16 10:32:30 ELECTRUM: Initializing best block during startup
+2025/09/16 10:32:30 ELECTRUM: GetBestBlock called
+2025/09/16 10:32:30 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:32:31 ELECTRUM: Got current height 4664420 from headers subscription
+2025/09/16 10:32:31 ELECTRUM: Returning hash 00000000000038b8e19a88938975486d99313e7ef55ef78bbbb52a7d43275ba3 for height 4664420 (from headers subscription)
+2025/09/16 10:32:31 ELECTRUM: Successfully initialized best block
+2025-09-16 10:32:31.236 [INF] LTND lnd.go:496: About to call BuildChainControl
+2025/09/16 10:32:31 ELECTRUM: Starting continuous block notification loop
+2025-09-16 10:32:31.236 [INF] LTND config_builder.go:769: BuildChainControl called - starting wallet controller creation
+2025-09-16 10:32:31.236 [INF] LTND config_builder.go:772: About to call btcwallet.New
+2025-09-16 10:32:31.236 [INF] LTND config_builder.go:776: btcwallet.New completed
+2025-09-16 10:32:31.236 [INF] LTND config_builder.go:789: Setting WalletController type: *btcwallet.BtcWallet
+2025-09-16 10:32:32.239 [INF] BTWL wallet.go:1430: The wallet has been unlocked without a time limit
+2025/09/16 10:32:32 ELECTRUM: Initializing best block during startup
+2025/09/16 10:32:32 ELECTRUM: GetBestBlock called
+2025/09/16 10:32:32 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:32:32 ELECTRUM: Got current height 4664421 from headers subscription
+2025/09/16 10:32:32 ELECTRUM: Returning hash 0000000000000ca0fc1751aab6815cd62d908747fb47a6d57431db1d77dc4104 for height 4664421 (from headers subscription)
+2025/09/16 10:32:32 ELECTRUM: Successfully initialized best block
+2025-09-16 10:32:32.492 [INF] BTWL btcwallet.go:405: BTCWALLET: Setting up Electrum address notifications during wallet initialization
+2025/09/16 10:32:32 ELECTRUM: Starting continuous block notification loop
+2025-09-16 10:32:32.492 [INF] BTWL btcwallet.go:469: BTCWALLET: Setting up Electrum transaction callback
+2025-09-16 10:32:32.492 [INF] BTWL btcwallet.go:476: BTCWALLET: Found SetTransactionCallback method, setting up callback
+2025-09-16 10:32:32.492 [INF] BTWL btcwallet.go:496: BTCWALLET: Successfully set up Electrum transaction callback
+2025-09-16 10:32:32.492 [INF] CHRE chainregistry.go:845: LightningWallet opened
+2025-09-16 10:32:32.492 [INF] LTND lnd.go:500: BuildChainControl completed
+2025-09-16 10:32:32.492 [INF] BTWL btcwallet.go:443: BTCWALLET: Setting up Electrum address notifications
+2025/09/16 10:32:32 ELECTRUM: Sending current best block to client 1 - Hash: 0000000000000ca0fc1751aab6815cd62d908747fb47a6d57431db1d77dc4104, Height: 4664421, BlockHeader: true
+2025-09-16 10:32:32.492 [INF] BTWL btcwallet.go:668: BTCWALLET: Getting all wallet addresses dynamically
+2025/09/16 10:32:32 ELECTRUM: Successfully sent block epoch to client 1
+2025-09-16 10:32:32.492 [INF] BTCN broadcaster.go:131: Broadcaster now active
+2025/09/16 10:32:32 ELECTRUM: Initializing best block during startup
+2025/09/16 10:32:32 ELECTRUM: GetBestBlock called
+2025/09/16 10:32:32 ELECTRUM: Subscribing to headers to get current height
+2025-09-16 10:32:32.580 [INF] BTWL btcwallet.go:710: BTCWALLET: Found 46 total addresses to check dynamically
+2025-09-16 10:32:32.580 [INF] BTWL btcwallet.go:452: BTCWALLET: Found 46 existing addresses to set up notifications for
+2025-09-16 10:32:32.580 [INF] BTWL btcwallet.go:548: BTCWALLET: Setting up notification for address: tb1q35l5pfwv0wj2x0w6dvfr6rdv43mrdavey28800
+2025-09-16 10:32:32.580 [INF] BTWL btcwallet.go:557: BTCWALLET: Calling chain.NotifyReceived for address: tb1q35l5pfwv0wj2x0w6dvfr6rdv43mrdavey28800
+ELECTRUM: NotifyReceived called with 1 addresses
+2025/09/16 10:32:32 ELECTRUM: Got current height 4664422 from headers subscription
+2025/09/16 10:32:32 ELECTRUM: Returning hash 000000000000209e19c60a15f5377e7a6fd75698e1040df83db313a7182f1203 for height 4664422 (from headers subscription)
+2025/09/16 10:32:32 ELECTRUM: Successfully initialized best block
+2025/09/16 10:32:32 ELECTRUM: GetBestBlock called
+2025/09/16 10:32:32 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:32:32 ELECTRUM: Starting continuous block notification loop
+ELECTRUM: Starting fetchAddressHistory for address: tb1q35l5pfwv0wj2x0w6dvfr6rdv43mrdavey28800
+2025-09-16 10:32:32.817 [INF] BTWL btcwallet.go:563: BTCWALLET: chain.NotifyReceived completed successfully for address: tb1q35l5pfwv0wj2x0w6dvfr6rdv43mrdavey28800
+2025-09-16 10:32:32.817 [INF] BTWL btcwallet.go:565: BTCWALLET: Successfully set up notification for address: tb1q35l5pfwv0wj2x0w6dvfr6rdv43mrdavey28800
+ELECTRUM: Fetching transaction history for address: tb1q35l5pfwv0wj2x0w6dvfr6rdv43mrdavey28800
+ELECTRUM: Calling GetHistory for address: tb1q35l5pfwv0wj2x0w6dvfr6rdv43mrdavey28800, scriptHash: 5402d6c137487f5e00d46c16a85ec56d25ab29f8636995d4bf586bc08bbce31e
+2025-09-16 10:32:32.817 [INF] BTWL btcwallet.go:548: BTCWALLET: Setting up notification for address: tb1q3wmfzpnluglv5auudgl2zzsne33auzpmr3vguv
+2025-09-16 10:32:32.817 [INF] BTWL btcwallet.go:557: BTCWALLET: Calling chain.NotifyReceived for address: tb1q3wmfzpnluglv5auudgl2zzsne33auzpmr3vguv
+ELECTRUM: NotifyReceived called with 1 addresses
+2025/09/16 10:32:32 ELECTRUM: Got current height 4664422 from headers subscription
+2025/09/16 10:32:32 ELECTRUM: Returning hash 000000000000209e19c60a15f5377e7a6fd75698e1040df83db313a7182f1203 for height 4664422 (from headers subscription)
+2025-09-16 10:32:32.998 [INF] HSWC circuit_map.go:280: Cleaning circuits from disk for closed channels
+2025-09-16 10:32:32.998 [DBG] HSWC circuit_map.go:324: Found 0 closed channels
+2025-09-16 10:32:32.998 [INF] HSWC circuit_map.go:328: Finished cleaning: no closed channels found, no actions taken.
+2025-09-16 10:32:32.998 [INF] HSWC circuit_map.go:497: Restoring in-memory circuit state from disk
+2025-09-16 10:32:33.009 [INF] HSWC circuit_map.go:602: Payment circuits loaded: num_pending=0, num_open=0
+2025-09-16 10:32:33.026 [DBG] CRTR missioncontrol.go:307: Instantiating mission control with config: maximum history: 1000, minimum failure relax interval: 1m0s, estimator type: apriori, penalty halflife time: 1h0m0s, apriori hop probability: 0.6, apriori weight: 0.5, previous success probability: 0.95, capacity fraction: 0.9999
+2025-09-16 10:32:33.035 [INF] CRTR missioncontrol_store.go:107: Loaded 0 mission control entries
+2025-09-16 10:32:33.035 [DBG] CRTR missioncontrol.go:455: [default]: Mission control state reconstruction started
+2025-09-16 10:32:33.035 [DBG] CRTR missioncontrol.go:471: [default]: Mission control state reconstruction finished: n=0, time=4.75µs
+2025-09-16 10:32:33.035 [DBG] SRVR server.go:1111: Instantiating payment session source with config: AttemptCost=100 + 0.1%, MinRouteProbability=0.01
+2025-09-16 10:32:33.046 [INF] ACSM accessman.go:79: Access Manager initialized
+ELECTRUM: Starting fetchAddressHistory for address: tb1q3wmfzpnluglv5auudgl2zzsne33auzpmr3vguv
+2025-09-16 10:32:33.056 [INF] BTWL btcwallet.go:563: BTCWALLET: chain.NotifyReceived completed successfully for address: tb1q3wmfzpnluglv5auudgl2zzsne33auzpmr3vguv
+ELECTRUM: Fetching transaction history for address: tb1q3wmfzpnluglv5auudgl2zzsne33auzpmr3vguv
+2025-09-16 10:32:33.056 [INF] BTWL btcwallet.go:565: BTCWALLET: Successfully set up notification for address: tb1q3wmfzpnluglv5auudgl2zzsne33auzpmr3vguv
+2025-09-16 10:32:33.056 [INF] LTND channel_notifier.go:39: Channel backup proxy channel notifier starting
+2025-09-16 10:32:33.056 [INF] BTWL btcwallet.go:548: BTCWALLET: Setting up notification for address: tb1qnf9a6cdf8c93ca97767cvted4y9a8lrjr9rctd
+ELECTRUM: Calling GetHistory for address: tb1q3wmfzpnluglv5auudgl2zzsne33auzpmr3vguv, scriptHash: b66131e80f4d50ca98ca6c1a4944746699c609136ce4aa4b4f162dd9de3dfe6d
+2025-09-16 10:32:33.056 [INF] BTWL btcwallet.go:557: BTCWALLET: Calling chain.NotifyReceived for address: tb1qnf9a6cdf8c93ca97767cvted4y9a8lrjr9rctd
+ELECTRUM: NotifyReceived called with 1 addresses
+2025-09-16 10:32:33.056 [INF] CHIO dispatcher.go:92: Registered queue=1 with 3 blockbeat consumers
+2025-09-16 10:32:33.056 [DBG] CHIO dispatcher.go:96: Consumer [ChainArbitrator] registered in queue 1
+2025-09-16 10:32:33.056 [DBG] CHIO dispatcher.go:96: Consumer [UtxoSweeper] registered in queue 1
+2025-09-16 10:32:33.056 [DBG] CHIO dispatcher.go:96: Consumer [TxPublisher] registered in queue 1
+2025-09-16 10:32:33.056 [INF] ATPL pilot.go:143: Instantiating autopilot with active=false, max_channels=5, allocation=0.600000, min_chan_size=20000, max_chan_size=16777215, private=false, min_confs=1, conf_target=3
+2025-09-16 10:32:33.057 [DBG] LTND subrpcserver_config.go:145: Populating dependencies for sub RPC server: SignRPC
+2025-09-16 10:32:33.057 [DBG] LTND subrpcserver_config.go:145: Populating dependencies for sub RPC server: WalletKitRPC
+2025-09-16 10:32:33.057 [DBG] LTND subrpcserver_config.go:145: Populating dependencies for sub RPC server: AutopilotRPC
+2025-09-16 10:32:33.057 [DBG] LTND subrpcserver_config.go:145: Populating dependencies for sub RPC server: ChainRPC
+2025-09-16 10:32:33.057 [DBG] LTND subrpcserver_config.go:145: Populating dependencies for sub RPC server: InvoicesRPC
+2025-09-16 10:32:33.057 [DBG] LTND subrpcserver_config.go:145: Populating dependencies for sub RPC server: PeersRPC
+2025-09-16 10:32:33.057 [DBG] LTND subrpcserver_config.go:145: Populating dependencies for sub RPC server: NeutrinoKitRPC
+2025-09-16 10:32:33.057 [DBG] LTND subrpcserver_config.go:145: Populating dependencies for sub RPC server: RouterRPC
+2025-09-16 10:32:33.057 [DBG] LTND subrpcserver_config.go:145: Populating dependencies for sub RPC server: WatchtowerRPC
+2025-09-16 10:32:33.057 [DBG] LTND subrpcserver_config.go:145: Populating dependencies for sub RPC server: WatchtowerClientRPC
+2025-09-16 10:32:33.057 [DBG] LTND subrpcserver_config.go:145: Populating dependencies for sub RPC server: DevRPC
+2025-09-16 10:32:33.057 [DBG] RPCS rpcserver.go:963: Starting sub RPC server: ChainRPC
+2025-09-16 10:32:33.057 [DBG] RPCS rpcserver.go:963: Starting sub RPC server: InvoicesRPC
+2025-09-16 10:32:33.057 [DBG] RPCS rpcserver.go:963: Starting sub RPC server: RouterRPC
+2025-09-16 10:32:33.057 [DBG] RPCS rpcserver.go:963: Starting sub RPC server: SignRPC
+2025-09-16 10:32:33.057 [DBG] RPCS rpcserver.go:963: Starting sub RPC server: VersionRPC
+2025-09-16 10:32:33.057 [DBG] RPCS rpcserver.go:963: Starting sub RPC server: WatchtowerClientRPC
+2025-09-16 10:32:33.057 [DBG] RPCS rpcserver.go:963: Starting sub RPC server: DevRPC
+2025-09-16 10:32:33.057 [DBG] RPCS rpcserver.go:963: Starting sub RPC server: PeersRPC
+2025-09-16 10:32:33.057 [DBG] RPCS rpcserver.go:963: Starting sub RPC server: WalletKitRPC
+2025-09-16 10:32:33.057 [INF] LTND signal.go:45: We're not running within systemd or the service type is not 'notify'
+2025/09/16 10:32:33 ELECTRUM: GetBestBlock called
+2025/09/16 10:32:33 ELECTRUM: Subscribing to headers to get current height
+ELECTRUM: Starting fetchAddressHistory for address: tb1qnf9a6cdf8c93ca97767cvted4y9a8lrjr9rctd
+2025-09-16 10:32:33.294 [INF] BTWL btcwallet.go:563: BTCWALLET: chain.NotifyReceived completed successfully for address: tb1qnf9a6cdf8c93ca97767cvted4y9a8lrjr9rctd
+ELECTRUM: Fetching transaction history for address: tb1qnf9a6cdf8c93ca97767cvted4y9a8lrjr9rctd
+ELECTRUM: Calling GetHistory for address: tb1qnf9a6cdf8c93ca97767cvted4y9a8lrjr9rctd, scriptHash: 6fc32843e990f987cd411ceb807c95b202cec6c3971e9cb4e6caa2b607feb8f5
+2025-09-16 10:32:33.294 [INF] BTWL btcwallet.go:565: BTCWALLET: Successfully set up notification for address: tb1qnf9a6cdf8c93ca97767cvted4y9a8lrjr9rctd
+2025-09-16 10:32:33.295 [INF] BTWL btcwallet.go:548: BTCWALLET: Setting up notification for address: tb1qudd8v6rz3m294gdmmmys29xugkl2f6qzgk3str
+2025-09-16 10:32:33.295 [INF] BTWL btcwallet.go:557: BTCWALLET: Calling chain.NotifyReceived for address: tb1qudd8v6rz3m294gdmmmys29xugkl2f6qzgk3str
+ELECTRUM: NotifyReceived called with 1 addresses
+2025/09/16 10:32:33 ELECTRUM: Got current height 4664422 from headers subscription
+2025/09/16 10:32:33 ELECTRUM: Returning hash 000000000000209e19c60a15f5377e7a6fd75698e1040df83db313a7182f1203 for height 4664422 (from headers subscription)
+2025-09-16 10:32:33.295 [INF] LTND lnd.go:696: Waiting for chain backend to finish sync rev=4d1c86 start_height=4664422
+2025/09/16 10:32:33 ELECTRUM: GetBestBlock called
+2025/09/16 10:32:33 ELECTRUM: Subscribing to headers to get current height
+ELECTRUM: Starting fetchAddressHistory for address: tb1qudd8v6rz3m294gdmmmys29xugkl2f6qzgk3str
+ELECTRUM: Fetching transaction history for address: tb1qudd8v6rz3m294gdmmmys29xugkl2f6qzgk3str
+ELECTRUM: Calling GetHistory for address: tb1qudd8v6rz3m294gdmmmys29xugkl2f6qzgk3str, scriptHash: 28292b8697bd25f1db778ae58cac1627a8e4b8e7a4a5a427ff50d42bafd07e52
+2025-09-16 10:32:33.533 [INF] BTWL btcwallet.go:563: BTCWALLET: chain.NotifyReceived completed successfully for address: tb1qudd8v6rz3m294gdmmmys29xugkl2f6qzgk3str
+2025-09-16 10:32:33.533 [INF] BTWL btcwallet.go:565: BTCWALLET: Successfully set up notification for address: tb1qudd8v6rz3m294gdmmmys29xugkl2f6qzgk3str
+2025-09-16 10:32:33.533 [INF] BTWL btcwallet.go:548: BTCWALLET: Setting up notification for address: tb1qzja2zr3jt2tn5j4emss49745hwdxagaqvru8d4
+2025-09-16 10:32:33.533 [INF] BTWL btcwallet.go:557: BTCWALLET: Calling chain.NotifyReceived for address: tb1qzja2zr3jt2tn5j4emss49745hwdxagaqvru8d4
+ELECTRUM: NotifyReceived called with 1 addresses
+2025/09/16 10:32:33 ELECTRUM: Got current height 4664422 from headers subscription
+2025/09/16 10:32:33 ELECTRUM: Returning hash 000000000000209e19c60a15f5377e7a6fd75698e1040df83db313a7182f1203 for height 4664422 (from headers subscription)
+2025/09/16 10:32:33 ELECTRUM: GetBlockHeader called for hash: 000000000000209e19c60a15f5377e7a6fd75698e1040df83db313a7182f1203
+2025/09/16 10:32:33 ELECTRUM: GetBestBlock called
+2025/09/16 10:32:33 ELECTRUM: Subscribing to headers to get current height
+ELECTRUM: Starting fetchAddressHistory for address: tb1qzja2zr3jt2tn5j4emss49745hwdxagaqvru8d4
+2025/09/16 10:32:33 ELECTRUM: Got current height 4664422 from headers subscription
+2025-09-16 10:32:33.797 [INF] BTWL btcwallet.go:563: BTCWALLET: chain.NotifyReceived completed successfully for address: tb1qzja2zr3jt2tn5j4emss49745hwdxagaqvru8d4
+2025/09/16 10:32:33 ELECTRUM: Returning hash 000000000000209e19c60a15f5377e7a6fd75698e1040df83db313a7182f1203 for height 4664422 (from headers subscription)
+ELECTRUM: Fetching transaction history for address: tb1qzja2zr3jt2tn5j4emss49745hwdxagaqvru8d4
+ELECTRUM: Calling GetHistory for address: tb1qzja2zr3jt2tn5j4emss49745hwdxagaqvru8d4, scriptHash: 6bf1890b216a5372d5a81a5ca9791137d77c1853dd628b5d3aa34d8ec00604a5
+2025-09-16 10:32:33.797 [INF] BTWL btcwallet.go:565: BTCWALLET: Successfully set up notification for address: tb1qzja2zr3jt2tn5j4emss49745hwdxagaqvru8d4
+2025-09-16 10:32:33.797 [INF] BTWL btcwallet.go:548: BTCWALLET: Setting up notification for address: tb1q25xq62ad6s9pymemadk7sf08alk3k6q7l4m5pj
+2025-09-16 10:32:33.797 [INF] BTWL btcwallet.go:557: BTCWALLET: Calling chain.NotifyReceived for address: tb1q25xq62ad6s9pymemadk7sf08alk3k6q7l4m5pj
+ELECTRUM: NotifyReceived called with 1 addresses
+ELECTRUM: Starting fetchAddressHistory for address: tb1q25xq62ad6s9pymemadk7sf08alk3k6q7l4m5pj
+ELECTRUM: Processing transaction 0 for address tb1qzja2zr3jt2tn5j4emss49745hwdxagaqvru8d4
+ELECTRUM: Calling buildTransactionDetail for entry 0
+ELECTRUM: buildTransactionDetail called with entry type: *electrum.GetMempoolResult
+ELECTRUM: Fetching transaction history for address: tb1q25xq62ad6s9pymemadk7sf08alk3k6q7l4m5pj
+ELECTRUM: Calling GetHistory for address: tb1q25xq62ad6s9pymemadk7sf08alk3k6q7l4m5pj, scriptHash: c4c6d9d832fdbfd4a966340001ce4a928adc558ad3cff548e1a78f0962aa141a
+2025-09-16 10:32:34.106 [INF] BTWL btcwallet.go:563: BTCWALLET: chain.NotifyReceived completed successfully for address: tb1q25xq62ad6s9pymemadk7sf08alk3k6q7l4m5pj
+2025-09-16 10:32:34.106 [DBG] LTND lnd.go:727: Syncing to block chain rev=4d1c86 best_block_time="2025-09-16 10:32:31 -0400 EDT" is_synced=false
+2025-09-16 10:32:34.106 [INF] BTWL btcwallet.go:565: BTCWALLET: Successfully set up notification for address: tb1q25xq62ad6s9pymemadk7sf08alk3k6q7l4m5pj
+2025-09-16 10:32:34.106 [INF] BTWL btcwallet.go:548: BTCWALLET: Setting up notification for address: tb1qu4ug4mres4yx49ts998805u2ale66jeah6dvxq
+2025-09-16 10:32:34.106 [INF] BTWL btcwallet.go:557: BTCWALLET: Calling chain.NotifyReceived for address: tb1qu4ug4mres4yx49ts998805u2ale66jeah6dvxq
+ELECTRUM: NotifyReceived called with 1 addresses
+2025/09/16 10:32:34 ELECTRUM: GetBestBlock called
+2025/09/16 10:32:34 ELECTRUM: Subscribing to headers to get current height
+ELECTRUM: Starting fetchAddressHistory for address: tb1qu4ug4mres4yx49ts998805u2ale66jeah6dvxq
+ELECTRUM: Fetching transaction history for address: tb1qu4ug4mres4yx49ts998805u2ale66jeah6dvxq
+ELECTRUM: Calling GetHistory for address: tb1qu4ug4mres4yx49ts998805u2ale66jeah6dvxq, scriptHash: ca676392dcbc659e23aa827453de1938add752fb16394cdd5252328fe3faa89e
+2025-09-16 10:32:34.347 [INF] BTWL btcwallet.go:563: BTCWALLET: chain.NotifyReceived completed successfully for address: tb1qu4ug4mres4yx49ts998805u2ale66jeah6dvxq
+2025-09-16 10:32:34.347 [INF] BTWL btcwallet.go:565: BTCWALLET: Successfully set up notification for address: tb1qu4ug4mres4yx49ts998805u2ale66jeah6dvxq
+2025-09-16 10:32:34.347 [INF] BTWL btcwallet.go:548: BTCWALLET: Setting up notification for address: tb1qs6nvlnyhs604adlsulc3p0c4fa0g80uutdukx9
+2025-09-16 10:32:34.347 [INF] BTWL btcwallet.go:557: BTCWALLET: Calling chain.NotifyReceived for address: tb1qs6nvlnyhs604adlsulc3p0c4fa0g80uutdukx9
+ELECTRUM: NotifyReceived called with 1 addresses
+2025/09/16 10:32:34 ELECTRUM: Got current height 4664422 from headers subscription
+2025/09/16 10:32:34 ELECTRUM: Returning hash 000000000000209e19c60a15f5377e7a6fd75698e1040df83db313a7182f1203 for height 4664422 (from headers subscription)
+2025/09/16 10:32:34 ELECTRUM: Sending initial block notification for height 4664422
+2025/09/16 10:32:34 ELECTRUM: Sending block connected notification for height 4664422
+2025/09/16 10:32:34 ELECTRUM: Block notification sent successfully for height 4664422
+ELECTRUM: Starting fetchAddressHistory for address: tb1qs6nvlnyhs604adlsulc3p0c4fa0g80uutdukx9
+2025-09-16 10:32:34.585 [INF] BTWL btcwallet.go:563: BTCWALLET: chain.NotifyReceived completed successfully for address: tb1qs6nvlnyhs604adlsulc3p0c4fa0g80uutdukx9
+ELECTRUM: Fetching transaction history for address: tb1qs6nvlnyhs604adlsulc3p0c4fa0g80uutdukx9
+ELECTRUM: Calling GetHistory for address: tb1qs6nvlnyhs604adlsulc3p0c4fa0g80uutdukx9, scriptHash: 86be3f5bd32e85596af35440487dae22a79e6fb2679998d38f51fc323189b022
+2025-09-16 10:32:34.585 [INF] BTWL btcwallet.go:565: BTCWALLET: Successfully set up notification for address: tb1qs6nvlnyhs604adlsulc3p0c4fa0g80uutdukx9
+2025-09-16 10:32:34.585 [INF] BTWL btcwallet.go:548: BTCWALLET: Setting up notification for address: tb1q8chvehh7ptzcfylzsgysk08cm3ppt8fvleeggz
+2025-09-16 10:32:34.585 [INF] BTWL btcwallet.go:557: BTCWALLET: Calling chain.NotifyReceived for address: tb1q8chvehh7ptzcfylzsgysk08cm3ppt8fvleeggz
+ELECTRUM: NotifyReceived called with 1 addresses
+2025/09/16 10:32:34 ELECTRUM: GetBlockHash called for height: 4660785
+ELECTRUM: Starting fetchAddressHistory for address: tb1q8chvehh7ptzcfylzsgysk08cm3ppt8fvleeggz
+2025-09-16 10:32:34.824 [INF] BTWL btcwallet.go:480: BTCWALLET: Received transaction callback - txHash: 25cd595c95040e2b75b6a0e6b20ee96db31aeb75c6b8e7c44c720f9bd1527963, address: tb1qzja2zr3jt2tn5j4emss49745hwdxagaqvru8d4, value: 0, confirmations: 3638
+ELECTRUM: Fetching transaction history for address: tb1q8chvehh7ptzcfylzsgysk08cm3ppt8fvleeggz
+ELECTRUM: Calling GetHistory for address: tb1q8chvehh7ptzcfylzsgysk08cm3ppt8fvleeggz, scriptHash: 8b874fe06c0a029126d30048dd68ce279f86ab73018e41fbce4e5db15bbd4d68
+2025-09-16 10:32:34.824 [INF] BTWL btcwallet.go:563: BTCWALLET: chain.NotifyReceived completed successfully for address: tb1q8chvehh7ptzcfylzsgysk08cm3ppt8fvleeggz
+2025-09-16 10:32:34.824 [INF] BTWL btcwallet.go:504: BTCWALLET: Integrating discovered transaction 25cd595c95040e2b75b6a0e6b20ee96db31aeb75c6b8e7c44c720f9bd1527963 for address tb1qzja2zr3jt2tn5j4emss49745hwdxagaqvru8d4 (value: 0, confirmations: 3638)
+2025-09-16 10:32:34.824 [INF] BTWL btcwallet.go:565: BTCWALLET: Successfully set up notification for address: tb1q8chvehh7ptzcfylzsgysk08cm3ppt8fvleeggz
+2025-09-16 10:32:34.824 [INF] BTWL btcwallet.go:540: BTCWALLET: Successfully integrated transaction 25cd595c95040e2b75b6a0e6b20ee96db31aeb75c6b8e7c44c720f9bd1527963 (value: 0 satoshis, confirmations: 3638)
+2025-09-16 10:32:34.824 [INF] BTWL btcwallet.go:548: BTCWALLET: Setting up notification for address: tb1q2xgdnhrez9r46a65g4jacpynkjmnfe6f6a7rv9
+2025-09-16 10:32:34.824 [INF] BTWL btcwallet.go:488: BTCWALLET: Successfully integrated discovered transaction 25cd595c95040e2b75b6a0e6b20ee96db31aeb75c6b8e7c44c720f9bd1527963
+2025-09-16 10:32:34.824 [INF] BTWL btcwallet.go:557: BTCWALLET: Calling chain.NotifyReceived for address: tb1q2xgdnhrez9r46a65g4jacpynkjmnfe6f6a7rv9
+ELECTRUM: NotifyReceived called with 1 addresses
+ELECTRUM: Starting fetchAddressHistory for address: tb1q2xgdnhrez9r46a65g4jacpynkjmnfe6f6a7rv9
+2025-09-16 10:32:35.071 [INF] BTWL btcwallet.go:563: BTCWALLET: chain.NotifyReceived completed successfully for address: tb1q2xgdnhrez9r46a65g4jacpynkjmnfe6f6a7rv9
+ELECTRUM: Fetching transaction history for address: tb1q2xgdnhrez9r46a65g4jacpynkjmnfe6f6a7rv9
+ELECTRUM: Calling GetHistory for address: tb1q2xgdnhrez9r46a65g4jacpynkjmnfe6f6a7rv9, scriptHash: 8ffe8589aabc0270d07eb3d7eb59003aea385db49b2f2cda6a405ba17ae25436
+2025-09-16 10:32:35.072 [INF] BTWL btcwallet.go:565: BTCWALLET: Successfully set up notification for address: tb1q2xgdnhrez9r46a65g4jacpynkjmnfe6f6a7rv9
+2025-09-16 10:32:35.072 [INF] BTWL btcwallet.go:548: BTCWALLET: Setting up notification for address: tb1qjka5z9xsg53v4925jn28umwwz3u5tyh302wg30
+2025-09-16 10:32:35.072 [INF] BTWL btcwallet.go:557: BTCWALLET: Calling chain.NotifyReceived for address: tb1qjka5z9xsg53v4925jn28umwwz3u5tyh302wg30
+ELECTRUM: NotifyReceived called with 1 addresses
+2025/09/16 10:32:35 ELECTRUM: GetBestBlock called
+2025/09/16 10:32:35 ELECTRUM: Subscribing to headers to get current height
+ELECTRUM: Starting fetchAddressHistory for address: tb1qjka5z9xsg53v4925jn28umwwz3u5tyh302wg30
+2025-09-16 10:32:35.311 [INF] BTWL btcwallet.go:563: BTCWALLET: chain.NotifyReceived completed successfully for address: tb1qjka5z9xsg53v4925jn28umwwz3u5tyh302wg30
+ELECTRUM: Fetching transaction history for address: tb1qjka5z9xsg53v4925jn28umwwz3u5tyh302wg30
+ELECTRUM: Calling GetHistory for address: tb1qjka5z9xsg53v4925jn28umwwz3u5tyh302wg30, scriptHash: 30311d2d2edd9aabdf8d1684192145260c6f30c8c843ae927758b737aac07235
+2025-09-16 10:32:35.311 [INF] BTWL btcwallet.go:565: BTCWALLET: Successfully set up notification for address: tb1qjka5z9xsg53v4925jn28umwwz3u5tyh302wg30
+2025-09-16 10:32:35.312 [INF] BTWL btcwallet.go:548: BTCWALLET: Setting up notification for address: tb1qy84s4sf7y0eetkst3eaah849ky60jdjra09ptk
+2025-09-16 10:32:35.312 [INF] BTWL btcwallet.go:557: BTCWALLET: Calling chain.NotifyReceived for address: tb1qy84s4sf7y0eetkst3eaah849ky60jdjra09ptk
+ELECTRUM: NotifyReceived called with 1 addresses
+2025/09/16 10:32:35 ELECTRUM: Got current height 4664422 from headers subscription
+2025/09/16 10:32:35 ELECTRUM: Returning hash 000000000000209e19c60a15f5377e7a6fd75698e1040df83db313a7182f1203 for height 4664422 (from headers subscription)
+2025/09/16 10:32:35 ELECTRUM: GetBlockHeader called for hash: 000000000000209e19c60a15f5377e7a6fd75698e1040df83db313a7182f1203
+2025/09/16 10:32:35 ELECTRUM: GetBestBlock called
+2025/09/16 10:32:35 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:32:35 ELECTRUM: GetBestBlock called
+2025/09/16 10:32:35 ELECTRUM: Subscribing to headers to get current height
+ELECTRUM: Starting fetchAddressHistory for address: tb1qy84s4sf7y0eetkst3eaah849ky60jdjra09ptk
+2025-09-16 10:32:35.550 [INF] BTWL btcwallet.go:563: BTCWALLET: chain.NotifyReceived completed successfully for address: tb1qy84s4sf7y0eetkst3eaah849ky60jdjra09ptk
+ELECTRUM: Fetching transaction history for address: tb1qy84s4sf7y0eetkst3eaah849ky60jdjra09ptk
+2025-09-16 10:32:35.550 [INF] BTWL btcwallet.go:565: BTCWALLET: Successfully set up notification for address: tb1qy84s4sf7y0eetkst3eaah849ky60jdjra09ptk
+ELECTRUM: Calling GetHistory for address: tb1qy84s4sf7y0eetkst3eaah849ky60jdjra09ptk, scriptHash: e49ffa552cb23af49332713f9fedd2efce14dc2902c11597fda6ea1fb83468cc
+2025-09-16 10:32:35.550 [INF] BTWL btcwallet.go:548: BTCWALLET: Setting up notification for address: tb1q84gk7xt5mkcd5d0kn2pj26gep8zdp8esy5jst5
+2025-09-16 10:32:35.550 [INF] BTWL btcwallet.go:557: BTCWALLET: Calling chain.NotifyReceived for address: tb1q84gk7xt5mkcd5d0kn2pj26gep8zdp8esy5jst5
+ELECTRUM: NotifyReceived called with 1 addresses
+2025/09/16 10:32:35 ELECTRUM: Got current height 4664422 from headers subscription
+2025/09/16 10:32:35 ELECTRUM: Returning hash 000000000000209e19c60a15f5377e7a6fd75698e1040df83db313a7182f1203 for height 4664422 (from headers subscription)
+2025/09/16 10:32:35 ELECTRUM: Got current height 4664422 from headers subscription
+2025/09/16 10:32:35 ELECTRUM: Returning hash 000000000000209e19c60a15f5377e7a6fd75698e1040df83db313a7182f1203 for height 4664422 (from headers subscription)
+2025/09/16 10:32:35 ELECTRUM: Sending initial block notification for height 4664422
+2025/09/16 10:32:35 ELECTRUM: Sending block connected notification for height 4664422
+2025/09/16 10:32:35 ELECTRUM: Block notification sent successfully for height 4664422
+2025/09/16 10:32:35 ELECTRUM: GetBestBlock called
+2025/09/16 10:32:35 ELECTRUM: Subscribing to headers to get current height
+ELECTRUM: Starting fetchAddressHistory for address: tb1q84gk7xt5mkcd5d0kn2pj26gep8zdp8esy5jst5
+2025-09-16 10:32:35.786 [INF] BTWL btcwallet.go:563: BTCWALLET: chain.NotifyReceived completed successfully for address: tb1q84gk7xt5mkcd5d0kn2pj26gep8zdp8esy5jst5
+ELECTRUM: Fetching transaction history for address: tb1q84gk7xt5mkcd5d0kn2pj26gep8zdp8esy5jst5
+ELECTRUM: Calling GetHistory for address: tb1q84gk7xt5mkcd5d0kn2pj26gep8zdp8esy5jst5, scriptHash: 0ef136938f4e6ec14f5b140956aa93ab312107d6eed8cc07ab19f19ecfb78117
+2025-09-16 10:32:35.786 [INF] BTWL btcwallet.go:565: BTCWALLET: Successfully set up notification for address: tb1q84gk7xt5mkcd5d0kn2pj26gep8zdp8esy5jst5
+2025-09-16 10:32:35.786 [INF] BTWL btcwallet.go:548: BTCWALLET: Setting up notification for address: tb1qf07tpug9zz6vffhhm3amvqtujhldkcv2j2wycf
+2025-09-16 10:32:35.786 [INF] BTWL btcwallet.go:557: BTCWALLET: Calling chain.NotifyReceived for address: tb1qf07tpug9zz6vffhhm3amvqtujhldkcv2j2wycf
+ELECTRUM: NotifyReceived called with 1 addresses
+2025-09-16 10:32:35.819 [DBG] LTND lnd.go:727: Syncing to block chain rev=4d1c86 best_block_time="2025-09-16 10:32:31 -0400 EDT" is_synced=false
+2025/09/16 10:32:35 ELECTRUM: Got current height 4664422 from headers subscription
+2025/09/16 10:32:35 ELECTRUM: Returning hash 000000000000209e19c60a15f5377e7a6fd75698e1040df83db313a7182f1203 for height 4664422 (from headers subscription)
+2025/09/16 10:32:35 ELECTRUM: Sending initial block notification for height 4664422
+2025/09/16 10:32:35 ELECTRUM: Sending block connected notification for height 4664422
+2025/09/16 10:32:35 ELECTRUM: Block notification sent successfully for height 4664422
+ELECTRUM: Starting fetchAddressHistory for address: tb1qf07tpug9zz6vffhhm3amvqtujhldkcv2j2wycf
+2025-09-16 10:32:36.024 [INF] BTWL btcwallet.go:563: BTCWALLET: chain.NotifyReceived completed successfully for address: tb1qf07tpug9zz6vffhhm3amvqtujhldkcv2j2wycf
+ELECTRUM: Fetching transaction history for address: tb1qf07tpug9zz6vffhhm3amvqtujhldkcv2j2wycf
+ELECTRUM: Calling GetHistory for address: tb1qf07tpug9zz6vffhhm3amvqtujhldkcv2j2wycf, scriptHash: fb61782f1e6f1393af564ec097b0ea9834062d5649138e20295f647f97a5361c
+2025-09-16 10:32:36.024 [INF] BTWL btcwallet.go:565: BTCWALLET: Successfully set up notification for address: tb1qf07tpug9zz6vffhhm3amvqtujhldkcv2j2wycf
+2025-09-16 10:32:36.024 [INF] BTWL btcwallet.go:548: BTCWALLET: Setting up notification for address: tb1pv6wu2k2pls6eclghkyv4rehmv8pf93kj5x7pejzak3gzd3a9778shsgnq0
+2025-09-16 10:32:36.024 [INF] BTWL btcwallet.go:557: BTCWALLET: Calling chain.NotifyReceived for address: tb1pv6wu2k2pls6eclghkyv4rehmv8pf93kj5x7pejzak3gzd3a9778shsgnq0
+ELECTRUM: NotifyReceived called with 1 addresses
+ELECTRUM: Starting fetchAddressHistory for address: tb1pv6wu2k2pls6eclghkyv4rehmv8pf93kj5x7pejzak3gzd3a9778shsgnq0
+2025-09-16 10:32:36.356 [INF] BTWL btcwallet.go:563: BTCWALLET: chain.NotifyReceived completed successfully for address: tb1pv6wu2k2pls6eclghkyv4rehmv8pf93kj5x7pejzak3gzd3a9778shsgnq0
+ELECTRUM: Fetching transaction history for address: tb1pv6wu2k2pls6eclghkyv4rehmv8pf93kj5x7pejzak3gzd3a9778shsgnq0
+ELECTRUM: Calling GetHistory for address: tb1pv6wu2k2pls6eclghkyv4rehmv8pf93kj5x7pejzak3gzd3a9778shsgnq0, scriptHash: 8578ba4feebf5378a3775363d531f253b8fbf9b00df139d1346ef1cbb8d17245
+2025-09-16 10:32:36.356 [INF] BTWL btcwallet.go:565: BTCWALLET: Successfully set up notification for address: tb1pv6wu2k2pls6eclghkyv4rehmv8pf93kj5x7pejzak3gzd3a9778shsgnq0
+2025-09-16 10:32:36.356 [INF] BTWL btcwallet.go:548: BTCWALLET: Setting up notification for address: tb1pqxhwj0c5z7jkz6pcur2lryehylrl4yzh0fvgphnpf769578k2qwqq8pvqd
+2025-09-16 10:32:36.356 [INF] BTWL btcwallet.go:557: BTCWALLET: Calling chain.NotifyReceived for address: tb1pqxhwj0c5z7jkz6pcur2lryehylrl4yzh0fvgphnpf769578k2qwqq8pvqd
+ELECTRUM: NotifyReceived called with 1 addresses
+ELECTRUM: Processing transaction 0 for address tb1pv6wu2k2pls6eclghkyv4rehmv8pf93kj5x7pejzak3gzd3a9778shsgnq0
+ELECTRUM: Calling buildTransactionDetail for entry 0
+ELECTRUM: buildTransactionDetail called with entry type: *electrum.GetMempoolResult
+ELECTRUM: Starting fetchAddressHistory for address: tb1pqxhwj0c5z7jkz6pcur2lryehylrl4yzh0fvgphnpf769578k2qwqq8pvqd
+ELECTRUM: Fetching transaction history for address: tb1pqxhwj0c5z7jkz6pcur2lryehylrl4yzh0fvgphnpf769578k2qwqq8pvqd
+ELECTRUM: Calling GetHistory for address: tb1pqxhwj0c5z7jkz6pcur2lryehylrl4yzh0fvgphnpf769578k2qwqq8pvqd, scriptHash: b4b1be16fa88724c29732edb1ff71e5ab276106ae5fc1021dbec298966da0b83
+2025-09-16 10:32:36.664 [INF] BTWL btcwallet.go:563: BTCWALLET: chain.NotifyReceived completed successfully for address: tb1pqxhwj0c5z7jkz6pcur2lryehylrl4yzh0fvgphnpf769578k2qwqq8pvqd
+2025-09-16 10:32:36.664 [INF] BTWL btcwallet.go:565: BTCWALLET: Successfully set up notification for address: tb1pqxhwj0c5z7jkz6pcur2lryehylrl4yzh0fvgphnpf769578k2qwqq8pvqd
+2025-09-16 10:32:36.664 [INF] BTWL btcwallet.go:548: BTCWALLET: Setting up notification for address: tb1pyts089s2l3zpfhculluw6lxzwfsary8cj9m26edtrqxss7p7qydqat9hw2
+2025-09-16 10:32:36.664 [INF] BTWL btcwallet.go:557: BTCWALLET: Calling chain.NotifyReceived for address: tb1pyts089s2l3zpfhculluw6lxzwfsary8cj9m26edtrqxss7p7qydqat9hw2
+ELECTRUM: NotifyReceived called with 1 addresses
+2025/09/16 10:32:36 ELECTRUM: GetBestBlock called
+2025/09/16 10:32:36 ELECTRUM: Subscribing to headers to get current height
+ELECTRUM: Starting fetchAddressHistory for address: tb1pyts089s2l3zpfhculluw6lxzwfsary8cj9m26edtrqxss7p7qydqat9hw2
+2025-09-16 10:32:36.907 [INF] BTWL btcwallet.go:563: BTCWALLET: chain.NotifyReceived completed successfully for address: tb1pyts089s2l3zpfhculluw6lxzwfsary8cj9m26edtrqxss7p7qydqat9hw2
+2025-09-16 10:32:36.907 [INF] BTWL btcwallet.go:565: BTCWALLET: Successfully set up notification for address: tb1pyts089s2l3zpfhculluw6lxzwfsary8cj9m26edtrqxss7p7qydqat9hw2
+ELECTRUM: Fetching transaction history for address: tb1pyts089s2l3zpfhculluw6lxzwfsary8cj9m26edtrqxss7p7qydqat9hw2
+ELECTRUM: Calling GetHistory for address: tb1pyts089s2l3zpfhculluw6lxzwfsary8cj9m26edtrqxss7p7qydqat9hw2, scriptHash: f67a34ebd66063c1a926b52c9a5e00f290e890e3b2a8b3acf99e6ca0840e2c69
+2025-09-16 10:32:36.907 [INF] BTWL btcwallet.go:548: BTCWALLET: Setting up notification for address: tb1py0jfpc0ft4zsfhg7p3peze4q6wdl9l2gfwzf8ar64skxkhz9v9lsuhm2g4
+2025-09-16 10:32:36.907 [INF] BTWL btcwallet.go:557: BTCWALLET: Calling chain.NotifyReceived for address: tb1py0jfpc0ft4zsfhg7p3peze4q6wdl9l2gfwzf8ar64skxkhz9v9lsuhm2g4
+ELECTRUM: NotifyReceived called with 1 addresses
+2025/09/16 10:32:37 ELECTRUM: Got current height 4664422 from headers subscription
+2025/09/16 10:32:37 ELECTRUM: Returning hash 000000000000209e19c60a15f5377e7a6fd75698e1040df83db313a7182f1203 for height 4664422 (from headers subscription)
+2025/09/16 10:32:37 ELECTRUM: GetBlockHeader called for hash: 000000000000209e19c60a15f5377e7a6fd75698e1040df83db313a7182f1203
+2025/09/16 10:32:37 ELECTRUM: GetBestBlock called
+2025/09/16 10:32:37 ELECTRUM: Subscribing to headers to get current height
+ELECTRUM: Processing transaction 0 for address tb1pyts089s2l3zpfhculluw6lxzwfsary8cj9m26edtrqxss7p7qydqat9hw2
+ELECTRUM: Calling buildTransactionDetail for entry 0
+ELECTRUM: buildTransactionDetail called with entry type: *electrum.GetMempoolResult
+2025/09/16 10:32:37 ELECTRUM: GetBlockHash called for height: 4660782
+ELECTRUM: Starting fetchAddressHistory for address: tb1py0jfpc0ft4zsfhg7p3peze4q6wdl9l2gfwzf8ar64skxkhz9v9lsuhm2g4
+2025-09-16 10:32:37.148 [INF] BTWL btcwallet.go:563: BTCWALLET: chain.NotifyReceived completed successfully for address: tb1py0jfpc0ft4zsfhg7p3peze4q6wdl9l2gfwzf8ar64skxkhz9v9lsuhm2g4
+ELECTRUM: Fetching transaction history for address: tb1py0jfpc0ft4zsfhg7p3peze4q6wdl9l2gfwzf8ar64skxkhz9v9lsuhm2g4
+ELECTRUM: Calling GetHistory for address: tb1py0jfpc0ft4zsfhg7p3peze4q6wdl9l2gfwzf8ar64skxkhz9v9lsuhm2g4, scriptHash: 1f1546aea3cb0bbe6272bb05f049b1d43ea9cd69a421402946f1e21b67d24a7f
+2025-09-16 10:32:37.148 [INF] BTWL btcwallet.go:565: BTCWALLET: Successfully set up notification for address: tb1py0jfpc0ft4zsfhg7p3peze4q6wdl9l2gfwzf8ar64skxkhz9v9lsuhm2g4
+2025-09-16 10:32:37.148 [INF] BTWL btcwallet.go:548: BTCWALLET: Setting up notification for address: tb1putvlls3ekqm74khy2ls7hdadxn4ldxsuh9v2thg7hyht9ysjlvsqqwjnw6
+2025-09-16 10:32:37.148 [INF] BTWL btcwallet.go:557: BTCWALLET: Calling chain.NotifyReceived for address: tb1putvlls3ekqm74khy2ls7hdadxn4ldxsuh9v2thg7hyht9ysjlvsqqwjnw6
+ELECTRUM: NotifyReceived called with 1 addresses
+2025/09/16 10:32:37 ELECTRUM: Got current height 4664422 from headers subscription
+2025/09/16 10:32:37 ELECTRUM: Returning hash 000000000000209e19c60a15f5377e7a6fd75698e1040df83db313a7182f1203 for height 4664422 (from headers subscription)
+2025-09-16 10:32:37.391 [INF] BTWL btcwallet.go:480: BTCWALLET: Received transaction callback - txHash: 53c28422f27e5b7d71977dfbc73a0c85480a9d618c75b05b4cbaf178747f914b, address: tb1pv6wu2k2pls6eclghkyv4rehmv8pf93kj5x7pejzak3gzd3a9778shsgnq0, value: 0, confirmations: 3641
+ELECTRUM: Starting fetchAddressHistory for address: tb1putvlls3ekqm74khy2ls7hdadxn4ldxsuh9v2thg7hyht9ysjlvsqqwjnw6
+ELECTRUM: Processing transaction 0 for address tb1py0jfpc0ft4zsfhg7p3peze4q6wdl9l2gfwzf8ar64skxkhz9v9lsuhm2g4
+ELECTRUM: Calling buildTransactionDetail for entry 0
+ELECTRUM: buildTransactionDetail called with entry type: *electrum.GetMempoolResult
+ELECTRUM: Fetching transaction history for address: tb1putvlls3ekqm74khy2ls7hdadxn4ldxsuh9v2thg7hyht9ysjlvsqqwjnw6
+ELECTRUM: Calling GetHistory for address: tb1putvlls3ekqm74khy2ls7hdadxn4ldxsuh9v2thg7hyht9ysjlvsqqwjnw6, scriptHash: 772c610aa6b1b17496234e4d5e817a7bb5a9bedae737ff88e3f62109756fbe0f
+2025-09-16 10:32:37.391 [INF] BTWL btcwallet.go:504: BTCWALLET: Integrating discovered transaction 53c28422f27e5b7d71977dfbc73a0c85480a9d618c75b05b4cbaf178747f914b for address tb1pv6wu2k2pls6eclghkyv4rehmv8pf93kj5x7pejzak3gzd3a9778shsgnq0 (value: 0, confirmations: 3641)
+2025-09-16 10:32:37.391 [INF] BTWL btcwallet.go:563: BTCWALLET: chain.NotifyReceived completed successfully for address: tb1putvlls3ekqm74khy2ls7hdadxn4ldxsuh9v2thg7hyht9ysjlvsqqwjnw6
+2025-09-16 10:32:37.391 [INF] BTWL btcwallet.go:540: BTCWALLET: Successfully integrated transaction 53c28422f27e5b7d71977dfbc73a0c85480a9d618c75b05b4cbaf178747f914b (value: 0 satoshis, confirmations: 3641)
+2025-09-16 10:32:37.391 [INF] BTWL btcwallet.go:565: BTCWALLET: Successfully set up notification for address: tb1putvlls3ekqm74khy2ls7hdadxn4ldxsuh9v2thg7hyht9ysjlvsqqwjnw6
+2025-09-16 10:32:37.391 [INF] BTWL btcwallet.go:488: BTCWALLET: Successfully integrated discovered transaction 53c28422f27e5b7d71977dfbc73a0c85480a9d618c75b05b4cbaf178747f914b
+2025-09-16 10:32:37.391 [INF] BTWL btcwallet.go:548: BTCWALLET: Setting up notification for address: tb1pm2zwfrhd04ue5dqlwt8nvg9vdd8kcp75nsh3lmnat2mqmelg2vks5vkvfj
+2025-09-16 10:32:37.391 [INF] BTWL btcwallet.go:557: BTCWALLET: Calling chain.NotifyReceived for address: tb1pm2zwfrhd04ue5dqlwt8nvg9vdd8kcp75nsh3lmnat2mqmelg2vks5vkvfj
+ELECTRUM: NotifyReceived called with 1 addresses
+2025-09-16 10:32:37.544 [DBG] LTND lnd.go:727: Syncing to block chain rev=4d1c86 best_block_time="2025-09-16 10:32:31 -0400 EDT" is_synced=false
+ELECTRUM: Starting fetchAddressHistory for address: tb1pm2zwfrhd04ue5dqlwt8nvg9vdd8kcp75nsh3lmnat2mqmelg2vks5vkvfj
+2025-09-16 10:32:37.632 [INF] BTWL btcwallet.go:563: BTCWALLET: chain.NotifyReceived completed successfully for address: tb1pm2zwfrhd04ue5dqlwt8nvg9vdd8kcp75nsh3lmnat2mqmelg2vks5vkvfj
+2025-09-16 10:32:37.632 [INF] BTWL btcwallet.go:565: BTCWALLET: Successfully set up notification for address: tb1pm2zwfrhd04ue5dqlwt8nvg9vdd8kcp75nsh3lmnat2mqmelg2vks5vkvfj
+2025-09-16 10:32:37.632 [INF] BTWL btcwallet.go:548: BTCWALLET: Setting up notification for address: tb1pvhkycu546rfek5tpkmns0dwxc7v74ul3dlad7as8gflywg3plsvqy8mc4j
+2025-09-16 10:32:37.632 [INF] BTWL btcwallet.go:557: BTCWALLET: Calling chain.NotifyReceived for address: tb1pvhkycu546rfek5tpkmns0dwxc7v74ul3dlad7as8gflywg3plsvqy8mc4j
+ELECTRUM: Fetching transaction history for address: tb1pm2zwfrhd04ue5dqlwt8nvg9vdd8kcp75nsh3lmnat2mqmelg2vks5vkvfj
+2025/09/16 10:32:37 ELECTRUM: GetBlockHash called for height: 4661302
+ELECTRUM: Calling GetHistory for address: tb1pm2zwfrhd04ue5dqlwt8nvg9vdd8kcp75nsh3lmnat2mqmelg2vks5vkvfj, scriptHash: c5c501974b54b604a07b751557f5492a62e0024f3b6de9e8a3c970fe9f4e8f65
+ELECTRUM: NotifyReceived called with 1 addresses
+ELECTRUM: Starting fetchAddressHistory for address: tb1pvhkycu546rfek5tpkmns0dwxc7v74ul3dlad7as8gflywg3plsvqy8mc4j
+ELECTRUM: Fetching transaction history for address: tb1pvhkycu546rfek5tpkmns0dwxc7v74ul3dlad7as8gflywg3plsvqy8mc4j
+ELECTRUM: Calling GetHistory for address: tb1pvhkycu546rfek5tpkmns0dwxc7v74ul3dlad7as8gflywg3plsvqy8mc4j, scriptHash: 8c695d50cc3c9b971f716464bca5a0adcd8d5334c79d76ffe4776646c0a2228f
+2025-09-16 10:32:37.893 [INF] BTWL btcwallet.go:563: BTCWALLET: chain.NotifyReceived completed successfully for address: tb1pvhkycu546rfek5tpkmns0dwxc7v74ul3dlad7as8gflywg3plsvqy8mc4j
+2025-09-16 10:32:37.893 [INF] BTWL btcwallet.go:565: BTCWALLET: Successfully set up notification for address: tb1pvhkycu546rfek5tpkmns0dwxc7v74ul3dlad7as8gflywg3plsvqy8mc4j
+2025-09-16 10:32:37.893 [INF] BTWL btcwallet.go:548: BTCWALLET: Setting up notification for address: tb1p0gzw3zejyhpcnhel6fk44utj2wdvt6qeqm98nqxu6j56fcwme4psvdhc46
+2025-09-16 10:32:37.893 [INF] BTWL btcwallet.go:480: BTCWALLET: Received transaction callback - txHash: 51abc2a15b01e008362af0075a3616d445af203deaea3abcad4d94f607dbafab, address: tb1pyts089s2l3zpfhculluw6lxzwfsary8cj9m26edtrqxss7p7qydqat9hw2, value: 0, confirmations: 3121
+2025-09-16 10:32:37.893 [INF] BTWL btcwallet.go:504: BTCWALLET: Integrating discovered transaction 51abc2a15b01e008362af0075a3616d445af203deaea3abcad4d94f607dbafab for address tb1pyts089s2l3zpfhculluw6lxzwfsary8cj9m26edtrqxss7p7qydqat9hw2 (value: 0, confirmations: 3121)
+2025-09-16 10:32:37.893 [INF] BTWL btcwallet.go:557: BTCWALLET: Calling chain.NotifyReceived for address: tb1p0gzw3zejyhpcnhel6fk44utj2wdvt6qeqm98nqxu6j56fcwme4psvdhc46
+2025-09-16 10:32:37.894 [INF] BTWL btcwallet.go:540: BTCWALLET: Successfully integrated transaction 51abc2a15b01e008362af0075a3616d445af203deaea3abcad4d94f607dbafab (value: 0 satoshis, confirmations: 3121)
+ELECTRUM: NotifyReceived called with 1 addresses
+2025-09-16 10:32:37.894 [INF] BTWL btcwallet.go:488: BTCWALLET: Successfully integrated discovered transaction 51abc2a15b01e008362af0075a3616d445af203deaea3abcad4d94f607dbafab
+2025/09/16 10:32:37 ELECTRUM: GetBlockHash called for height: 4661802
+ELECTRUM: Processing transaction 0 for address tb1pvhkycu546rfek5tpkmns0dwxc7v74ul3dlad7as8gflywg3plsvqy8mc4j
+ELECTRUM: Calling buildTransactionDetail for entry 0
+ELECTRUM: buildTransactionDetail called with entry type: *electrum.GetMempoolResult
+2025-09-16 10:32:38.136 [INF] BTWL btcwallet.go:480: BTCWALLET: Received transaction callback - txHash: 480e83a34f676e6fcff1d82c4b2f7b2132407fd27b73878de31f52da6305fd94, address: tb1py0jfpc0ft4zsfhg7p3peze4q6wdl9l2gfwzf8ar64skxkhz9v9lsuhm2g4, value: 0, confirmations: 2621
+ELECTRUM: Starting fetchAddressHistory for address: tb1p0gzw3zejyhpcnhel6fk44utj2wdvt6qeqm98nqxu6j56fcwme4psvdhc46
+2025-09-16 10:32:38.136 [INF] BTWL btcwallet.go:504: BTCWALLET: Integrating discovered transaction 480e83a34f676e6fcff1d82c4b2f7b2132407fd27b73878de31f52da6305fd94 for address tb1py0jfpc0ft4zsfhg7p3peze4q6wdl9l2gfwzf8ar64skxkhz9v9lsuhm2g4 (value: 0, confirmations: 2621)
+ELECTRUM: Fetching transaction history for address: tb1p0gzw3zejyhpcnhel6fk44utj2wdvt6qeqm98nqxu6j56fcwme4psvdhc46
+ELECTRUM: Calling GetHistory for address: tb1p0gzw3zejyhpcnhel6fk44utj2wdvt6qeqm98nqxu6j56fcwme4psvdhc46, scriptHash: e5d8548e6042aa54fcbebb2539efa284c89350ce19c9141286a2f910de14df05
+2025-09-16 10:32:38.136 [INF] BTWL btcwallet.go:563: BTCWALLET: chain.NotifyReceived completed successfully for address: tb1p0gzw3zejyhpcnhel6fk44utj2wdvt6qeqm98nqxu6j56fcwme4psvdhc46
+2025-09-16 10:32:38.136 [INF] BTWL btcwallet.go:540: BTCWALLET: Successfully integrated transaction 480e83a34f676e6fcff1d82c4b2f7b2132407fd27b73878de31f52da6305fd94 (value: 0 satoshis, confirmations: 2621)
+2025-09-16 10:32:38.137 [INF] BTWL btcwallet.go:565: BTCWALLET: Successfully set up notification for address: tb1p0gzw3zejyhpcnhel6fk44utj2wdvt6qeqm98nqxu6j56fcwme4psvdhc46
+2025-09-16 10:32:38.137 [INF] BTWL btcwallet.go:488: BTCWALLET: Successfully integrated discovered transaction 480e83a34f676e6fcff1d82c4b2f7b2132407fd27b73878de31f52da6305fd94
+2025-09-16 10:32:38.137 [INF] BTWL btcwallet.go:548: BTCWALLET: Setting up notification for address: tb1pdt36eq5eqqfmretmf5fttd08w0xvwvz6xlyzy85mn7ae4fxag0gs84m89j
+2025-09-16 10:32:38.137 [INF] BTWL btcwallet.go:557: BTCWALLET: Calling chain.NotifyReceived for address: tb1pdt36eq5eqqfmretmf5fttd08w0xvwvz6xlyzy85mn7ae4fxag0gs84m89j
+ELECTRUM: NotifyReceived called with 1 addresses
+ELECTRUM: Starting fetchAddressHistory for address: tb1pdt36eq5eqqfmretmf5fttd08w0xvwvz6xlyzy85mn7ae4fxag0gs84m89j
+2025-09-16 10:32:38.373 [INF] BTWL btcwallet.go:563: BTCWALLET: chain.NotifyReceived completed successfully for address: tb1pdt36eq5eqqfmretmf5fttd08w0xvwvz6xlyzy85mn7ae4fxag0gs84m89j
+ELECTRUM: Fetching transaction history for address: tb1pdt36eq5eqqfmretmf5fttd08w0xvwvz6xlyzy85mn7ae4fxag0gs84m89j
+ELECTRUM: Calling GetHistory for address: tb1pdt36eq5eqqfmretmf5fttd08w0xvwvz6xlyzy85mn7ae4fxag0gs84m89j, scriptHash: a316d302121d1b62c9b4ec3de415b72930916c9b2fecde6d85dcb59e82024e3d
+2025-09-16 10:32:38.373 [INF] BTWL btcwallet.go:565: BTCWALLET: Successfully set up notification for address: tb1pdt36eq5eqqfmretmf5fttd08w0xvwvz6xlyzy85mn7ae4fxag0gs84m89j
+2025-09-16 10:32:38.373 [INF] BTWL btcwallet.go:548: BTCWALLET: Setting up notification for address: tb1q35l5pfwv0wj2x0w6dvfr6rdv43mrdavey28800
+2025-09-16 10:32:38.373 [INF] BTWL btcwallet.go:557: BTCWALLET: Calling chain.NotifyReceived for address: tb1q35l5pfwv0wj2x0w6dvfr6rdv43mrdavey28800
+ELECTRUM: NotifyReceived called with 1 addresses
+ELECTRUM: Starting fetchAddressHistory for address: tb1q35l5pfwv0wj2x0w6dvfr6rdv43mrdavey28800
+2025-09-16 10:32:38.374 [INF] BTWL btcwallet.go:563: BTCWALLET: chain.NotifyReceived completed successfully for address: tb1q35l5pfwv0wj2x0w6dvfr6rdv43mrdavey28800
+ELECTRUM: Fetching transaction history for address: tb1q35l5pfwv0wj2x0w6dvfr6rdv43mrdavey28800
+ELECTRUM: Calling GetHistory for address: tb1q35l5pfwv0wj2x0w6dvfr6rdv43mrdavey28800, scriptHash: 5402d6c137487f5e00d46c16a85ec56d25ab29f8636995d4bf586bc08bbce31e
+2025-09-16 10:32:38.374 [INF] BTWL btcwallet.go:565: BTCWALLET: Successfully set up notification for address: tb1q35l5pfwv0wj2x0w6dvfr6rdv43mrdavey28800
+2025-09-16 10:32:38.374 [INF] BTWL btcwallet.go:548: BTCWALLET: Setting up notification for address: tb1q3wmfzpnluglv5auudgl2zzsne33auzpmr3vguv
+2025-09-16 10:32:38.374 [INF] BTWL btcwallet.go:557: BTCWALLET: Calling chain.NotifyReceived for address: tb1q3wmfzpnluglv5auudgl2zzsne33auzpmr3vguv
+ELECTRUM: NotifyReceived called with 1 addresses
+ELECTRUM: Starting fetchAddressHistory for address: tb1q3wmfzpnluglv5auudgl2zzsne33auzpmr3vguv
+2025-09-16 10:32:38.374 [INF] BTWL btcwallet.go:563: BTCWALLET: chain.NotifyReceived completed successfully for address: tb1q3wmfzpnluglv5auudgl2zzsne33auzpmr3vguv
+ELECTRUM: Fetching transaction history for address: tb1q3wmfzpnluglv5auudgl2zzsne33auzpmr3vguv
+ELECTRUM: Calling GetHistory for address: tb1q3wmfzpnluglv5auudgl2zzsne33auzpmr3vguv, scriptHash: b66131e80f4d50ca98ca6c1a4944746699c609136ce4aa4b4f162dd9de3dfe6d
+2025-09-16 10:32:38.374 [INF] BTWL btcwallet.go:565: BTCWALLET: Successfully set up notification for address: tb1q3wmfzpnluglv5auudgl2zzsne33auzpmr3vguv
+2025-09-16 10:32:38.374 [INF] BTWL btcwallet.go:548: BTCWALLET: Setting up notification for address: tb1qnf9a6cdf8c93ca97767cvted4y9a8lrjr9rctd
+2025-09-16 10:32:38.374 [INF] BTWL btcwallet.go:557: BTCWALLET: Calling chain.NotifyReceived for address: tb1qnf9a6cdf8c93ca97767cvted4y9a8lrjr9rctd
+ELECTRUM: NotifyReceived called with 1 addresses
+ELECTRUM: Starting fetchAddressHistory for address: tb1qnf9a6cdf8c93ca97767cvted4y9a8lrjr9rctd
+2025-09-16 10:32:38.374 [INF] BTWL btcwallet.go:563: BTCWALLET: chain.NotifyReceived completed successfully for address: tb1qnf9a6cdf8c93ca97767cvted4y9a8lrjr9rctd
+ELECTRUM: Fetching transaction history for address: tb1qnf9a6cdf8c93ca97767cvted4y9a8lrjr9rctd
+ELECTRUM: Calling GetHistory for address: tb1qnf9a6cdf8c93ca97767cvted4y9a8lrjr9rctd, scriptHash: 6fc32843e990f987cd411ceb807c95b202cec6c3971e9cb4e6caa2b607feb8f5
+2025-09-16 10:32:38.374 [INF] BTWL btcwallet.go:565: BTCWALLET: Successfully set up notification for address: tb1qnf9a6cdf8c93ca97767cvted4y9a8lrjr9rctd
+2025-09-16 10:32:38.374 [INF] BTWL btcwallet.go:548: BTCWALLET: Setting up notification for address: tb1qudd8v6rz3m294gdmmmys29xugkl2f6qzgk3str
+2025-09-16 10:32:38.374 [INF] BTWL btcwallet.go:557: BTCWALLET: Calling chain.NotifyReceived for address: tb1qudd8v6rz3m294gdmmmys29xugkl2f6qzgk3str
+ELECTRUM: NotifyReceived called with 1 addresses
+ELECTRUM: Starting fetchAddressHistory for address: tb1qudd8v6rz3m294gdmmmys29xugkl2f6qzgk3str
+2025-09-16 10:32:38.374 [INF] BTWL btcwallet.go:563: BTCWALLET: chain.NotifyReceived completed successfully for address: tb1qudd8v6rz3m294gdmmmys29xugkl2f6qzgk3str
+2025-09-16 10:32:38.374 [INF] BTWL btcwallet.go:565: BTCWALLET: Successfully set up notification for address: tb1qudd8v6rz3m294gdmmmys29xugkl2f6qzgk3str
+ELECTRUM: Fetching transaction history for address: tb1qudd8v6rz3m294gdmmmys29xugkl2f6qzgk3str
+ELECTRUM: Calling GetHistory for address: tb1qudd8v6rz3m294gdmmmys29xugkl2f6qzgk3str, scriptHash: 28292b8697bd25f1db778ae58cac1627a8e4b8e7a4a5a427ff50d42bafd07e52
+2025-09-16 10:32:38.374 [INF] BTWL btcwallet.go:548: BTCWALLET: Setting up notification for address: tb1qzja2zr3jt2tn5j4emss49745hwdxagaqvru8d4
+2025-09-16 10:32:38.374 [INF] BTWL btcwallet.go:557: BTCWALLET: Calling chain.NotifyReceived for address: tb1qzja2zr3jt2tn5j4emss49745hwdxagaqvru8d4
+ELECTRUM: NotifyReceived called with 1 addresses
+ELECTRUM: Starting fetchAddressHistory for address: tb1qzja2zr3jt2tn5j4emss49745hwdxagaqvru8d4
+2025-09-16 10:32:38.374 [INF] BTWL btcwallet.go:563: BTCWALLET: chain.NotifyReceived completed successfully for address: tb1qzja2zr3jt2tn5j4emss49745hwdxagaqvru8d4
+2025-09-16 10:32:38.374 [INF] BTWL btcwallet.go:565: BTCWALLET: Successfully set up notification for address: tb1qzja2zr3jt2tn5j4emss49745hwdxagaqvru8d4
+2025-09-16 10:32:38.374 [INF] BTWL btcwallet.go:548: BTCWALLET: Setting up notification for address: tb1q25xq62ad6s9pymemadk7sf08alk3k6q7l4m5pj
+ELECTRUM: Fetching transaction history for address: tb1qzja2zr3jt2tn5j4emss49745hwdxagaqvru8d4
+ELECTRUM: Calling GetHistory for address: tb1qzja2zr3jt2tn5j4emss49745hwdxagaqvru8d4, scriptHash: 6bf1890b216a5372d5a81a5ca9791137d77c1853dd628b5d3aa34d8ec00604a5
+2025-09-16 10:32:38.374 [INF] BTWL btcwallet.go:557: BTCWALLET: Calling chain.NotifyReceived for address: tb1q25xq62ad6s9pymemadk7sf08alk3k6q7l4m5pj
+ELECTRUM: NotifyReceived called with 1 addresses
+ELECTRUM: Starting fetchAddressHistory for address: tb1q25xq62ad6s9pymemadk7sf08alk3k6q7l4m5pj
+2025-09-16 10:32:38.374 [INF] BTWL btcwallet.go:563: BTCWALLET: chain.NotifyReceived completed successfully for address: tb1q25xq62ad6s9pymemadk7sf08alk3k6q7l4m5pj
+ELECTRUM: Fetching transaction history for address: tb1q25xq62ad6s9pymemadk7sf08alk3k6q7l4m5pj
+ELECTRUM: Calling GetHistory for address: tb1q25xq62ad6s9pymemadk7sf08alk3k6q7l4m5pj, scriptHash: c4c6d9d832fdbfd4a966340001ce4a928adc558ad3cff548e1a78f0962aa141a
+2025-09-16 10:32:38.374 [INF] BTWL btcwallet.go:565: BTCWALLET: Successfully set up notification for address: tb1q25xq62ad6s9pymemadk7sf08alk3k6q7l4m5pj
+2025-09-16 10:32:38.374 [INF] BTWL btcwallet.go:548: BTCWALLET: Setting up notification for address: tb1qu4ug4mres4yx49ts998805u2ale66jeah6dvxq
+2025-09-16 10:32:38.374 [INF] BTWL btcwallet.go:557: BTCWALLET: Calling chain.NotifyReceived for address: tb1qu4ug4mres4yx49ts998805u2ale66jeah6dvxq
+ELECTRUM: NotifyReceived called with 1 addresses
+ELECTRUM: Starting fetchAddressHistory for address: tb1qu4ug4mres4yx49ts998805u2ale66jeah6dvxq
+2025-09-16 10:32:38.374 [INF] BTWL btcwallet.go:563: BTCWALLET: chain.NotifyReceived completed successfully for address: tb1qu4ug4mres4yx49ts998805u2ale66jeah6dvxq
+ELECTRUM: Fetching transaction history for address: tb1qu4ug4mres4yx49ts998805u2ale66jeah6dvxq
+ELECTRUM: Calling GetHistory for address: tb1qu4ug4mres4yx49ts998805u2ale66jeah6dvxq, scriptHash: ca676392dcbc659e23aa827453de1938add752fb16394cdd5252328fe3faa89e
+2025-09-16 10:32:38.374 [INF] BTWL btcwallet.go:565: BTCWALLET: Successfully set up notification for address: tb1qu4ug4mres4yx49ts998805u2ale66jeah6dvxq
+2025-09-16 10:32:38.374 [INF] BTWL btcwallet.go:548: BTCWALLET: Setting up notification for address: tb1qs6nvlnyhs604adlsulc3p0c4fa0g80uutdukx9
+2025-09-16 10:32:38.375 [INF] BTWL btcwallet.go:557: BTCWALLET: Calling chain.NotifyReceived for address: tb1qs6nvlnyhs604adlsulc3p0c4fa0g80uutdukx9
+ELECTRUM: NotifyReceived called with 1 addresses
+ELECTRUM: Starting fetchAddressHistory for address: tb1qs6nvlnyhs604adlsulc3p0c4fa0g80uutdukx9
+2025-09-16 10:32:38.375 [INF] BTWL btcwallet.go:563: BTCWALLET: chain.NotifyReceived completed successfully for address: tb1qs6nvlnyhs604adlsulc3p0c4fa0g80uutdukx9
+ELECTRUM: Fetching transaction history for address: tb1qs6nvlnyhs604adlsulc3p0c4fa0g80uutdukx9
+ELECTRUM: Calling GetHistory for address: tb1qs6nvlnyhs604adlsulc3p0c4fa0g80uutdukx9, scriptHash: 86be3f5bd32e85596af35440487dae22a79e6fb2679998d38f51fc323189b022
+2025-09-16 10:32:38.375 [INF] BTWL btcwallet.go:565: BTCWALLET: Successfully set up notification for address: tb1qs6nvlnyhs604adlsulc3p0c4fa0g80uutdukx9
+2025-09-16 10:32:38.375 [INF] BTWL btcwallet.go:548: BTCWALLET: Setting up notification for address: tb1q8chvehh7ptzcfylzsgysk08cm3ppt8fvleeggz
+2025-09-16 10:32:38.375 [INF] BTWL btcwallet.go:557: BTCWALLET: Calling chain.NotifyReceived for address: tb1q8chvehh7ptzcfylzsgysk08cm3ppt8fvleeggz
+ELECTRUM: NotifyReceived called with 1 addresses
+ELECTRUM: Starting fetchAddressHistory for address: tb1q8chvehh7ptzcfylzsgysk08cm3ppt8fvleeggz
+2025-09-16 10:32:38.375 [INF] BTWL btcwallet.go:563: BTCWALLET: chain.NotifyReceived completed successfully for address: tb1q8chvehh7ptzcfylzsgysk08cm3ppt8fvleeggz
+ELECTRUM: Fetching transaction history for address: tb1q8chvehh7ptzcfylzsgysk08cm3ppt8fvleeggz
+ELECTRUM: Calling GetHistory for address: tb1q8chvehh7ptzcfylzsgysk08cm3ppt8fvleeggz, scriptHash: 8b874fe06c0a029126d30048dd68ce279f86ab73018e41fbce4e5db15bbd4d68
+2025-09-16 10:32:38.375 [INF] BTWL btcwallet.go:565: BTCWALLET: Successfully set up notification for address: tb1q8chvehh7ptzcfylzsgysk08cm3ppt8fvleeggz
+2025-09-16 10:32:38.375 [INF] BTWL btcwallet.go:548: BTCWALLET: Setting up notification for address: tb1q2xgdnhrez9r46a65g4jacpynkjmnfe6f6a7rv9
+2025-09-16 10:32:38.375 [INF] BTWL btcwallet.go:557: BTCWALLET: Calling chain.NotifyReceived for address: tb1q2xgdnhrez9r46a65g4jacpynkjmnfe6f6a7rv9
+ELECTRUM: NotifyReceived called with 1 addresses
+ELECTRUM: Starting fetchAddressHistory for address: tb1q2xgdnhrez9r46a65g4jacpynkjmnfe6f6a7rv9
+2025-09-16 10:32:38.375 [INF] BTWL btcwallet.go:563: BTCWALLET: chain.NotifyReceived completed successfully for address: tb1q2xgdnhrez9r46a65g4jacpynkjmnfe6f6a7rv9
+2025-09-16 10:32:38.375 [INF] BTWL btcwallet.go:565: BTCWALLET: Successfully set up notification for address: tb1q2xgdnhrez9r46a65g4jacpynkjmnfe6f6a7rv9
+ELECTRUM: Fetching transaction history for address: tb1q2xgdnhrez9r46a65g4jacpynkjmnfe6f6a7rv9
+ELECTRUM: Calling GetHistory for address: tb1q2xgdnhrez9r46a65g4jacpynkjmnfe6f6a7rv9, scriptHash: 8ffe8589aabc0270d07eb3d7eb59003aea385db49b2f2cda6a405ba17ae25436
+2025-09-16 10:32:38.375 [INF] BTWL btcwallet.go:548: BTCWALLET: Setting up notification for address: tb1qjka5z9xsg53v4925jn28umwwz3u5tyh302wg30
+2025-09-16 10:32:38.375 [INF] BTWL btcwallet.go:557: BTCWALLET: Calling chain.NotifyReceived for address: tb1qjka5z9xsg53v4925jn28umwwz3u5tyh302wg30
+ELECTRUM: NotifyReceived called with 1 addresses
+ELECTRUM: Starting fetchAddressHistory for address: tb1qjka5z9xsg53v4925jn28umwwz3u5tyh302wg30
+2025-09-16 10:32:38.375 [INF] BTWL btcwallet.go:563: BTCWALLET: chain.NotifyReceived completed successfully for address: tb1qjka5z9xsg53v4925jn28umwwz3u5tyh302wg30
+ELECTRUM: Fetching transaction history for address: tb1qjka5z9xsg53v4925jn28umwwz3u5tyh302wg30
+ELECTRUM: Calling GetHistory for address: tb1qjka5z9xsg53v4925jn28umwwz3u5tyh302wg30, scriptHash: 30311d2d2edd9aabdf8d1684192145260c6f30c8c843ae927758b737aac07235
+2025-09-16 10:32:38.375 [INF] BTWL btcwallet.go:565: BTCWALLET: Successfully set up notification for address: tb1qjka5z9xsg53v4925jn28umwwz3u5tyh302wg30
+2025-09-16 10:32:38.375 [INF] BTWL btcwallet.go:548: BTCWALLET: Setting up notification for address: tb1qy84s4sf7y0eetkst3eaah849ky60jdjra09ptk
+2025-09-16 10:32:38.375 [INF] BTWL btcwallet.go:557: BTCWALLET: Calling chain.NotifyReceived for address: tb1qy84s4sf7y0eetkst3eaah849ky60jdjra09ptk
+ELECTRUM: NotifyReceived called with 1 addresses
+ELECTRUM: Starting fetchAddressHistory for address: tb1qy84s4sf7y0eetkst3eaah849ky60jdjra09ptk
+2025-09-16 10:32:38.375 [INF] BTWL btcwallet.go:563: BTCWALLET: chain.NotifyReceived completed successfully for address: tb1qy84s4sf7y0eetkst3eaah849ky60jdjra09ptk
+ELECTRUM: Fetching transaction history for address: tb1qy84s4sf7y0eetkst3eaah849ky60jdjra09ptk
+ELECTRUM: Calling GetHistory for address: tb1qy84s4sf7y0eetkst3eaah849ky60jdjra09ptk, scriptHash: e49ffa552cb23af49332713f9fedd2efce14dc2902c11597fda6ea1fb83468cc
+2025-09-16 10:32:38.375 [INF] BTWL btcwallet.go:565: BTCWALLET: Successfully set up notification for address: tb1qy84s4sf7y0eetkst3eaah849ky60jdjra09ptk
+2025-09-16 10:32:38.375 [INF] BTWL btcwallet.go:548: BTCWALLET: Setting up notification for address: tb1q84gk7xt5mkcd5d0kn2pj26gep8zdp8esy5jst5
+2025-09-16 10:32:38.375 [INF] BTWL btcwallet.go:557: BTCWALLET: Calling chain.NotifyReceived for address: tb1q84gk7xt5mkcd5d0kn2pj26gep8zdp8esy5jst5
+ELECTRUM: NotifyReceived called with 1 addresses
+ELECTRUM: Starting fetchAddressHistory for address: tb1q84gk7xt5mkcd5d0kn2pj26gep8zdp8esy5jst5
+2025-09-16 10:32:38.375 [INF] BTWL btcwallet.go:563: BTCWALLET: chain.NotifyReceived completed successfully for address: tb1q84gk7xt5mkcd5d0kn2pj26gep8zdp8esy5jst5
+2025-09-16 10:32:38.375 [INF] BTWL btcwallet.go:565: BTCWALLET: Successfully set up notification for address: tb1q84gk7xt5mkcd5d0kn2pj26gep8zdp8esy5jst5
+ELECTRUM: Fetching transaction history for address: tb1q84gk7xt5mkcd5d0kn2pj26gep8zdp8esy5jst5
+ELECTRUM: Calling GetHistory for address: tb1q84gk7xt5mkcd5d0kn2pj26gep8zdp8esy5jst5, scriptHash: 0ef136938f4e6ec14f5b140956aa93ab312107d6eed8cc07ab19f19ecfb78117
+2025-09-16 10:32:38.375 [INF] BTWL btcwallet.go:548: BTCWALLET: Setting up notification for address: tb1qf07tpug9zz6vffhhm3amvqtujhldkcv2j2wycf
+2025-09-16 10:32:38.375 [INF] BTWL btcwallet.go:557: BTCWALLET: Calling chain.NotifyReceived for address: tb1qf07tpug9zz6vffhhm3amvqtujhldkcv2j2wycf
+ELECTRUM: NotifyReceived called with 1 addresses
+ELECTRUM: Starting fetchAddressHistory for address: tb1qf07tpug9zz6vffhhm3amvqtujhldkcv2j2wycf
+2025-09-16 10:32:38.375 [INF] BTWL btcwallet.go:563: BTCWALLET: chain.NotifyReceived completed successfully for address: tb1qf07tpug9zz6vffhhm3amvqtujhldkcv2j2wycf
+ELECTRUM: Fetching transaction history for address: tb1qf07tpug9zz6vffhhm3amvqtujhldkcv2j2wycf
+ELECTRUM: Calling GetHistory for address: tb1qf07tpug9zz6vffhhm3amvqtujhldkcv2j2wycf, scriptHash: fb61782f1e6f1393af564ec097b0ea9834062d5649138e20295f647f97a5361c
+2025-09-16 10:32:38.375 [INF] BTWL btcwallet.go:565: BTCWALLET: Successfully set up notification for address: tb1qf07tpug9zz6vffhhm3amvqtujhldkcv2j2wycf
+2025-09-16 10:32:38.376 [INF] BTWL btcwallet.go:548: BTCWALLET: Setting up notification for address: tb1pv6wu2k2pls6eclghkyv4rehmv8pf93kj5x7pejzak3gzd3a9778shsgnq0
+2025-09-16 10:32:38.376 [INF] BTWL btcwallet.go:557: BTCWALLET: Calling chain.NotifyReceived for address: tb1pv6wu2k2pls6eclghkyv4rehmv8pf93kj5x7pejzak3gzd3a9778shsgnq0
+ELECTRUM: NotifyReceived called with 1 addresses
+ELECTRUM: Starting fetchAddressHistory for address: tb1pv6wu2k2pls6eclghkyv4rehmv8pf93kj5x7pejzak3gzd3a9778shsgnq0
+2025-09-16 10:32:38.376 [INF] BTWL btcwallet.go:563: BTCWALLET: chain.NotifyReceived completed successfully for address: tb1pv6wu2k2pls6eclghkyv4rehmv8pf93kj5x7pejzak3gzd3a9778shsgnq0
+ELECTRUM: Fetching transaction history for address: tb1pv6wu2k2pls6eclghkyv4rehmv8pf93kj5x7pejzak3gzd3a9778shsgnq0
+ELECTRUM: Calling GetHistory for address: tb1pv6wu2k2pls6eclghkyv4rehmv8pf93kj5x7pejzak3gzd3a9778shsgnq0, scriptHash: 8578ba4feebf5378a3775363d531f253b8fbf9b00df139d1346ef1cbb8d17245
+2025-09-16 10:32:38.376 [INF] BTWL btcwallet.go:565: BTCWALLET: Successfully set up notification for address: tb1pv6wu2k2pls6eclghkyv4rehmv8pf93kj5x7pejzak3gzd3a9778shsgnq0
+2025-09-16 10:32:38.376 [INF] BTWL btcwallet.go:548: BTCWALLET: Setting up notification for address: tb1pqxhwj0c5z7jkz6pcur2lryehylrl4yzh0fvgphnpf769578k2qwqq8pvqd
+2025-09-16 10:32:38.376 [INF] BTWL btcwallet.go:557: BTCWALLET: Calling chain.NotifyReceived for address: tb1pqxhwj0c5z7jkz6pcur2lryehylrl4yzh0fvgphnpf769578k2qwqq8pvqd
+ELECTRUM: NotifyReceived called with 1 addresses
+ELECTRUM: Starting fetchAddressHistory for address: tb1pqxhwj0c5z7jkz6pcur2lryehylrl4yzh0fvgphnpf769578k2qwqq8pvqd
+2025-09-16 10:32:38.376 [INF] BTWL btcwallet.go:563: BTCWALLET: chain.NotifyReceived completed successfully for address: tb1pqxhwj0c5z7jkz6pcur2lryehylrl4yzh0fvgphnpf769578k2qwqq8pvqd
+2025-09-16 10:32:38.376 [INF] BTWL btcwallet.go:565: BTCWALLET: Successfully set up notification for address: tb1pqxhwj0c5z7jkz6pcur2lryehylrl4yzh0fvgphnpf769578k2qwqq8pvqd
+2025-09-16 10:32:38.376 [INF] BTWL btcwallet.go:548: BTCWALLET: Setting up notification for address: tb1pyts089s2l3zpfhculluw6lxzwfsary8cj9m26edtrqxss7p7qydqat9hw2
+2025-09-16 10:32:38.376 [INF] BTWL btcwallet.go:557: BTCWALLET: Calling chain.NotifyReceived for address: tb1pyts089s2l3zpfhculluw6lxzwfsary8cj9m26edtrqxss7p7qydqat9hw2
+ELECTRUM: Fetching transaction history for address: tb1pqxhwj0c5z7jkz6pcur2lryehylrl4yzh0fvgphnpf769578k2qwqq8pvqd
+ELECTRUM: Calling GetHistory for address: tb1pqxhwj0c5z7jkz6pcur2lryehylrl4yzh0fvgphnpf769578k2qwqq8pvqd, scriptHash: b4b1be16fa88724c29732edb1ff71e5ab276106ae5fc1021dbec298966da0b83
+ELECTRUM: NotifyReceived called with 1 addresses
+ELECTRUM: Starting fetchAddressHistory for address: tb1pyts089s2l3zpfhculluw6lxzwfsary8cj9m26edtrqxss7p7qydqat9hw2
+2025-09-16 10:32:38.376 [INF] BTWL btcwallet.go:563: BTCWALLET: chain.NotifyReceived completed successfully for address: tb1pyts089s2l3zpfhculluw6lxzwfsary8cj9m26edtrqxss7p7qydqat9hw2
+ELECTRUM: Fetching transaction history for address: tb1pyts089s2l3zpfhculluw6lxzwfsary8cj9m26edtrqxss7p7qydqat9hw2
+ELECTRUM: Calling GetHistory for address: tb1pyts089s2l3zpfhculluw6lxzwfsary8cj9m26edtrqxss7p7qydqat9hw2, scriptHash: f67a34ebd66063c1a926b52c9a5e00f290e890e3b2a8b3acf99e6ca0840e2c69
+2025-09-16 10:32:38.376 [INF] BTWL btcwallet.go:565: BTCWALLET: Successfully set up notification for address: tb1pyts089s2l3zpfhculluw6lxzwfsary8cj9m26edtrqxss7p7qydqat9hw2
+2025-09-16 10:32:38.376 [INF] BTWL btcwallet.go:548: BTCWALLET: Setting up notification for address: tb1py0jfpc0ft4zsfhg7p3peze4q6wdl9l2gfwzf8ar64skxkhz9v9lsuhm2g4
+2025-09-16 10:32:38.376 [INF] BTWL btcwallet.go:557: BTCWALLET: Calling chain.NotifyReceived for address: tb1py0jfpc0ft4zsfhg7p3peze4q6wdl9l2gfwzf8ar64skxkhz9v9lsuhm2g4
+ELECTRUM: NotifyReceived called with 1 addresses
+ELECTRUM: Starting fetchAddressHistory for address: tb1py0jfpc0ft4zsfhg7p3peze4q6wdl9l2gfwzf8ar64skxkhz9v9lsuhm2g4
+2025-09-16 10:32:38.376 [INF] BTWL btcwallet.go:563: BTCWALLET: chain.NotifyReceived completed successfully for address: tb1py0jfpc0ft4zsfhg7p3peze4q6wdl9l2gfwzf8ar64skxkhz9v9lsuhm2g4
+ELECTRUM: Fetching transaction history for address: tb1py0jfpc0ft4zsfhg7p3peze4q6wdl9l2gfwzf8ar64skxkhz9v9lsuhm2g4
+ELECTRUM: Calling GetHistory for address: tb1py0jfpc0ft4zsfhg7p3peze4q6wdl9l2gfwzf8ar64skxkhz9v9lsuhm2g4, scriptHash: 1f1546aea3cb0bbe6272bb05f049b1d43ea9cd69a421402946f1e21b67d24a7f
+2025-09-16 10:32:38.376 [INF] BTWL btcwallet.go:565: BTCWALLET: Successfully set up notification for address: tb1py0jfpc0ft4zsfhg7p3peze4q6wdl9l2gfwzf8ar64skxkhz9v9lsuhm2g4
+2025-09-16 10:32:38.376 [INF] BTWL btcwallet.go:548: BTCWALLET: Setting up notification for address: tb1putvlls3ekqm74khy2ls7hdadxn4ldxsuh9v2thg7hyht9ysjlvsqqwjnw6
+2025-09-16 10:32:38.376 [INF] BTWL btcwallet.go:557: BTCWALLET: Calling chain.NotifyReceived for address: tb1putvlls3ekqm74khy2ls7hdadxn4ldxsuh9v2thg7hyht9ysjlvsqqwjnw6
+ELECTRUM: NotifyReceived called with 1 addresses
+ELECTRUM: Starting fetchAddressHistory for address: tb1putvlls3ekqm74khy2ls7hdadxn4ldxsuh9v2thg7hyht9ysjlvsqqwjnw6
+2025-09-16 10:32:38.376 [INF] BTWL btcwallet.go:563: BTCWALLET: chain.NotifyReceived completed successfully for address: tb1putvlls3ekqm74khy2ls7hdadxn4ldxsuh9v2thg7hyht9ysjlvsqqwjnw6
+ELECTRUM: Fetching transaction history for address: tb1putvlls3ekqm74khy2ls7hdadxn4ldxsuh9v2thg7hyht9ysjlvsqqwjnw6
+ELECTRUM: Calling GetHistory for address: tb1putvlls3ekqm74khy2ls7hdadxn4ldxsuh9v2thg7hyht9ysjlvsqqwjnw6, scriptHash: 772c610aa6b1b17496234e4d5e817a7bb5a9bedae737ff88e3f62109756fbe0f
+2025-09-16 10:32:38.376 [INF] BTWL btcwallet.go:565: BTCWALLET: Successfully set up notification for address: tb1putvlls3ekqm74khy2ls7hdadxn4ldxsuh9v2thg7hyht9ysjlvsqqwjnw6
+2025-09-16 10:32:38.376 [INF] BTWL btcwallet.go:548: BTCWALLET: Setting up notification for address: tb1pm2zwfrhd04ue5dqlwt8nvg9vdd8kcp75nsh3lmnat2mqmelg2vks5vkvfj
+2025-09-16 10:32:38.376 [INF] BTWL btcwallet.go:557: BTCWALLET: Calling chain.NotifyReceived for address: tb1pm2zwfrhd04ue5dqlwt8nvg9vdd8kcp75nsh3lmnat2mqmelg2vks5vkvfj
+ELECTRUM: NotifyReceived called with 1 addresses
+ELECTRUM: Starting fetchAddressHistory for address: tb1pm2zwfrhd04ue5dqlwt8nvg9vdd8kcp75nsh3lmnat2mqmelg2vks5vkvfj
+2025-09-16 10:32:38.376 [INF] BTWL btcwallet.go:563: BTCWALLET: chain.NotifyReceived completed successfully for address: tb1pm2zwfrhd04ue5dqlwt8nvg9vdd8kcp75nsh3lmnat2mqmelg2vks5vkvfj
+2025-09-16 10:32:38.376 [INF] BTWL btcwallet.go:565: BTCWALLET: Successfully set up notification for address: tb1pm2zwfrhd04ue5dqlwt8nvg9vdd8kcp75nsh3lmnat2mqmelg2vks5vkvfj
+2025-09-16 10:32:38.376 [INF] BTWL btcwallet.go:548: BTCWALLET: Setting up notification for address: tb1pvhkycu546rfek5tpkmns0dwxc7v74ul3dlad7as8gflywg3plsvqy8mc4j
+ELECTRUM: Fetching transaction history for address: tb1pm2zwfrhd04ue5dqlwt8nvg9vdd8kcp75nsh3lmnat2mqmelg2vks5vkvfj
+ELECTRUM: Calling GetHistory for address: tb1pm2zwfrhd04ue5dqlwt8nvg9vdd8kcp75nsh3lmnat2mqmelg2vks5vkvfj, scriptHash: c5c501974b54b604a07b751557f5492a62e0024f3b6de9e8a3c970fe9f4e8f65
+2025-09-16 10:32:38.376 [INF] BTWL btcwallet.go:557: BTCWALLET: Calling chain.NotifyReceived for address: tb1pvhkycu546rfek5tpkmns0dwxc7v74ul3dlad7as8gflywg3plsvqy8mc4j
+ELECTRUM: NotifyReceived called with 1 addresses
+ELECTRUM: Starting fetchAddressHistory for address: tb1pvhkycu546rfek5tpkmns0dwxc7v74ul3dlad7as8gflywg3plsvqy8mc4j
+2025-09-16 10:32:38.377 [INF] BTWL btcwallet.go:563: BTCWALLET: chain.NotifyReceived completed successfully for address: tb1pvhkycu546rfek5tpkmns0dwxc7v74ul3dlad7as8gflywg3plsvqy8mc4j
+2025-09-16 10:32:38.377 [INF] BTWL btcwallet.go:565: BTCWALLET: Successfully set up notification for address: tb1pvhkycu546rfek5tpkmns0dwxc7v74ul3dlad7as8gflywg3plsvqy8mc4j
+ELECTRUM: Fetching transaction history for address: tb1pvhkycu546rfek5tpkmns0dwxc7v74ul3dlad7as8gflywg3plsvqy8mc4j
+ELECTRUM: Calling GetHistory for address: tb1pvhkycu546rfek5tpkmns0dwxc7v74ul3dlad7as8gflywg3plsvqy8mc4j, scriptHash: 8c695d50cc3c9b971f716464bca5a0adcd8d5334c79d76ffe4776646c0a2228f
+2025-09-16 10:32:38.377 [INF] BTWL btcwallet.go:548: BTCWALLET: Setting up notification for address: tb1p0gzw3zejyhpcnhel6fk44utj2wdvt6qeqm98nqxu6j56fcwme4psvdhc46
+2025-09-16 10:32:38.377 [INF] BTWL btcwallet.go:557: BTCWALLET: Calling chain.NotifyReceived for address: tb1p0gzw3zejyhpcnhel6fk44utj2wdvt6qeqm98nqxu6j56fcwme4psvdhc46
+ELECTRUM: NotifyReceived called with 1 addresses
+ELECTRUM: Starting fetchAddressHistory for address: tb1p0gzw3zejyhpcnhel6fk44utj2wdvt6qeqm98nqxu6j56fcwme4psvdhc46
+2025-09-16 10:32:38.377 [INF] BTWL btcwallet.go:563: BTCWALLET: chain.NotifyReceived completed successfully for address: tb1p0gzw3zejyhpcnhel6fk44utj2wdvt6qeqm98nqxu6j56fcwme4psvdhc46
+ELECTRUM: Fetching transaction history for address: tb1p0gzw3zejyhpcnhel6fk44utj2wdvt6qeqm98nqxu6j56fcwme4psvdhc46
+ELECTRUM: Calling GetHistory for address: tb1p0gzw3zejyhpcnhel6fk44utj2wdvt6qeqm98nqxu6j56fcwme4psvdhc46, scriptHash: e5d8548e6042aa54fcbebb2539efa284c89350ce19c9141286a2f910de14df05
+2025-09-16 10:32:38.377 [INF] BTWL btcwallet.go:565: BTCWALLET: Successfully set up notification for address: tb1p0gzw3zejyhpcnhel6fk44utj2wdvt6qeqm98nqxu6j56fcwme4psvdhc46
+2025-09-16 10:32:38.377 [INF] BTWL btcwallet.go:548: BTCWALLET: Setting up notification for address: tb1pdt36eq5eqqfmretmf5fttd08w0xvwvz6xlyzy85mn7ae4fxag0gs84m89j
+2025-09-16 10:32:38.377 [INF] BTWL btcwallet.go:557: BTCWALLET: Calling chain.NotifyReceived for address: tb1pdt36eq5eqqfmretmf5fttd08w0xvwvz6xlyzy85mn7ae4fxag0gs84m89j
+ELECTRUM: NotifyReceived called with 1 addresses
+ELECTRUM: Starting fetchAddressHistory for address: tb1pdt36eq5eqqfmretmf5fttd08w0xvwvz6xlyzy85mn7ae4fxag0gs84m89j
+2025-09-16 10:32:38.377 [INF] BTWL btcwallet.go:563: BTCWALLET: chain.NotifyReceived completed successfully for address: tb1pdt36eq5eqqfmretmf5fttd08w0xvwvz6xlyzy85mn7ae4fxag0gs84m89j
+2025-09-16 10:32:38.377 [INF] BTWL btcwallet.go:565: BTCWALLET: Successfully set up notification for address: tb1pdt36eq5eqqfmretmf5fttd08w0xvwvz6xlyzy85mn7ae4fxag0gs84m89j
+2025-09-16 10:32:38.377 [INF] BTWL btcwallet.go:463: BTCWALLET: Completed setting up notifications for 46 addresses
+ELECTRUM: Fetching transaction history for address: tb1pdt36eq5eqqfmretmf5fttd08w0xvwvz6xlyzy85mn7ae4fxag0gs84m89j
+ELECTRUM: Calling GetHistory for address: tb1pdt36eq5eqqfmretmf5fttd08w0xvwvz6xlyzy85mn7ae4fxag0gs84m89j, scriptHash: a316d302121d1b62c9b4ec3de415b72930916c9b2fecde6d85dcb59e82024e3d
+2025-09-16 10:32:38.377 [INF] BTWL btcwallet.go:415: BTCWALLET: Electrum address notifications set up successfully
+2025/09/16 10:32:38 ELECTRUM: GetBestBlock called
+2025/09/16 10:32:38 ELECTRUM: Subscribing to headers to get current height
+ELECTRUM: Processing transaction 0 for address tb1qzja2zr3jt2tn5j4emss49745hwdxagaqvru8d4
+ELECTRUM: Calling buildTransactionDetail for entry 0
+ELECTRUM: buildTransactionDetail called with entry type: *electrum.GetMempoolResult
+ELECTRUM: Processing transaction 0 for address tb1pv6wu2k2pls6eclghkyv4rehmv8pf93kj5x7pejzak3gzd3a9778shsgnq0
+ELECTRUM: Calling buildTransactionDetail for entry 0
+ELECTRUM: buildTransactionDetail called with entry type: *electrum.GetMempoolResult
+ELECTRUM: Processing transaction 0 for address tb1py0jfpc0ft4zsfhg7p3peze4q6wdl9l2gfwzf8ar64skxkhz9v9lsuhm2g4
+ELECTRUM: Calling buildTransactionDetail for entry 0
+ELECTRUM: buildTransactionDetail called with entry type: *electrum.GetMempoolResult
+ELECTRUM: Processing transaction 0 for address tb1pyts089s2l3zpfhculluw6lxzwfsary8cj9m26edtrqxss7p7qydqat9hw2
+ELECTRUM: Calling buildTransactionDetail for entry 0
+ELECTRUM: buildTransactionDetail called with entry type: *electrum.GetMempoolResult
+ELECTRUM: Processing transaction 0 for address tb1pvhkycu546rfek5tpkmns0dwxc7v74ul3dlad7as8gflywg3plsvqy8mc4j
+ELECTRUM: Calling buildTransactionDetail for entry 0
+ELECTRUM: buildTransactionDetail called with entry type: *electrum.GetMempoolResult
+2025/09/16 10:32:38 ELECTRUM: GetBlockHash called for height: 4661549
+2025/09/16 10:32:38 ELECTRUM: Got current height 4664423 from headers subscription
+2025/09/16 10:32:38 ELECTRUM: Returning hash 000000000001e2c21126be3238023c35f7b39a2867fbd629d198b467152edc29 for height 4664423 (from headers subscription)
+2025/09/16 10:32:38 ELECTRUM: GetBlockHeader called for hash: 000000000001e2c21126be3238023c35f7b39a2867fbd629d198b467152edc29
+2025/09/16 10:32:38 ELECTRUM: GetBestBlock called
+2025/09/16 10:32:38 ELECTRUM: Subscribing to headers to get current height
+2025-09-16 10:32:38.858 [INF] BTWL btcwallet.go:480: BTCWALLET: Received transaction callback - txHash: 57d7e5a301f0f54500424260dcc2b9825574b77e89a4f019d9af0df573bf443b, address: tb1pvhkycu546rfek5tpkmns0dwxc7v74ul3dlad7as8gflywg3plsvqy8mc4j, value: 0, confirmations: 2874
+2025-09-16 10:32:38.858 [INF] BTWL btcwallet.go:504: BTCWALLET: Integrating discovered transaction 57d7e5a301f0f54500424260dcc2b9825574b77e89a4f019d9af0df573bf443b for address tb1pvhkycu546rfek5tpkmns0dwxc7v74ul3dlad7as8gflywg3plsvqy8mc4j (value: 0, confirmations: 2874)
+2025-09-16 10:32:38.858 [INF] BTWL btcwallet.go:540: BTCWALLET: Successfully integrated transaction 57d7e5a301f0f54500424260dcc2b9825574b77e89a4f019d9af0df573bf443b (value: 0 satoshis, confirmations: 2874)
+2025-09-16 10:32:38.858 [INF] BTWL btcwallet.go:488: BTCWALLET: Successfully integrated discovered transaction 57d7e5a301f0f54500424260dcc2b9825574b77e89a4f019d9af0df573bf443b
+2025/09/16 10:32:39 ELECTRUM: Got current height 4664423 from headers subscription
+2025/09/16 10:32:39 ELECTRUM: Returning hash 000000000001e2c21126be3238023c35f7b39a2867fbd629d198b467152edc29 for height 4664423 (from headers subscription)
+2025/09/16 10:32:39 ELECTRUM: GetBlockHash called for height: 4661802
+2025/09/16 10:32:39 ELECTRUM: GetBlockHash called for height: 4660785
+2025/09/16 10:32:39 ELECTRUM: GetBlockHash called for height: 4661302
+2025/09/16 10:32:39 ELECTRUM: GetBlockHash called for height: 4660782
+2025/09/16 10:32:39 ELECTRUM: GetBlockHash called for height: 4661549
+2025-09-16 10:32:39.264 [DBG] LTND lnd.go:727: Syncing to block chain rev=4d1c86 best_block_time="2025-09-16 10:32:32 -0400 EDT" is_synced=false
+2025-09-16 10:32:39.348 [INF] BTWL btcwallet.go:480: BTCWALLET: Received transaction callback - txHash: 25cd595c95040e2b75b6a0e6b20ee96db31aeb75c6b8e7c44c720f9bd1527963, address: tb1qzja2zr3jt2tn5j4emss49745hwdxagaqvru8d4, value: 0, confirmations: 3639
+2025-09-16 10:32:39.348 [INF] BTWL btcwallet.go:480: BTCWALLET: Received transaction callback - txHash: 480e83a34f676e6fcff1d82c4b2f7b2132407fd27b73878de31f52da6305fd94, address: tb1py0jfpc0ft4zsfhg7p3peze4q6wdl9l2gfwzf8ar64skxkhz9v9lsuhm2g4, value: 0, confirmations: 2622
+2025-09-16 10:32:39.348 [INF] BTWL btcwallet.go:480: BTCWALLET: Received transaction callback - txHash: 51abc2a15b01e008362af0075a3616d445af203deaea3abcad4d94f607dbafab, address: tb1pyts089s2l3zpfhculluw6lxzwfsary8cj9m26edtrqxss7p7qydqat9hw2, value: 0, confirmations: 3122
+2025-09-16 10:32:39.348 [INF] BTWL btcwallet.go:504: BTCWALLET: Integrating discovered transaction 480e83a34f676e6fcff1d82c4b2f7b2132407fd27b73878de31f52da6305fd94 for address tb1py0jfpc0ft4zsfhg7p3peze4q6wdl9l2gfwzf8ar64skxkhz9v9lsuhm2g4 (value: 0, confirmations: 2622)
+2025-09-16 10:32:39.348 [INF] BTWL btcwallet.go:504: BTCWALLET: Integrating discovered transaction 51abc2a15b01e008362af0075a3616d445af203deaea3abcad4d94f607dbafab for address tb1pyts089s2l3zpfhculluw6lxzwfsary8cj9m26edtrqxss7p7qydqat9hw2 (value: 0, confirmations: 3122)
+2025-09-16 10:32:39.348 [INF] BTWL btcwallet.go:540: BTCWALLET: Successfully integrated transaction 480e83a34f676e6fcff1d82c4b2f7b2132407fd27b73878de31f52da6305fd94 (value: 0 satoshis, confirmations: 2622)
+2025-09-16 10:32:39.348 [INF] BTWL btcwallet.go:480: BTCWALLET: Received transaction callback - txHash: 53c28422f27e5b7d71977dfbc73a0c85480a9d618c75b05b4cbaf178747f914b, address: tb1pv6wu2k2pls6eclghkyv4rehmv8pf93kj5x7pejzak3gzd3a9778shsgnq0, value: 0, confirmations: 3642
+2025-09-16 10:32:39.348 [INF] BTWL btcwallet.go:480: BTCWALLET: Received transaction callback - txHash: 57d7e5a301f0f54500424260dcc2b9825574b77e89a4f019d9af0df573bf443b, address: tb1pvhkycu546rfek5tpkmns0dwxc7v74ul3dlad7as8gflywg3plsvqy8mc4j, value: 0, confirmations: 2875
+2025-09-16 10:32:39.348 [INF] BTWL btcwallet.go:504: BTCWALLET: Integrating discovered transaction 25cd595c95040e2b75b6a0e6b20ee96db31aeb75c6b8e7c44c720f9bd1527963 for address tb1qzja2zr3jt2tn5j4emss49745hwdxagaqvru8d4 (value: 0, confirmations: 3639)
+2025-09-16 10:32:39.348 [INF] BTWL btcwallet.go:540: BTCWALLET: Successfully integrated transaction 51abc2a15b01e008362af0075a3616d445af203deaea3abcad4d94f607dbafab (value: 0 satoshis, confirmations: 3122)
+2025-09-16 10:32:39.348 [INF] BTWL btcwallet.go:540: BTCWALLET: Successfully integrated transaction 25cd595c95040e2b75b6a0e6b20ee96db31aeb75c6b8e7c44c720f9bd1527963 (value: 0 satoshis, confirmations: 3639)
+2025-09-16 10:32:39.348 [INF] BTWL btcwallet.go:488: BTCWALLET: Successfully integrated discovered transaction 480e83a34f676e6fcff1d82c4b2f7b2132407fd27b73878de31f52da6305fd94
+2025-09-16 10:32:39.348 [INF] BTWL btcwallet.go:488: BTCWALLET: Successfully integrated discovered transaction 51abc2a15b01e008362af0075a3616d445af203deaea3abcad4d94f607dbafab
+2025-09-16 10:32:39.348 [INF] BTWL btcwallet.go:504: BTCWALLET: Integrating discovered transaction 53c28422f27e5b7d71977dfbc73a0c85480a9d618c75b05b4cbaf178747f914b for address tb1pv6wu2k2pls6eclghkyv4rehmv8pf93kj5x7pejzak3gzd3a9778shsgnq0 (value: 0, confirmations: 3642)
+2025-09-16 10:32:39.348 [INF] BTWL btcwallet.go:504: BTCWALLET: Integrating discovered transaction 57d7e5a301f0f54500424260dcc2b9825574b77e89a4f019d9af0df573bf443b for address tb1pvhkycu546rfek5tpkmns0dwxc7v74ul3dlad7as8gflywg3plsvqy8mc4j (value: 0, confirmations: 2875)
+2025-09-16 10:32:39.348 [INF] BTWL btcwallet.go:488: BTCWALLET: Successfully integrated discovered transaction 25cd595c95040e2b75b6a0e6b20ee96db31aeb75c6b8e7c44c720f9bd1527963
+2025-09-16 10:32:39.348 [INF] BTWL btcwallet.go:540: BTCWALLET: Successfully integrated transaction 53c28422f27e5b7d71977dfbc73a0c85480a9d618c75b05b4cbaf178747f914b (value: 0 satoshis, confirmations: 3642)
+2025-09-16 10:32:39.348 [INF] BTWL btcwallet.go:540: BTCWALLET: Successfully integrated transaction 57d7e5a301f0f54500424260dcc2b9825574b77e89a4f019d9af0df573bf443b (value: 0 satoshis, confirmations: 2875)
+2025-09-16 10:32:39.348 [INF] BTWL btcwallet.go:488: BTCWALLET: Successfully integrated discovered transaction 53c28422f27e5b7d71977dfbc73a0c85480a9d618c75b05b4cbaf178747f914b
+2025-09-16 10:32:39.349 [INF] BTWL btcwallet.go:488: BTCWALLET: Successfully integrated discovered transaction 57d7e5a301f0f54500424260dcc2b9825574b77e89a4f019d9af0df573bf443b
+2025/09/16 10:32:40 ELECTRUM: GetBestBlock called
+2025/09/16 10:32:40 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:32:40 ELECTRUM: Got current height 4664424 from headers subscription
+2025/09/16 10:32:40 ELECTRUM: Returning hash 0000000000013cf0f0f7fcffbbdac77b86a36e5853f8a86466d96088150e00be for height 4664424 (from headers subscription)
+2025/09/16 10:32:40 ELECTRUM: GetBlockHeader called for hash: 0000000000013cf0f0f7fcffbbdac77b86a36e5853f8a86466d96088150e00be
+2025/09/16 10:32:40 ELECTRUM: GetBestBlock called
+2025/09/16 10:32:40 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:32:40 ELECTRUM: Got current height 4664424 from headers subscription
+2025/09/16 10:32:40 ELECTRUM: Returning hash 0000000000013cf0f0f7fcffbbdac77b86a36e5853f8a86466d96088150e00be for height 4664424 (from headers subscription)
+2025-09-16 10:32:40.977 [DBG] LTND lnd.go:727: Syncing to block chain rev=4d1c86 best_block_time="2025-09-16 10:32:46 -0400 EDT" is_synced=false
+2025/09/16 10:32:41 ELECTRUM: GetBestBlock called
+2025/09/16 10:32:41 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:32:42 ELECTRUM: Got current height 4664425 from headers subscription
+2025/09/16 10:32:42 ELECTRUM: Returning hash 00000000000010da9ed7a66e017c48f66154107ae90fab1ecb1b3f859577f14b for height 4664425 (from headers subscription)
+2025/09/16 10:32:42 ELECTRUM: GetBlockHeader called for hash: 00000000000010da9ed7a66e017c48f66154107ae90fab1ecb1b3f859577f14b
+2025/09/16 10:32:42 ELECTRUM: GetBestBlock called
+2025/09/16 10:32:42 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:32:42 ELECTRUM: Got current height 4664425 from headers subscription
+2025/09/16 10:32:42 ELECTRUM: Returning hash 00000000000010da9ed7a66e017c48f66154107ae90fab1ecb1b3f859577f14b for height 4664425 (from headers subscription)
+2025-09-16 10:32:42.910 [DBG] LTND lnd.go:727: Syncing to block chain rev=4d1c86 best_block_time="2025-09-16 10:32:50 -0400 EDT" is_synced=false
+2025/09/16 10:32:43 ELECTRUM: GetBestBlock called
+2025/09/16 10:32:43 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:32:44 ELECTRUM: Got current height 4664425 from headers subscription
+2025/09/16 10:32:44 ELECTRUM: Returning hash 00000000000010da9ed7a66e017c48f66154107ae90fab1ecb1b3f859577f14b for height 4664425 (from headers subscription)
+2025/09/16 10:32:44 ELECTRUM: GetBlockHeader called for hash: 00000000000010da9ed7a66e017c48f66154107ae90fab1ecb1b3f859577f14b
+2025/09/16 10:32:44 ELECTRUM: GetBestBlock called
+2025/09/16 10:32:44 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:32:44 ELECTRUM: Got current height 4664425 from headers subscription
+2025/09/16 10:32:44 ELECTRUM: Returning hash 00000000000010da9ed7a66e017c48f66154107ae90fab1ecb1b3f859577f14b for height 4664425 (from headers subscription)
+2025-09-16 10:32:44.634 [DBG] LTND lnd.go:727: Syncing to block chain rev=4d1c86 best_block_time="2025-09-16 10:32:50 -0400 EDT" is_synced=false
+2025/09/16 10:32:45 ELECTRUM: GetBestBlock called
+2025/09/16 10:32:45 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:32:45 ELECTRUM: Got current height 4664425 from headers subscription
+2025/09/16 10:32:45 ELECTRUM: Returning hash 00000000000010da9ed7a66e017c48f66154107ae90fab1ecb1b3f859577f14b for height 4664425 (from headers subscription)
+2025/09/16 10:32:45 ELECTRUM: GetBlockHeader called for hash: 00000000000010da9ed7a66e017c48f66154107ae90fab1ecb1b3f859577f14b
+2025/09/16 10:32:45 ELECTRUM: GetBestBlock called
+2025/09/16 10:32:45 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:32:46 ELECTRUM: Got current height 4664425 from headers subscription
+2025/09/16 10:32:46 ELECTRUM: Returning hash 00000000000010da9ed7a66e017c48f66154107ae90fab1ecb1b3f859577f14b for height 4664425 (from headers subscription)
+2025-09-16 10:32:46.346 [DBG] LTND lnd.go:727: Syncing to block chain rev=4d1c86 best_block_time="2025-09-16 10:32:50 -0400 EDT" is_synced=false
+2025/09/16 10:32:47 ELECTRUM: GetBestBlock called
+2025/09/16 10:32:47 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:32:47 ELECTRUM: Got current height 4664426 from headers subscription
+2025/09/16 10:32:47 ELECTRUM: Returning hash 0000000000001a4e58a3bbd9f7d14d8f06c8b6c213d6c8eb5458b14233d2731f for height 4664426 (from headers subscription)
+2025/09/16 10:32:47 ELECTRUM: GetBlockHeader called for hash: 0000000000001a4e58a3bbd9f7d14d8f06c8b6c213d6c8eb5458b14233d2731f
+2025/09/16 10:32:47 ELECTRUM: GetBestBlock called
+2025/09/16 10:32:47 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:32:47 ELECTRUM: Got current height 4664427 from headers subscription
+2025/09/16 10:32:47 ELECTRUM: Returning hash 00000000000370f808291a4badc474719640cdbbc7a9c15516a2881a1f275b8c for height 4664427 (from headers subscription)
+2025/09/16 10:33:04 ELECTRUM: GetBestBlock called
+2025/09/16 10:33:04 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:33:04 ELECTRUM: Got current height 4664437 from headers subscription
+2025/09/16 10:33:04 ELECTRUM: Returning hash 000000000003a51eb09ad2223666b9aa3235e061fea153177e3e678ca11a1d12 for height 4664437 (from headers subscription)
+2025/09/16 10:33:04 ELECTRUM: Checking for new blocks - current: 4664437, last known: 4664422
+2025/09/16 10:33:04 ELECTRUM: New block detected! Height: 4664437 (was 4664422)
+2025/09/16 10:33:04 ELECTRUM: Sending block connected notification for height 4664437
+2025/09/16 10:33:04 ELECTRUM: Block notification sent successfully for height 4664437
+2025/09/16 10:33:05 ELECTRUM: GetBestBlock called
+2025/09/16 10:33:05 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:33:05 ELECTRUM: GetBestBlock called
+2025/09/16 10:33:05 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:33:05 ELECTRUM: Got current height 4664438 from headers subscription
+2025/09/16 10:33:05 ELECTRUM: Returning hash 0000000000000868c43955b0c9ffb1e5417150b399736af07108013bd2713066 for height 4664438 (from headers subscription)
+2025/09/16 10:33:05 ELECTRUM: Checking for new blocks - current: 4664438, last known: 4664422
+2025/09/16 10:33:05 ELECTRUM: New block detected! Height: 4664438 (was 4664422)
+2025/09/16 10:33:05 ELECTRUM: Sending block connected notification for height 4664438
+2025/09/16 10:33:05 ELECTRUM: Block notification sent successfully for height 4664438
+2025/09/16 10:33:06 ELECTRUM: Got current height 4664438 from headers subscription
+2025/09/16 10:33:06 ELECTRUM: Returning hash 0000000000000868c43955b0c9ffb1e5417150b399736af07108013bd2713066 for height 4664438 (from headers subscription)
+2025/09/16 10:33:06 ELECTRUM: Checking for new blocks - current: 4664438, last known: 4664422
+2025/09/16 10:33:06 ELECTRUM: New block detected! Height: 4664438 (was 4664422)
+2025/09/16 10:33:06 ELECTRUM: Sending block connected notification for height 4664438
+2025/09/16 10:33:06 ELECTRUM: Block notification sent successfully for height 4664438
+2025-09-16 10:33:13.220 [DBG] LTND lnd.go:727: Syncing to block chain rev=4d1c86 best_block_time="2025-09-16 10:32:47 -0400 EDT" is_synced=false
+2025/09/16 10:33:14 ELECTRUM: GetBestBlock called
+2025/09/16 10:33:14 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:33:14 ELECTRUM: Got current height 4664441 from headers subscription
+2025/09/16 10:33:14 ELECTRUM: Returning hash 00000000113c0b4ed8ada71270990182f84c3a11270fcda11f47e7ba7bd68abd for height 4664441 (from headers subscription)
+2025/09/16 10:33:14 ELECTRUM: GetBlockHeader called for hash: 00000000113c0b4ed8ada71270990182f84c3a11270fcda11f47e7ba7bd68abd
+2025/09/16 10:33:14 ELECTRUM: GetBestBlock called
+2025/09/16 10:33:14 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:33:14 ELECTRUM: Got current height 4664441 from headers subscription
+2025/09/16 10:33:14 ELECTRUM: Returning hash 00000000113c0b4ed8ada71270990182f84c3a11270fcda11f47e7ba7bd68abd for height 4664441 (from headers subscription)
+2025-09-16 10:33:15.063 [DBG] LTND lnd.go:727: Syncing to block chain rev=4d1c86 best_block_time="2025-09-16 10:33:10 -0400 EDT" is_synced=false
+2025/09/16 10:33:16 ELECTRUM: GetBestBlock called
+2025/09/16 10:33:16 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:33:16 ELECTRUM: Got current height 4664442 from headers subscription
+2025/09/16 10:33:16 ELECTRUM: Returning hash 000000000001b0c3d6ca2948ecf664bfb608e907e912bd531efef54f12180444 for height 4664442 (from headers subscription)
+2025/09/16 10:33:16 ELECTRUM: GetBlockHeader called for hash: 000000000001b0c3d6ca2948ecf664bfb608e907e912bd531efef54f12180444
+2025/09/16 10:33:16 ELECTRUM: GetBestBlock called
+2025/09/16 10:33:16 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:33:16 ELECTRUM: Got current height 4664442 from headers subscription
+2025/09/16 10:33:16 ELECTRUM: Returning hash 000000000001b0c3d6ca2948ecf664bfb608e907e912bd531efef54f12180444 for height 4664442 (from headers subscription)
+2025-09-16 10:33:17.009 [DBG] LTND lnd.go:727: Syncing to block chain rev=4d1c86 best_block_time="2025-09-16 10:33:11 -0400 EDT" is_synced=false
+2025/09/16 10:33:18 ELECTRUM: GetBestBlock called
+2025/09/16 10:33:18 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:33:18 ELECTRUM: Got current height 4664443 from headers subscription
+2025/09/16 10:33:18 ELECTRUM: Returning hash 0000000000008c6ab8a09c338d77b07491571fae043380c295a77864dece1ad2 for height 4664443 (from headers subscription)
+2025/09/16 10:33:18 ELECTRUM: GetBlockHeader called for hash: 0000000000008c6ab8a09c338d77b07491571fae043380c295a77864dece1ad2
+2025/09/16 10:33:18 ELECTRUM: GetBestBlock called
+2025/09/16 10:33:18 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:33:18 ELECTRUM: Got current height 4664443 from headers subscription
+2025/09/16 10:33:18 ELECTRUM: Returning hash 0000000000008c6ab8a09c338d77b07491571fae043380c295a77864dece1ad2 for height 4664443 (from headers subscription)
+2025-09-16 10:33:18.731 [DBG] LTND lnd.go:727: Syncing to block chain rev=4d1c86 best_block_time="2025-09-16 10:33:15 -0400 EDT" is_synced=false
+2025/09/16 10:33:19 ELECTRUM: GetBestBlock called
+2025/09/16 10:33:19 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:33:19 ELECTRUM: Got current height 4664444 from headers subscription
+2025/09/16 10:33:19 ELECTRUM: Returning hash 000000000001d10b1b8c61776343f030a39d373da8ee5d2925fca17a138068b6 for height 4664444 (from headers subscription)
+2025/09/16 10:33:19 ELECTRUM: GetBlockHeader called for hash: 000000000001d10b1b8c61776343f030a39d373da8ee5d2925fca17a138068b6
+2025/09/16 10:33:19 ELECTRUM: GetBestBlock called
+2025/09/16 10:33:19 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:33:20 ELECTRUM: Got current height 4664444 from headers subscription
+2025/09/16 10:33:20 ELECTRUM: Returning hash 000000000001d10b1b8c61776343f030a39d373da8ee5d2925fca17a138068b6 for height 4664444 (from headers subscription)
+2025-09-16 10:33:20.524 [DBG] LTND lnd.go:727: Syncing to block chain rev=4d1c86 best_block_time="2025-09-16 10:33:17 -0400 EDT" is_synced=false
+2025/09/16 10:33:21 ELECTRUM: GetBestBlock called
+2025/09/16 10:33:21 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:33:21 ELECTRUM: Got current height 4664445 from headers subscription
+2025/09/16 10:33:21 ELECTRUM: Returning hash 0000000000034c07d6e733f86ba887ee8de9d6ec3cbb7b6d34499919eaca7b83 for height 4664445 (from headers subscription)
+2025/09/16 10:33:21 ELECTRUM: GetBlockHeader called for hash: 0000000000034c07d6e733f86ba887ee8de9d6ec3cbb7b6d34499919eaca7b83
+2025/09/16 10:33:21 ELECTRUM: GetBestBlock called
+2025/09/16 10:33:21 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:33:22 ELECTRUM: Got current height 4664445 from headers subscription
+2025/09/16 10:33:22 ELECTRUM: Returning hash 0000000000034c07d6e733f86ba887ee8de9d6ec3cbb7b6d34499919eaca7b83 for height 4664445 (from headers subscription)
+2025-09-16 10:33:22.241 [DBG] LTND lnd.go:727: Syncing to block chain rev=4d1c86 best_block_time="2025-09-16 10:33:18 -0400 EDT" is_synced=false
+2025/09/16 10:33:23 ELECTRUM: GetBestBlock called
+2025/09/16 10:33:23 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:33:23 ELECTRUM: Got current height 4664446 from headers subscription
+2025/09/16 10:33:23 ELECTRUM: Returning hash 00000000000202365471fa3a251f01989321549eb437aa28dc9ac68130f8e26b for height 4664446 (from headers subscription)
+2025/09/16 10:33:23 ELECTRUM: GetBlockHeader called for hash: 00000000000202365471fa3a251f01989321549eb437aa28dc9ac68130f8e26b
+2025/09/16 10:33:23 ELECTRUM: GetBestBlock called
+2025/09/16 10:33:23 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:33:23 ELECTRUM: Got current height 4664446 from headers subscription
+2025/09/16 10:33:23 ELECTRUM: Returning hash 00000000000202365471fa3a251f01989321549eb437aa28dc9ac68130f8e26b for height 4664446 (from headers subscription)
+2025-09-16 10:33:24.040 [DBG] LTND lnd.go:727: Syncing to block chain rev=4d1c86 best_block_time="2025-09-16 10:33:20 -0400 EDT" is_synced=false
+2025/09/16 10:33:25 ELECTRUM: GetBestBlock called
+2025/09/16 10:33:25 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:33:25 ELECTRUM: Got current height 4664446 from headers subscription
+2025/09/16 10:33:25 ELECTRUM: Returning hash 00000000000202365471fa3a251f01989321549eb437aa28dc9ac68130f8e26b for height 4664446 (from headers subscription)
+2025/09/16 10:33:25 ELECTRUM: GetBlockHeader called for hash: 00000000000202365471fa3a251f01989321549eb437aa28dc9ac68130f8e26b
+2025/09/16 10:33:25 ELECTRUM: GetBestBlock called
+2025/09/16 10:33:25 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:33:25 ELECTRUM: Got current height 4664446 from headers subscription
+2025/09/16 10:33:25 ELECTRUM: Returning hash 00000000000202365471fa3a251f01989321549eb437aa28dc9ac68130f8e26b for height 4664446 (from headers subscription)
+2025-09-16 10:33:25.814 [DBG] LTND lnd.go:727: Syncing to block chain rev=4d1c86 best_block_time="2025-09-16 10:33:20 -0400 EDT" is_synced=false
+2025/09/16 10:33:26 ELECTRUM: GetBestBlock called
+2025/09/16 10:33:26 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:33:27 ELECTRUM: Got current height 4664447 from headers subscription
+2025/09/16 10:33:27 ELECTRUM: Returning hash 0000000000000a5b364af5bf738241cfafe30b21627a51e3c000fea605074987 for height 4664447 (from headers subscription)
+2025/09/16 10:33:27 ELECTRUM: GetBlockHeader called for hash: 0000000000000a5b364af5bf738241cfafe30b21627a51e3c000fea605074987
+2025/09/16 10:33:27 ELECTRUM: GetBestBlock called
+2025/09/16 10:33:27 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:33:27 ELECTRUM: Got current height 4664447 from headers subscription
+2025/09/16 10:33:27 ELECTRUM: Returning hash 0000000000000a5b364af5bf738241cfafe30b21627a51e3c000fea605074987 for height 4664447 (from headers subscription)
+2025-09-16 10:33:27.652 [DBG] LTND lnd.go:727: Syncing to block chain rev=4d1c86 best_block_time="2025-09-16 10:33:22 -0400 EDT" is_synced=false
+2025-09-16 10:33:27.991 [INF] LTND signal.go:177: Received terminated
+2025-09-16 10:33:27.991 [INF] LTND signal.go:166: Shutting down...
+2025-09-16 10:33:27.991 [INF] LTND signal.go:185: Gracefully shutting down.
+2025-09-16 10:33:27.991 [INF] RPCS rpcserver.go:1026: Stopping RPC Server
+2025-09-16 10:33:27.991 [INF] RPCS rpcserver.go:1034: Stopping ChainRPC Sub-RPC Server
+2025-09-16 10:33:27.991 [INF] RPCS rpcserver.go:1034: Stopping InvoicesRPC Sub-RPC Server
+2025-09-16 10:33:27.991 [INF] RPCS rpcserver.go:1034: Stopping RouterRPC Sub-RPC Server
+2025-09-16 10:33:27.991 [INF] RPCS rpcserver.go:1034: Stopping SignRPC Sub-RPC Server
+2025-09-16 10:33:27.991 [INF] RPCS rpcserver.go:1034: Stopping VersionRPC Sub-RPC Server
+2025-09-16 10:33:27.991 [INF] RPCS rpcserver.go:1034: Stopping WatchtowerClientRPC Sub-RPC Server
+2025-09-16 10:33:27.991 [INF] RPCS rpcserver.go:1034: Stopping DevRPC Sub-RPC Server
+2025-09-16 10:33:27.991 [INF] RPCS rpcserver.go:1034: Stopping PeersRPC Sub-RPC Server
+2025-09-16 10:33:27.991 [INF] RPCS rpcserver.go:1034: Stopping WalletKitRPC Sub-RPC Server
+2025/09/16 10:33:27 ELECTRUM: Block notification loop shutting down
+2025/09/16 10:33:27 ELECTRUM: Block notification loop shutting down
+2025/09/16 10:33:27 ELECTRUM: Block notification loop shutting down
+2025-09-16 10:33:27.992 [INF] LTND lnd.go:152: Shutdown complete

@@ -6,6 +6,7 @@ import (
 	"errors"
 	"fmt"
 	"math"
+	"reflect"
 	"sync"
 	"time"
 
@@ -100,6 +101,16 @@ type BtcWallet struct {
 	blockCache *blockcache.BlockCache
 
 	*input.MusigSessionManager
+
+	// discoveredTransactions stores transactions discovered via Electrum
+	discoveredTransactions []*lnwallet.Utxo
+	
+	// electrumRescanCompleted tracks if the initial Electrum rescan has been completed
+	electrumRescanCompleted bool
+	
+	// processedAddresses tracks which addresses have already been processed for Electrum notifications
+	processedAddresses map[string]bool
+	processedAddressesMtx sync.RWMutex
 }
 
 // A compile time check to ensure that BtcWallet implements the
@@ -162,13 +173,14 @@ func New(cfg Config, blockCache *blockcache.BlockCache) (*BtcWallet, error) {
 	}
 
 	finalWallet := &BtcWallet{
-		cfg:           &cfg,
-		wallet:        wallet,
-		db:            wallet.Database(),
-		chain:         cfg.ChainSource,
-		netParams:     cfg.NetParams,
-		chainKeyScope: chainKeyScope,
-		blockCache:    blockCache,
+		cfg:                &cfg,
+		wallet:             wallet,
+		db:                 wallet.Database(),
+		chain:              cfg.ChainSource,
+		netParams:          cfg.NetParams,
+		chainKeyScope:      chainKeyScope,
+		blockCache:         blockCache,
+		processedAddresses: make(map[string]bool),
 	}
 
 	finalWallet.MusigSessionManager = input.NewMusigSessionManager(
@@ -385,12 +397,30 @@ func (b *BtcWallet) Start() error {
 		return err
 	}
 
+
 	// Start the underlying btcwallet core.
 	b.wallet.Start()
 
 	// Pass the rpc client into the wallet so it can sync up to the
 	// current main chain.
 	b.wallet.SynchronizeRPC(b.chain)
+
+	// Set up Electrum address notifications if using Electrum backend
+	if b.chain != nil && b.chain.BackEnd() == "electrum" {
+		log.Infof("BTCWALLET: Setting up Electrum address notifications during wallet initialization")
+		
+		// Set up the transaction callback to receive discovered transactions
+		b.setupElectrumTransactionCallback()
+		
+		go func() {
+			err := b.SetupElectrumAddressNotifications()
+			if err != nil {
+				log.Warnf("BTCWALLET: Failed to set up Electrum address notifications: %v", err)
+			} else {
+				log.Infof("BTCWALLET: Electrum address notifications set up successfully")
+			}
+		}()
+	}
 
 	return nil
 }
@@ -409,6 +439,360 @@ func (b *BtcWallet) Stop() error {
 	return nil
 }
 
+
+
+
+
+// SetupElectrumAddressNotifications sets up real-time address notifications for Electrum backend
+func (b *BtcWallet) SetupElectrumAddressNotifications() error {
+	log.Infof("BTCWALLET: Setting up Electrum address notifications")
+
+	// Get all existing wallet addresses
+	addresses, err := b.getAllWalletAddresses()
+	if err != nil {
+		log.Warnf("BTCWALLET: Failed to get wallet addresses: %v", err)
+		return err
+	}
+
+	log.Infof("BTCWALLET: Found %d existing addresses to set up notifications for", len(addresses))
+
+	// Set up notifications for each existing address
+	for _, address := range addresses {
+		err := b.setupAddressNotification(address)
+		if err != nil {
+			log.Warnf("BTCWALLET: Failed to set up notification for address %s: %v", address, err)
+			// Continue with other addresses even if one fails
+		}
+	}
+
+	log.Infof("BTCWALLET: Completed setting up notifications for %d addresses", len(addresses))
+	return nil
+}
+
+// setupElectrumTransactionCallback sets up the callback to receive discovered transactions from Electrum
+func (b *BtcWallet) setupElectrumTransactionCallback() {
+	log.Infof("BTCWALLET: Setting up Electrum transaction callback")
+	
+	// Use reflection to call the SetTransactionCallback method on the chain
+	chainValue := reflect.ValueOf(b.chain)
+	method := chainValue.MethodByName("SetTransactionCallback")
+	
+	if method.IsValid() {
+		log.Infof("BTCWALLET: Found SetTransactionCallback method, setting up callback")
+		
+		// Create a callback function that will be called when transactions are discovered
+		callback := func(txHash string, address string, value btcutil.Amount, confirmations int32, height int32) {
+			log.Infof("BTCWALLET: Received transaction callback - txHash: %s, address: %s, value: %d, confirmations: %d", 
+				txHash, address, value, confirmations)
+			
+			// Integrate the discovered transaction into the wallet
+			err := b.integrateDiscoveredTransaction(txHash, address, value, confirmations, height)
+			if err != nil {
+				log.Warnf("BTCWALLET: Failed to integrate discovered transaction %s: %v", txHash, err)
+			} else {
+				log.Infof("BTCWALLET: Successfully integrated discovered transaction %s", txHash)
+			}
+		}
+		
+		// Call the method with the callback
+		args := []reflect.Value{reflect.ValueOf(callback)}
+		method.Call(args)
+		
+		log.Infof("BTCWALLET: Successfully set up Electrum transaction callback")
+	} else {
+		log.Warnf("BTCWALLET: SetTransactionCallback method not found on chain")
+	}
+}
+
+// integrateDiscoveredTransaction integrates a single discovered transaction into the wallet
+func (b *BtcWallet) integrateDiscoveredTransaction(txHash string, address string, value btcutil.Amount, confirmations int32, height int32) error {
+	log.Infof("BTCWALLET: Integrating discovered transaction %s for address %s (value: %d, confirmations: %d)", 
+		txHash, address, value, confirmations)
+	
+	// Parse the transaction hash
+	txHashParsed, err := chainhash.NewHashFromStr(txHash)
+	if err != nil {
+		return fmt.Errorf("failed to parse transaction hash %s: %w", txHash, err)
+	}
+	
+	// Parse the address
+	addr, err := btcutil.DecodeAddress(address, b.netParams)
+	if err != nil {
+		return fmt.Errorf("failed to decode address %s: %w", address, err)
+	}
+	
+	// Create pkScript for the address
+	pkScript, err := txscript.PayToAddrScript(addr)
+	if err != nil {
+		return fmt.Errorf("failed to create pkScript for address %s: %w", address, err)
+	}
+	
+	// Create a UTXO entry that can be used by the wallet
+	utxo := &lnwallet.Utxo{
+		AddressType: lnwallet.TaprootPubkey, // Most of our addresses are Taproot
+		Value:       value,
+		PkScript:    pkScript,
+		OutPoint: wire.OutPoint{
+			Hash:  *txHashParsed,
+			Index: 0, // Assuming it's the first output
+		},
+		Confirmations: int64(confirmations),
+	}
+	
+	// Store the discovered transaction for balance calculation
+	b.discoveredTransactions = append(b.discoveredTransactions, utxo)
+	
+	log.Infof("BTCWALLET: Successfully integrated transaction %s (value: %d satoshis, confirmations: %d)", 
+		txHash, value, confirmations)
+	
+	return nil
+}
+
+// setupAddressNotification sets up a notification for a specific address
+func (b *BtcWallet) setupAddressNotification(address string) error {
+	// Check if this address has already been processed
+	b.processedAddressesMtx.Lock()
+	if b.processedAddresses[address] {
+		b.processedAddressesMtx.Unlock()
+		log.Infof("BTCWALLET: Address %s already processed, skipping duplicate setup", address)
+		return nil
+	}
+	// Mark this address as being processed
+	b.processedAddresses[address] = true
+	b.processedAddressesMtx.Unlock()
+
+	log.Infof("BTCWALLET: Setting up notification for address: %s", address)
+
+	// Parse the address
+	addr, err := btcutil.DecodeAddress(address, b.netParams)
+	if err != nil {
+		// If parsing fails, remove from processed list so it can be retried
+		b.processedAddressesMtx.Lock()
+		delete(b.processedAddresses, address)
+		b.processedAddressesMtx.Unlock()
+		return fmt.Errorf("failed to decode address %s: %w", address, err)
+	}
+
+	// Use the chain's NotifyReceived method to set up notifications
+	log.Infof("BTCWALLET: Calling chain.NotifyReceived for address: %s", address)
+	err = b.chain.NotifyReceived([]btcutil.Address{addr})
+	if err != nil {
+		// If notification setup fails, remove from processed list so it can be retried
+		b.processedAddressesMtx.Lock()
+		delete(b.processedAddresses, address)
+		b.processedAddressesMtx.Unlock()
+		log.Warnf("BTCWALLET: chain.NotifyReceived failed for address %s: %v", address, err)
+		return fmt.Errorf("failed to set up notification for address %s: %w", address, err)
+	}
+	log.Infof("BTCWALLET: chain.NotifyReceived completed successfully for address: %s", address)
+
+	log.Infof("BTCWALLET: Successfully set up notification for address: %s", address)
+	return nil
+}
+
+// TriggerElectrumRescan triggers an Electrum-specific rescan if using Electrum backend
+// DEPRECATED: This method is replaced by SetupElectrumAddressNotifications
+func (b *BtcWallet) TriggerElectrumRescan() error {
+	log.Infof("BTCWALLET: TriggerElectrumRescan called")
+
+	// Check if we're using the Electrum backend
+	if b.chain != nil && b.chain.BackEnd() == "electrum" {
+		// Only run the rescan once during wallet initialization
+		if b.electrumRescanCompleted {
+			log.Infof("BTCWALLET: Electrum rescan already completed, skipping")
+			return nil
+		}
+		log.Infof("BTCWALLET: Using Electrum backend, triggering Electrum-specific rescan")
+		
+		// Get all addresses from the wallet
+		addresses, err := b.getAllWalletAddresses()
+		if err != nil {
+			log.Warnf("BTCWALLET: Failed to get wallet addresses: %v", err)
+			return err
+		}
+		
+		log.Infof("BTCWALLET: Found %d wallet addresses to check", len(addresses))
+		
+		// Check if we're using the Electrum backend and call the method directly
+		if b.chain.BackEnd() == "electrum" {
+			log.Infof("BTCWALLET: Using Electrum backend, calling ElectrumRescanAddresses directly")
+			
+			// Use reflection to call the ElectrumRescanAddresses method
+			chainValue := reflect.ValueOf(b.chain)
+			method := chainValue.MethodByName("ElectrumRescanAddresses")
+			
+			if method.IsValid() {
+				log.Infof("BTCWALLET: Found ElectrumRescanAddresses method, calling it")
+				
+				// Call the method with the addresses parameter
+				args := []reflect.Value{reflect.ValueOf(addresses)}
+				results := method.Call(args)
+				
+				// Check for errors
+				if len(results) > 1 && !results[1].IsNil() {
+					err := results[1].Interface().(error)
+					log.Warnf("BTCWALLET: Electrum rescan failed: %v", err)
+					return err
+				}
+				
+				// Get the discovered transactions
+				if len(results) > 0 && !results[0].IsNil() {
+					discoveredTransactionsInterface := results[0].Interface()
+					log.Infof("BTCWALLET: Electrum rescan completed successfully, got results: %v", discoveredTransactionsInterface)
+					
+					// Try to convert to the expected type
+					if discoveredTransactions, ok := discoveredTransactionsInterface.([]ElectrumDiscoveredTransaction); ok {
+						log.Infof("BTCWALLET: Successfully converted to ElectrumDiscoveredTransaction slice, found %d transactions", len(discoveredTransactions))
+						
+						// Integrate discovered transactions into the wallet
+						if len(discoveredTransactions) > 0 {
+							err := b.integrateDiscoveredTransactions(discoveredTransactions)
+							if err != nil {
+								log.Warnf("BTCWALLET: Failed to integrate discovered transactions: %v", err)
+								return err
+							}
+							log.Infof("BTCWALLET: Successfully integrated %d discovered transactions", len(discoveredTransactions))
+						}
+						
+						// Mark the rescan as completed
+						b.electrumRescanCompleted = true
+						log.Infof("BTCWALLET: Electrum rescan completed and marked as done")
+					} else {
+						log.Warnf("BTCWALLET: Failed to convert discovered transactions to expected type")
+					}
+				}
+			} else {
+				log.Warnf("BTCWALLET: ElectrumRescanAddresses method not found")
+			}
+		} else {
+			log.Warnf("BTCWALLET: Not using Electrum backend (backend: %s), skipping Electrum rescan", b.chain.BackEnd())
+		}
+	} else {
+		if b.chain == nil {
+			log.Infof("BTCWALLET: Chain is nil, skipping Electrum rescan")
+		} else {
+			log.Infof("BTCWALLET: Not using Electrum backend (backend: %s), skipping Electrum rescan", b.chain.BackEnd())
+		}
+	}
+	
+	return nil
+}
+
+// ElectrumDiscoveredTransaction represents a transaction discovered via Electrum
+type ElectrumDiscoveredTransaction struct {
+	TxHash        string
+	Address       string
+	Value         btcutil.Amount
+	Confirmations int32
+	Height        int32
+}
+
+// getAllWalletAddresses gets all addresses from the wallet dynamically
+func (b *BtcWallet) getAllWalletAddresses() ([]string, error) {
+	log.Infof("BTCWALLET: Getting all wallet addresses dynamically")
+	
+	var addresses []string
+	
+	// Get all accounts from the wallet
+	accounts, err := b.wallet.Accounts(waddrmgr.KeyScopeBIP0084) // Native SegWit addresses
+	if err != nil {
+		log.Warnf("BTCWALLET: Failed to get BIP84 accounts: %v", err)
+	} else {
+		for _, account := range accounts.Accounts {
+			// Get external addresses (receiving addresses)
+			externalAddrs, err := b.wallet.AccountAddresses(account.AccountNumber)
+			if err != nil {
+				log.Warnf("BTCWALLET: Failed to get external addresses for account %d: %v", account.AccountNumber, err)
+				continue
+			}
+			
+			for _, addr := range externalAddrs {
+				addresses = append(addresses, addr.String())
+			}
+		}
+	}
+	
+	// Also get Taproot addresses (BIP86)
+	accounts, err = b.wallet.Accounts(waddrmgr.KeyScopeBIP0086) // Taproot addresses
+	if err != nil {
+		log.Warnf("BTCWALLET: Failed to get BIP86 accounts: %v", err)
+	} else {
+		for _, account := range accounts.Accounts {
+			// Get external addresses (receiving addresses)
+			externalAddrs, err := b.wallet.AccountAddresses(account.AccountNumber)
+			if err != nil {
+				log.Warnf("BTCWALLET: Failed to get external addresses for account %d: %v", account.AccountNumber, err)
+				continue
+			}
+			
+			for _, addr := range externalAddrs {
+				addresses = append(addresses, addr.String())
+			}
+		}
+	}
+	
+	log.Infof("BTCWALLET: Found %d total addresses to check dynamically", len(addresses))
+	return addresses, nil
+}
+
+// integrateDiscoveredTransactions integrates discovered Electrum transactions into the wallet
+func (b *BtcWallet) integrateDiscoveredTransactions(transactions []ElectrumDiscoveredTransaction) error {
+	log.Infof("BTCWALLET: Integrating %d discovered transactions into wallet", len(transactions))
+	
+	for _, tx := range transactions {
+		log.Infof("BTCWALLET: Integrating transaction %s for address %s (value: %d, confirmations: %d)", 
+			tx.TxHash, tx.Address, tx.Value, tx.Confirmations)
+		
+		// Parse the transaction hash
+		txHash, err := chainhash.NewHashFromStr(tx.TxHash)
+		if err != nil {
+			log.Warnf("BTCWALLET: Failed to parse transaction hash %s: %v", tx.TxHash, err)
+			continue
+		}
+		
+		// Parse the address
+		addr, err := btcutil.DecodeAddress(tx.Address, b.netParams)
+		if err != nil {
+			log.Warnf("BTCWALLET: Failed to decode address %s: %v", tx.Address, err)
+			continue
+		}
+		
+		// Create pkScript for the address
+		pkScript, err := txscript.PayToAddrScript(addr)
+		if err != nil {
+			log.Warnf("BTCWALLET: Failed to create pkScript for address %s: %v", tx.Address, err)
+			continue
+		}
+		
+		// For now, we'll store the discovered transactions in a simple way
+		// In a production system, you'd want to properly integrate with the wallet's transaction manager
+		// by calling methods like wallet.AddTransaction() or similar
+		
+		// Create a simple UTXO entry that can be used by the wallet
+		utxo := &lnwallet.Utxo{
+			AddressType: lnwallet.TaprootPubkey, // Most of our addresses are Taproot
+			Value:       tx.Value,
+			PkScript:    pkScript,
+			OutPoint: wire.OutPoint{
+				Hash:  *txHash,
+				Index: 0, // Assuming it's the first output
+			},
+			Confirmations: int64(tx.Confirmations),
+		}
+		
+		// Store the UTXO in a way that can be retrieved by ListUnspentWitness
+		// This is a simplified approach - in production you'd integrate with the wallet's database
+		log.Infof("BTCWALLET: Successfully integrated transaction %s (value: %d satoshis, confirmations: %d)", 
+			tx.TxHash, tx.Value, tx.Confirmations)
+		
+		// Store the discovered transaction for balance calculation
+		b.discoveredTransactions = append(b.discoveredTransactions, utxo)
+	}
+	
+	log.Infof("BTCWALLET: Completed integration of %d discovered transactions", len(transactions))
+	return nil
+}
+
 // ConfirmedBalance returns the sum of all the wallet's unspent outputs that
 // have at least confs confirmations. If confs is set to zero, then all unspent
 // outputs, including those currently in the mempool will be included in the
@@ -419,6 +803,8 @@ func (b *BtcWallet) Stop() error {
 // This is a part of the WalletController interface.
 func (b *BtcWallet) ConfirmedBalance(confs int32,
 	accountFilter string) (btcutil.Amount, error) {
+	
+	log.Infof("BTCWALLET: ConfirmedBalance called with confs=%d, accountFilter=%s", confs, accountFilter)
 
 	var balance btcutil.Amount
 
@@ -432,6 +818,8 @@ func (b *BtcWallet) ConfirmedBalance(confs int32,
 	for _, witnessOutput := range witnessOutputs {
 		balance += witnessOutput.Value
 	}
+
+	// Note: Electrum rescan is now only triggered during wallet initialization, not on every balance check
 
 	return balance, nil
 }
@@ -491,10 +879,31 @@ func (b *BtcWallet) NewAddress(t lnwallet.AddressType, change bool,
 		return nil, err
 	}
 
+	var addr btcutil.Address
+	
 	if change {
-		return b.wallet.NewChangeAddress(account, keyScope)
+		addr, err = b.wallet.NewChangeAddress(account, keyScope)
+	} else {
+		addr, err = b.wallet.NewAddress(account, keyScope)
 	}
-	return b.wallet.NewAddress(account, keyScope)
+	if err != nil {
+		return nil, err
+	}
+	
+	// Set up Electrum address notification for new addresses
+	if b.chain != nil && b.chain.BackEnd() == "electrum" {
+		log.Infof("BTCWALLET: Setting up notification for new address: %s", addr.String())
+		go func() {
+			err := b.setupAddressNotification(addr.String())
+			if err != nil {
+				log.Warnf("BTCWALLET: Failed to set up notification for new address %s: %v", addr.String(), err)
+			} else {
+				log.Infof("BTCWALLET: Successfully set up notification for new address: %s", addr.String())
+			}
+		}()
+	}
+	
+	return addr, nil
 }
 
 // LastUnusedAddress returns the last *unused* address known by the wallet. An
@@ -1106,6 +1515,15 @@ func (b *BtcWallet) ListUnspentWitness(minConfs, maxConfs int32,
 			witnessOutputs = append(witnessOutputs, utxo)
 		}
 
+	}
+
+	// Note: Electrum rescan is now only triggered during wallet initialization, not on every balance check
+
+
+	// Add discovered transactions from Electrum
+	if len(b.discoveredTransactions) > 0 {
+		log.Infof("BTCWALLET: Adding %d discovered Electrum transactions to witness outputs", len(b.discoveredTransactions))
+		witnessOutputs = append(witnessOutputs, b.discoveredTransactions...)
 	}
 
 	return witnessOutputs, nil

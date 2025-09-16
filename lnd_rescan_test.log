@@ -1,0 +1,199 @@
+2025-09-16 09:48:45.305 [INF] LTND: Version Info rev=4d1c86 version=0.19.99-beta commit="" debuglevel=production logging=debug
+2025-09-16 09:48:45.305 [INF] LTND: Network Info rev=4d1c86 active_chain=Bitcoin network=testnet
+2025-09-16 09:48:45.308 [DBG] RRPC: Router RPC server successfully registered with root gRPC server
+2025-09-16 09:48:45.308 [DBG] VRPC: Versioner RPC server successfully registered with root gRPC server
+2025-09-16 09:48:45.308 [INF] RPCS: RPC server listening on 127.0.0.1:10009
+2025-09-16 09:48:45.310 [DBG] RRPC: Router REST server successfully registered with root REST server
+2025-09-16 09:48:45.310 [DBG] VRPC: Versioner REST server successfully registered with root REST server
+2025-09-16 09:48:45.311 [INF] RPCS: gRPC proxy started at 127.0.0.1:8080
+2025-09-16 09:48:45.311 [INF] LTND: Opening the main database, this might take a few minutes...
+2025-09-16 09:48:45.311 [INF] LTND: Opening bbolt database, sync_freelist=false, auto_compact=false
+2025-09-16 09:48:45.312 [INF] LTND: Creating local graph and channel state DB instances
+2025-09-16 09:48:45.332 [INF] CHDB: Checking for schema update: latest_version=33, db_version=33
+2025-09-16 09:48:45.332 [INF] CHDB: Applying 2 optional migrations
+2025-09-16 09:48:45.332 [INF] CHDB: Checking for optional update: name=prune_revocation_log
+2025-09-16 09:48:45.332 [DBG] CHDB: Skipping optional migration: name=prune_revocation_log as it is not specified in the config
+2025-09-16 09:48:45.332 [INF] CHDB: Checking for optional update: name=gc_decayed_log
+2025-09-16 09:48:45.332 [DBG] CHDB: Skipping optional migration: name=gc_decayed_log as it has already been applied
+2025-09-16 09:48:45.343 [INF] LTND: Database(s) now open (time_to_open=32.28ms)!
+2025-09-16 09:48:45.343 [INF] LTND: We're not running within systemd or the service type is not 'notify'
+2025-09-16 09:48:45.343 [INF] LTND: Waiting for wallet encryption password. Use `lncli create` to create a wallet, `lncli unlock` to unlock an existing wallet, or `lncli changepassword` to change the password of an existing wallet and unlock it.
+2025-09-16 09:49:06.594 [DBG] RPCS: [/lnrpc.WalletUnlocker/UnlockWallet] requested
+2025-09-16 09:49:07.082 [ERR] RPCS: [/lnrpc.WalletUnlocker/UnlockWallet]: invalid passphrase for master public key
+2025-09-16 09:49:23.184 [DBG] RPCS: [/lnrpc.WalletUnlocker/UnlockWallet] requested
+2025-09-16 09:49:23.662 [ERR] RPCS: [/lnrpc.WalletUnlocker/UnlockWallet]: invalid passphrase for master public key
+2025-09-16 09:49:43.287 [DBG] RPCS: [/lnrpc.WalletUnlocker/UnlockWallet] requested
+2025-09-16 09:49:43.790 [INF] BTWL: Opened wallet
+2025-09-16 09:49:43.790 [INF] BTWL: Dropping btcwallet transaction history
+2025-09-16 09:49:43.790 [WRN] BTWL: Wallet does not have a birthday block set, falling back to rescan from genesis
+2025-09-16 09:49:44.297 [INF] BTWL: Opened wallet
+2025-09-16 09:49:44.297 [WRN] LTND: Dropped all transaction history from on-chain wallet. Remember to disable reset-wallet-transactions flag for next start of lnd
+2025-09-16 09:49:44.366 [INF] CHRE: Initializing electrum backend
+2025-09-16 09:49:44.367 [INF] CHRE: ElectrumMode config: &{ServerAddr:testnet.aranguren.org:51002 UseTLS:true ValidateServerCertificate:false ConnectTimeout:30s RequestTimeout:30s PersistTxHistory:false}
+2025-09-16 09:49:44.367 [INF] CHRE: ElectrumMode server: testnet.aranguren.org:51002
+2025/09/16 09:49:44 ELECTRUM: Config - ServerAddr: testnet.aranguren.org:51002, UseTLS: true, ValidateServerCertificate: false
+2025/09/16 09:49:44 ELECTRUM: Creating TLS client for server: testnet.aranguren.org:51002
+2025/09/16 09:49:44 ELECTRUM: Successfully created TLS client
+2025/09/16 09:49:44 ELECTRUM: Initializing best block during startup
+2025/09/16 09:49:44 ELECTRUM: GetBestBlock called
+2025/09/16 09:49:44 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 09:49:45 ELECTRUM: Got current height 4663272 from headers subscription
+2025/09/16 09:49:45 ELECTRUM: Returning hash 0000000000002036e3db955a14b3bcd1546be9b5e4c895723b143f25db45960d for height 4663272 (from headers subscription)
+2025/09/16 09:49:45 ELECTRUM: Successfully initialized best block
+2025-09-16 09:49:45.073 [INF] LTND: About to call BuildChainControl
+2025/09/16 09:49:45 ELECTRUM: Starting continuous block notification loop
+2025-09-16 09:49:45.073 [INF] LTND: BuildChainControl called - starting wallet controller creation
+2025-09-16 09:49:45.073 [INF] LTND: About to call btcwallet.New
+2025-09-16 09:49:45.073 [INF] LTND: btcwallet.New completed
+2025-09-16 09:49:45.073 [INF] LTND: Setting WalletController type: *btcwallet.BtcWallet
+2025-09-16 09:49:45.566 [INF] BTWL: The wallet has been unlocked without a time limit
+2025/09/16 09:49:45 ELECTRUM: Initializing best block during startup
+2025/09/16 09:49:45 ELECTRUM: GetBestBlock called
+2025/09/16 09:49:45 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 09:49:45 ELECTRUM: Got current height 4663272 from headers subscription
+2025/09/16 09:49:45 ELECTRUM: Returning hash 0000000000002036e3db955a14b3bcd1546be9b5e4c895723b143f25db45960d for height 4663272 (from headers subscription)
+2025/09/16 09:49:45 ELECTRUM: Successfully initialized best block
+2025/09/16 09:49:45 ELECTRUM: Starting continuous block notification loop
+2025-09-16 09:49:45.816 [INF] CHRE: LightningWallet opened
+2025-09-16 09:49:45.816 [INF] LTND: BuildChainControl completed
+2025/09/16 09:49:45 ELECTRUM: Sending current best block to client 1 - Hash: 0000000000002036e3db955a14b3bcd1546be9b5e4c895723b143f25db45960d, Height: 4663272, BlockHeader: true
+2025/09/16 09:49:45 ELECTRUM: Successfully sent block epoch to client 1
+2025-09-16 09:49:45.816 [INF] BTCN: Broadcaster now active
+2025/09/16 09:49:45 ELECTRUM: Initializing best block during startup
+2025/09/16 09:49:45 ELECTRUM: GetBestBlock called
+2025/09/16 09:49:45 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 09:49:46 ELECTRUM: Got current height 4663272 from headers subscription
+2025/09/16 09:49:46 ELECTRUM: Returning hash 0000000000002036e3db955a14b3bcd1546be9b5e4c895723b143f25db45960d for height 4663272 (from headers subscription)
+2025/09/16 09:49:46 ELECTRUM: Successfully initialized best block
+2025/09/16 09:49:46 ELECTRUM: GetBestBlock called
+2025/09/16 09:49:46 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 09:49:46 ELECTRUM: Starting continuous block notification loop
+2025/09/16 09:49:46 ELECTRUM: Got current height 4663272 from headers subscription
+2025/09/16 09:49:46 ELECTRUM: Returning hash 0000000000002036e3db955a14b3bcd1546be9b5e4c895723b143f25db45960d for height 4663272 (from headers subscription)
+2025-09-16 09:49:46.410 [INF] HSWC: Cleaning circuits from disk for closed channels
+2025-09-16 09:49:46.410 [DBG] HSWC: Found 0 closed channels
+2025-09-16 09:49:46.410 [INF] HSWC: Finished cleaning: no closed channels found, no actions taken.
+2025-09-16 09:49:46.410 [INF] HSWC: Restoring in-memory circuit state from disk
+2025-09-16 09:49:46.422 [INF] HSWC: Payment circuits loaded: num_pending=0, num_open=0
+2025-09-16 09:49:46.437 [DBG] CRTR: Instantiating mission control with config: maximum history: 1000, minimum failure relax interval: 1m0s, estimator type: apriori, penalty halflife time: 1h0m0s, apriori hop probability: 0.6, apriori weight: 0.5, previous success probability: 0.95, capacity fraction: 0.9999
+2025-09-16 09:49:46.447 [INF] CRTR: Loaded 0 mission control entries
+2025-09-16 09:49:46.448 [DBG] CRTR: [default]: Mission control state reconstruction started
+2025-09-16 09:49:46.448 [DBG] CRTR: [default]: Mission control state reconstruction finished: n=0, time=2.625µs
+2025-09-16 09:49:46.448 [DBG] SRVR: Instantiating payment session source with config: AttemptCost=100 + 0.1%, MinRouteProbability=0.01
+2025-09-16 09:49:46.459 [INF] ACSM: Access Manager initialized
+2025-09-16 09:49:46.470 [INF] LTND: Channel backup proxy channel notifier starting
+2025-09-16 09:49:46.470 [INF] CHIO: Registered queue=1 with 3 blockbeat consumers
+2025-09-16 09:49:46.470 [DBG] CHIO: Consumer [ChainArbitrator] registered in queue 1
+2025-09-16 09:49:46.470 [DBG] CHIO: Consumer [UtxoSweeper] registered in queue 1
+2025-09-16 09:49:46.470 [DBG] CHIO: Consumer [TxPublisher] registered in queue 1
+2025-09-16 09:49:46.470 [INF] ATPL: Instantiating autopilot with active=false, max_channels=5, allocation=0.600000, min_chan_size=20000, max_chan_size=16777215, private=false, min_confs=1, conf_target=3
+2025-09-16 09:49:46.470 [DBG] LTND: Populating dependencies for sub RPC server: SignRPC
+2025-09-16 09:49:46.470 [DBG] LTND: Populating dependencies for sub RPC server: WalletKitRPC
+2025-09-16 09:49:46.470 [DBG] LTND: Populating dependencies for sub RPC server: AutopilotRPC
+2025-09-16 09:49:46.470 [DBG] LTND: Populating dependencies for sub RPC server: ChainRPC
+2025-09-16 09:49:46.470 [DBG] LTND: Populating dependencies for sub RPC server: InvoicesRPC
+2025-09-16 09:49:46.470 [DBG] LTND: Populating dependencies for sub RPC server: PeersRPC
+2025-09-16 09:49:46.470 [DBG] LTND: Populating dependencies for sub RPC server: NeutrinoKitRPC
+2025-09-16 09:49:46.470 [DBG] LTND: Populating dependencies for sub RPC server: RouterRPC
+2025-09-16 09:49:46.470 [DBG] LTND: Populating dependencies for sub RPC server: WatchtowerRPC
+2025-09-16 09:49:46.470 [DBG] LTND: Populating dependencies for sub RPC server: WatchtowerClientRPC
+2025-09-16 09:49:46.470 [DBG] LTND: Populating dependencies for sub RPC server: DevRPC
+2025-09-16 09:49:46.470 [DBG] RPCS: Starting sub RPC server: RouterRPC
+2025-09-16 09:49:46.470 [DBG] RPCS: Starting sub RPC server: VersionRPC
+2025-09-16 09:49:46.470 [DBG] RPCS: Starting sub RPC server: WatchtowerClientRPC
+2025-09-16 09:49:46.470 [INF] LTND: We're not running within systemd or the service type is not 'notify'
+2025/09/16 09:49:46 ELECTRUM: GetBestBlock called
+2025/09/16 09:49:46 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 09:49:46 ELECTRUM: Got current height 4663273 from headers subscription
+2025/09/16 09:49:46 ELECTRUM: Returning hash 0000000000000ae38f0a1932f746f1a40277b2f11ca7d52fc04c2c7070b7e32e for height 4663273 (from headers subscription)
+2025-09-16 09:49:46.702 [INF] LTND: Waiting for chain backend to finish sync rev=4d1c86 start_height=4663273
+2025/09/16 09:49:46 ELECTRUM: GetBestBlock called
+2025/09/16 09:49:46 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 09:49:46 ELECTRUM: Got current height 4663273 from headers subscription
+2025/09/16 09:49:46 ELECTRUM: Returning hash 0000000000000ae38f0a1932f746f1a40277b2f11ca7d52fc04c2c7070b7e32e for height 4663273 (from headers subscription)
+2025/09/16 09:49:46 ELECTRUM: GetBlockHeader called for hash: 0000000000000ae38f0a1932f746f1a40277b2f11ca7d52fc04c2c7070b7e32e
+2025/09/16 09:49:46 ELECTRUM: GetBestBlock called
+2025/09/16 09:49:46 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 09:49:47 ELECTRUM: Got current height 4663273 from headers subscription
+2025/09/16 09:49:47 ELECTRUM: Returning hash 0000000000000ae38f0a1932f746f1a40277b2f11ca7d52fc04c2c7070b7e32e for height 4663273 (from headers subscription)
+2025-09-16 09:49:47.444 [DBG] LTND: Syncing to block chain rev=4d1c86 best_block_time="2025-09-16 09:49:51 -0400 EDT" is_synced=false
+2025/09/16 09:49:48 ELECTRUM: GetBestBlock called
+2025/09/16 09:49:48 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 09:49:48 ELECTRUM: Got current height 4663273 from headers subscription
+2025/09/16 09:49:48 ELECTRUM: Returning hash 0000000000000ae38f0a1932f746f1a40277b2f11ca7d52fc04c2c7070b7e32e for height 4663273 (from headers subscription)
+2025/09/16 09:49:48 ELECTRUM: Sending initial block notification for height 4663273
+2025/09/16 09:49:48 ELECTRUM: Sending block connected notification for height 4663273
+2025/09/16 09:49:48 ELECTRUM: Block notification sent successfully for height 4663273
+2025/09/16 09:49:48 ELECTRUM: GetBestBlock called
+2025/09/16 09:49:48 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 09:49:48 ELECTRUM: Got current height 4663274 from headers subscription
+2025/09/16 09:49:48 ELECTRUM: Returning hash 0000000000000715e11e0e063b78cd9816980c75d87dc9713e0ac4c7e677488a for height 4663274 (from headers subscription)
+2025/09/16 09:49:48 ELECTRUM: GetBlockHeader called for hash: 0000000000000715e11e0e063b78cd9816980c75d87dc9713e0ac4c7e677488a
+2025/09/16 09:49:48 ELECTRUM: GetBestBlock called
+2025/09/16 09:49:48 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 09:49:48 ELECTRUM: GetBestBlock called
+2025/09/16 09:49:48 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 09:49:48 ELECTRUM: Got current height 4663274 from headers subscription
+2025/09/16 09:49:48 ELECTRUM: Returning hash 0000000000000715e11e0e063b78cd9816980c75d87dc9713e0ac4c7e677488a for height 4663274 (from headers subscription)
+2025/09/16 09:49:49 ELECTRUM: Got current height 4663274 from headers subscription
+2025/09/16 09:49:49 ELECTRUM: Returning hash 0000000000000715e11e0e063b78cd9816980c75d87dc9713e0ac4c7e677488a for height 4663274 (from headers subscription)
+2025/09/16 09:49:49 ELECTRUM: Sending initial block notification for height 4663274
+2025/09/16 09:49:49 ELECTRUM: Sending block connected notification for height 4663274
+2025/09/16 09:49:49 ELECTRUM: Block notification sent successfully for height 4663274
+2025/09/16 09:49:49 ELECTRUM: GetBestBlock called
+2025/09/16 09:49:49 ELECTRUM: Subscribing to headers to get current height
+2025-09-16 09:49:49.156 [DBG] LTND: Syncing to block chain rev=4d1c86 best_block_time="2025-09-16 09:49:57 -0400 EDT" is_synced=false
+2025/09/16 09:49:49 ELECTRUM: Got current height 4663274 from headers subscription
+2025/09/16 09:49:49 ELECTRUM: Returning hash 0000000000000715e11e0e063b78cd9816980c75d87dc9713e0ac4c7e677488a for height 4663274 (from headers subscription)
+2025/09/16 09:49:49 ELECTRUM: Sending initial block notification for height 4663274
+2025/09/16 09:49:49 ELECTRUM: Sending block connected notification for height 4663274
+2025/09/16 09:49:49 ELECTRUM: Block notification sent successfully for height 4663274
+2025/09/16 09:49:50 ELECTRUM: GetBestBlock called
+2025/09/16 09:49:50 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 09:49:50 ELECTRUM: Got current height 4663274 from headers subscription
+2025/09/16 09:49:50 ELECTRUM: Returning hash 0000000000000715e11e0e063b78cd9816980c75d87dc9713e0ac4c7e677488a for height 4663274 (from headers subscription)
+2025/09/16 09:49:50 ELECTRUM: GetBlockHeader called for hash: 0000000000000715e11e0e063b78cd9816980c75d87dc9713e0ac4c7e677488a
+2025/09/16 09:49:50 ELECTRUM: GetBestBlock called
+2025/09/16 09:49:50 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 09:49:50 ELECTRUM: Got current height 4663274 from headers subscription
+2025/09/16 09:49:50 ELECTRUM: Returning hash 0000000000000715e11e0e063b78cd9816980c75d87dc9713e0ac4c7e677488a for height 4663274 (from headers subscription)
+2025-09-16 09:49:50.949 [DBG] LTND: Syncing to block chain rev=4d1c86 best_block_time="2025-09-16 09:49:57 -0400 EDT" is_synced=false
+2025/09/16 09:49:51 ELECTRUM: GetBestBlock called
+2025/09/16 09:49:51 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 09:49:52 ELECTRUM: Got current height 4663274 from headers subscription
+2025/09/16 09:49:52 ELECTRUM: Returning hash 0000000000000715e11e0e063b78cd9816980c75d87dc9713e0ac4c7e677488a for height 4663274 (from headers subscription)
+2025/09/16 09:49:52 ELECTRUM: GetBlockHeader called for hash: 0000000000000715e11e0e063b78cd9816980c75d87dc9713e0ac4c7e677488a
+2025/09/16 09:49:52 ELECTRUM: GetBestBlock called
+2025/09/16 09:49:52 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 09:49:52 ELECTRUM: Got current height 4663274 from headers subscription
+2025/09/16 09:49:52 ELECTRUM: Returning hash 0000000000000715e11e0e063b78cd9816980c75d87dc9713e0ac4c7e677488a for height 4663274 (from headers subscription)
+2025-09-16 09:49:52.664 [DBG] LTND: Syncing to block chain rev=4d1c86 best_block_time="2025-09-16 09:49:57 -0400 EDT" is_synced=false
+2025/09/16 09:49:53 ELECTRUM: GetBestBlock called
+2025/09/16 09:49:53 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 09:49:53 ELECTRUM: Got current height 4663275 from headers subscription
+2025/09/16 09:49:53 ELECTRUM: Returning hash 00000000000030bed38a041438c2e75e194cd32a83e6d8f1bfc4d368d017eaa8 for height 4663275 (from headers subscription)
+2025/09/16 09:49:53 ELECTRUM: GetBlockHeader called for hash: 00000000000030bed38a041438c2e75e194cd32a83e6d8f1bfc4d368d017eaa8
+2025/09/16 09:49:53 ELECTRUM: GetBestBlock called
+2025/09/16 09:49:53 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 09:49:54 ELECTRUM: Got current height 4663275 from headers subscription
+2025/09/16 09:49:54 ELECTRUM: Returning hash 00000000000030bed38a041438c2e75e194cd32a83e6d8f1bfc4d368d017eaa8 for height 4663275 (from headers subscription)
+2025-09-16 09:49:54.482 [DBG] LTND: Syncing to block chain rev=4d1c86 best_block_time="2025-09-16 09:49:59 -0400 EDT" is_synced=false
+2025/09/16 09:49:55 ELECTRUM: GetBestBlock called
+2025/09/16 09:49:55 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 09:49:55 ELECTRUM: Got current height 4663276 from headers subscription
+2025/09/16 09:49:55 ELECTRUM: Returning hash 000000000000cc50aa36513eec021c81eb20d3d51dff34d0fd429f052211b514 for height 4663276 (from headers subscription)
+2025/09/16 09:49:55 ELECTRUM: GetBlockHeader called for hash: 000000000000cc50aa36513eec021c81eb20d3d51dff34d0fd429f052211b514
+2025/09/16 09:49:55 ELECTRUM: GetBestBlock called
+2025/09/16 09:49:55 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 09:49:56 ELECTRUM: Got current height 4663277 from headers subscription
+2025/09/16 09:49:56 ELECTRUM: Returning hash 000000000000058d37645118d130688444f15750a2bcdafdc75496c19153ab9a for height 4663277 (from headers subscription)
+2025-09-16 09:49:56.042 [ERR] LTND: Shutting down due to error in main method rev=4d1c86 err="failed to get block for header: Electrum backend can only retrieve the current best block directly (requested: 000000000000cc50aa36513eec021c81eb20d3d51dff34d0fd429f052211b514, best: 000000000000058d37645118d130688444f15750a2bcdafdc75496c19153ab9a)"
+2025-09-16 09:49:56.042 [INF] RPCS: Stopping RPC Server
+2025-09-16 09:49:56.042 [INF] RPCS: Stopping RouterRPC Sub-RPC Server
+2025-09-16 09:49:56.042 [INF] RPCS: Stopping VersionRPC Sub-RPC Server
+2025-09-16 09:49:56.042 [INF] RPCS: Stopping WatchtowerClientRPC Sub-RPC Server
+2025/09/16 09:49:56 ELECTRUM: Block notification loop shutting down
+2025/09/16 09:49:56 ELECTRUM: Block notification loop shutting down
+2025/09/16 09:49:56 ELECTRUM: Block notification loop shutting down
+2025-09-16 09:49:56.043 [INF] LTND: Shutdown complete
+unable to determine if wallet is synced: failed to get block for header: Electrum backend can only retrieve the current best block directly (requested: 000000000000cc50aa36513eec021c81eb20d3d51dff34d0fd429f052211b514, best: 000000000000058d37645118d130688444f15750a2bcdafdc75496c19153ab9a)

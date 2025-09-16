@@ -493,9 +493,11 @@ func Main(cfg *Config, lisCfg ListenerCfg, implCfg *ImplementationCfg,
 
 	defer cleanUp()
 
+	ltndLog.Info("About to call BuildChainControl")
 	activeChainControl, cleanUp, err := implCfg.BuildChainControl(
 		partialChainControl, walletConfig,
 	)
+	ltndLog.Info("BuildChainControl completed")
 	if err != nil {
 		return mkErr("error loading chain control", err)
 	}

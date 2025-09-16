@@ -1,0 +1,5 @@
+#!/usr/bin/expect -f
+spawn ./lncli-debug unlock
+expect "Input wallet password:"
+send "password123\r"
+expect eof

@@ -1,0 +1,20 @@
+2025-09-15 22:58:23.914 [INF] LTND: Version Info rev=4d1c86 version=0.19.99-beta commit="" debuglevel=production logging=debug
+2025-09-15 22:58:23.914 [INF] LTND: Network Info rev=4d1c86 active_chain=Bitcoin network=testnet
+2025-09-15 22:58:23.914 [DBG] VRPC: Versioner RPC server successfully registered with root gRPC server
+2025-09-15 22:58:23.914 [DBG] RRPC: Router RPC server successfully registered with root gRPC server
+2025-09-15 22:58:23.914 [INF] RPCS: RPC server listening on 127.0.0.1:10009
+2025-09-15 22:58:23.915 [DBG] VRPC: Versioner REST server successfully registered with root REST server
+2025-09-15 22:58:23.915 [DBG] RRPC: Router REST server successfully registered with root REST server
+2025-09-15 22:58:23.915 [INF] RPCS: gRPC proxy started at 127.0.0.1:8080
+2025-09-15 22:58:23.915 [INF] LTND: Opening the main database, this might take a few minutes...
+2025-09-15 22:58:23.915 [INF] LTND: Opening bbolt database, sync_freelist=false, auto_compact=false
+2025-09-15 22:58:23.915 [INF] LTND: Creating local graph and channel state DB instances
+2025-09-15 22:58:23.931 [INF] CHDB: Checking for schema update: latest_version=33, db_version=33
+2025-09-15 22:58:23.931 [INF] CHDB: Applying 2 optional migrations
+2025-09-15 22:58:23.931 [INF] CHDB: Checking for optional update: name=prune_revocation_log
+2025-09-15 22:58:23.931 [DBG] CHDB: Skipping optional migration: name=prune_revocation_log as it is not specified in the config
+2025-09-15 22:58:23.931 [INF] CHDB: Checking for optional update: name=gc_decayed_log
+2025-09-15 22:58:23.931 [DBG] CHDB: Skipping optional migration: name=gc_decayed_log as it has already been applied
+2025-09-15 22:58:23.962 [INF] LTND: Database(s) now open (time_to_open=46.75025ms)!
+2025-09-15 22:58:23.962 [INF] LTND: We're not running within systemd or the service type is not 'notify'
+2025-09-15 22:58:23.962 [INF] LTND: Waiting for wallet encryption password. Use `lncli create` to create a wallet, `lncli unlock` to unlock an existing wallet, or `lncli changepassword` to change the password of an existing wallet and unlock it.

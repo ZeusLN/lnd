@@ -1,0 +1,1262 @@
+2025-09-16 10:11:12.967 [INF] LTND lnd.go:186: Version Info rev=4d1c86 version=0.19.99-beta commit=sqldb/v1.0.10-645-g4d1c86bd6-dirty debuglevel=development logging=debug
+2025-09-16 10:11:12.967 [INF] LTND lnd.go:213: Network Info rev=4d1c86 active_chain=Bitcoin network=testnet
+2025-09-16 10:11:12.968 [DBG] IRPC invoices_server.go:190: Invoices RPC server successfully registered with root gRPC server
+2025-09-16 10:11:12.968 [DBG] WLKT walletkit_server.go:344: WalletKit RPC server successfully registered with root gRPC server
+2025-09-16 10:11:12.968 [DBG] NTFR chain_server.go:210: ChainNotifier RPC server successfully registered with root gRPC server
+2025-09-16 10:11:12.968 [DBG] NTFR chain_server.go:214: ChainKit RPC server successfully registered with root gRPC server
+2025-09-16 10:11:12.968 [DBG] DRPC dev_server.go:137: DEV RPC server successfully registered with root the gRPC server
+2025-09-16 10:11:12.968 [DBG] PRPC peers_server.go:119: Peers RPC server successfully registered with root gRPC server
+2025-09-16 10:11:12.968 [DBG] RRPC router_server.go:301: Router RPC server successfully registered with root gRPC server
+2025-09-16 10:11:12.969 [DBG] SGNR signer_server.go:216: Signer RPC server successfully registered with root gRPC server
+2025-09-16 10:11:12.969 [DBG] VRPC server.go:66: Versioner RPC server successfully registered with root gRPC server
+2025-09-16 10:11:12.969 [INF] RPCS lnd.go:925: RPC server listening on 127.0.0.1:10009
+2025-09-16 10:11:12.969 [DBG] IRPC invoices_server.go:213: Invoices REST server successfully registered with root REST server
+2025-09-16 10:11:12.970 [DBG] WLKT walletkit_server.go:367: WalletKit REST server successfully registered with root REST server
+2025-09-16 10:11:12.970 [DBG] NTFR chain_server.go:237: ChainNotifier REST server successfully registered with root REST server
+2025-09-16 10:11:12.970 [DBG] NTFR chain_server.go:248: ChainKit REST server successfully registered with root REST server
+2025-09-16 10:11:12.971 [DBG] DRPC dev_server.go:160: DEV REST server successfully registered with the root REST server
+2025-09-16 10:11:12.971 [DBG] PRPC peers_server.go:142: Peers REST server successfully registered with root REST server
+2025-09-16 10:11:12.971 [DBG] RRPC router_server.go:324: Router REST server successfully registered with root REST server
+2025-09-16 10:11:12.971 [DBG] SGNR signer_server.go:239: Signer REST server successfully registered with root REST server
+2025-09-16 10:11:12.971 [DBG] VRPC server.go:89: Versioner REST server successfully registered with root REST server
+2025-09-16 10:11:12.974 [INF] RPCS lnd.go:1046: gRPC proxy started at 127.0.0.1:8080
+2025-09-16 10:11:12.974 [INF] LTND config_builder.go:1009: Opening the main database, this might take a few minutes...
+2025-09-16 10:11:12.974 [INF] LTND config_builder.go:1014: Opening bbolt database, sync_freelist=false, auto_compact=false
+2025-09-16 10:11:12.976 [INF] LTND config_builder.go:1057: Creating local graph and channel state DB instances
+2025-09-16 10:11:12.997 [INF] CHDB db.go:1687: Checking for schema update: latest_version=33, db_version=33
+2025-09-16 10:11:12.997 [INF] CHDB db.go:1781: Applying 2 optional migrations
+2025-09-16 10:11:12.997 [INF] CHDB db.go:1785: Checking for optional update: name=prune_revocation_log
+2025-09-16 10:11:12.997 [DBG] CHDB db.go:1789: Skipping optional migration: name=prune_revocation_log as it is not specified in the config
+2025-09-16 10:11:12.997 [INF] CHDB db.go:1785: Checking for optional update: name=gc_decayed_log
+2025-09-16 10:11:12.997 [DBG] CHDB db.go:1799: Skipping optional migration: name=gc_decayed_log as it has already been applied
+2025-09-16 10:11:13.014 [INF] LTND config_builder.go:1289: Database(s) now open (time_to_open=40.017167ms)!
+2025-09-16 10:11:13.014 [INF] LTND signal.go:45: We're not running within systemd or the service type is not 'notify'
+2025-09-16 10:11:13.014 [INF] LTND config_builder.go:1302: Waiting for wallet encryption password. Use `lncli create` to create a wallet, `lncli unlock` to unlock an existing wallet, or `lncli changepassword` to change the password of an existing wallet and unlock it.
+2025-09-16 10:11:34.850 [DBG] RPCS interceptor.go:775: [/lnrpc.WalletUnlocker/UnlockWallet] requested
+2025-09-16 10:11:35.875 [INF] BTWL wallet.go:4340: Opened wallet
+2025-09-16 10:11:35.875 [INF] BTWL history.go:28: Dropping btcwallet transaction history
+2025-09-16 10:11:35.875 [WRN] BTWL history.go:67: Wallet does not have a birthday block set, falling back to rescan from genesis
+2025-09-16 10:11:36.885 [INF] BTWL wallet.go:4340: Opened wallet
+2025-09-16 10:11:36.885 [WRN] LTND config_builder.go:1432: Dropped all transaction history from on-chain wallet. Remember to disable reset-wallet-transactions flag for next start of lnd
+2025-09-16 10:11:36.984 [INF] CHRE chainregistry.go:694: Initializing electrum backend
+2025-09-16 10:11:36.984 [INF] CHRE chainregistry.go:695: ElectrumMode config: &{ServerAddr:testnet.aranguren.org:51002 UseTLS:true ValidateServerCertificate:false ConnectTimeout:30s RequestTimeout:30s PersistTxHistory:false}
+2025-09-16 10:11:36.984 [INF] CHRE chainregistry.go:699: ElectrumMode server: testnet.aranguren.org:51002
+2025/09/16 10:11:36 ELECTRUM: Config - ServerAddr: testnet.aranguren.org:51002, UseTLS: true, ValidateServerCertificate: false
+2025/09/16 10:11:36 ELECTRUM: Creating TLS client for server: testnet.aranguren.org:51002
+2025/09/16 10:11:38 ELECTRUM: Successfully created TLS client
+2025/09/16 10:11:38 ELECTRUM: Initializing best block during startup
+2025/09/16 10:11:38 ELECTRUM: GetBestBlock called
+2025/09/16 10:11:38 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:11:38 ELECTRUM: Got current height 4663876 from headers subscription
+2025/09/16 10:11:38 ELECTRUM: Returning hash 0000000000001a9e90ad591defb6339a415977e298583e6b6bf1c91171578909 for height 4663876 (from headers subscription)
+2025/09/16 10:11:38 ELECTRUM: Successfully initialized best block
+2025/09/16 10:11:38 ELECTRUM: Starting continuous block notification loop
+2025-09-16 10:11:38.462 [INF] LTND lnd.go:496: About to call BuildChainControl
+2025-09-16 10:11:38.462 [INF] LTND config_builder.go:769: BuildChainControl called - starting wallet controller creation
+2025-09-16 10:11:38.462 [INF] LTND config_builder.go:772: About to call btcwallet.New
+2025-09-16 10:11:38.462 [INF] LTND config_builder.go:776: btcwallet.New completed
+2025-09-16 10:11:38.462 [INF] LTND config_builder.go:789: Setting WalletController type: *btcwallet.BtcWallet
+2025-09-16 10:11:39.448 [INF] BTWL wallet.go:1430: The wallet has been unlocked without a time limit
+2025/09/16 10:11:39 ELECTRUM: Initializing best block during startup
+2025/09/16 10:11:39 ELECTRUM: GetBestBlock called
+2025/09/16 10:11:39 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:11:39 ELECTRUM: Got current height 4663877 from headers subscription
+2025/09/16 10:11:39 ELECTRUM: Returning hash 00000000000369e1ced6ca537f7384ef4aaf7392c681a7abb2de5ee514e696ee for height 4663877 (from headers subscription)
+2025/09/16 10:11:39 ELECTRUM: Successfully initialized best block
+2025-09-16 10:11:39.698 [INF] BTWL btcwallet.go:405: BTCWALLET: Setting up Electrum address notifications during wallet initialization
+2025/09/16 10:11:39 ELECTRUM: Starting continuous block notification loop
+2025-09-16 10:11:39.698 [INF] BTWL btcwallet.go:469: BTCWALLET: Setting up Electrum transaction callback
+2025-09-16 10:11:39.698 [INF] BTWL btcwallet.go:476: BTCWALLET: Found SetTransactionCallback method, setting up callback
+2025-09-16 10:11:39.699 [INF] BTWL btcwallet.go:496: BTCWALLET: Successfully set up Electrum transaction callback
+2025-09-16 10:11:39.699 [INF] CHRE chainregistry.go:845: LightningWallet opened
+2025-09-16 10:11:39.699 [INF] BTWL btcwallet.go:443: BTCWALLET: Setting up Electrum address notifications
+2025-09-16 10:11:39.699 [INF] LTND lnd.go:500: BuildChainControl completed
+2025-09-16 10:11:39.699 [INF] BTWL btcwallet.go:668: BTCWALLET: Getting all wallet addresses dynamically
+2025/09/16 10:11:39 ELECTRUM: Sending current best block to client 1 - Hash: 00000000000369e1ced6ca537f7384ef4aaf7392c681a7abb2de5ee514e696ee, Height: 4663877, BlockHeader: true
+2025/09/16 10:11:39 ELECTRUM: Successfully sent block epoch to client 1
+2025-09-16 10:11:39.699 [INF] BTCN broadcaster.go:131: Broadcaster now active
+2025/09/16 10:11:39 ELECTRUM: Initializing best block during startup
+2025/09/16 10:11:39 ELECTRUM: GetBestBlock called
+2025/09/16 10:11:39 ELECTRUM: Subscribing to headers to get current height
+2025-09-16 10:11:39.786 [INF] BTWL btcwallet.go:710: BTCWALLET: Found 46 total addresses to check dynamically
+2025-09-16 10:11:39.786 [INF] BTWL btcwallet.go:452: BTCWALLET: Found 46 existing addresses to set up notifications for
+2025-09-16 10:11:39.786 [INF] BTWL btcwallet.go:548: BTCWALLET: Setting up notification for address: tb1q35l5pfwv0wj2x0w6dvfr6rdv43mrdavey28800
+2025-09-16 10:11:39.786 [INF] BTWL btcwallet.go:557: BTCWALLET: Calling chain.NotifyReceived for address: tb1q35l5pfwv0wj2x0w6dvfr6rdv43mrdavey28800
+2025/09/16 10:11:39 ELECTRUM: Got current height 4663877 from headers subscription
+2025/09/16 10:11:39 ELECTRUM: Returning hash 00000000000369e1ced6ca537f7384ef4aaf7392c681a7abb2de5ee514e696ee for height 4663877 (from headers subscription)
+2025/09/16 10:11:39 ELECTRUM: Successfully initialized best block
+2025/09/16 10:11:39 ELECTRUM: GetBestBlock called
+2025/09/16 10:11:39 ELECTRUM: Starting continuous block notification loop
+2025/09/16 10:11:39 ELECTRUM: Subscribing to headers to get current height
+2025-09-16 10:11:40.018 [INF] BTWL btcwallet.go:563: BTCWALLET: chain.NotifyReceived completed successfully for address: tb1q35l5pfwv0wj2x0w6dvfr6rdv43mrdavey28800
+2025-09-16 10:11:40.018 [INF] BTWL btcwallet.go:565: BTCWALLET: Successfully set up notification for address: tb1q35l5pfwv0wj2x0w6dvfr6rdv43mrdavey28800
+2025-09-16 10:11:40.018 [INF] BTWL btcwallet.go:548: BTCWALLET: Setting up notification for address: tb1q3wmfzpnluglv5auudgl2zzsne33auzpmr3vguv
+2025-09-16 10:11:40.018 [INF] BTWL btcwallet.go:557: BTCWALLET: Calling chain.NotifyReceived for address: tb1q3wmfzpnluglv5auudgl2zzsne33auzpmr3vguv
+2025/09/16 10:11:40 ELECTRUM: Got current height 4663877 from headers subscription
+2025/09/16 10:11:40 ELECTRUM: Returning hash 00000000000369e1ced6ca537f7384ef4aaf7392c681a7abb2de5ee514e696ee for height 4663877 (from headers subscription)
+2025-09-16 10:11:40.197 [INF] HSWC circuit_map.go:280: Cleaning circuits from disk for closed channels
+2025-09-16 10:11:40.197 [DBG] HSWC circuit_map.go:324: Found 0 closed channels
+2025-09-16 10:11:40.197 [INF] HSWC circuit_map.go:328: Finished cleaning: no closed channels found, no actions taken.
+2025-09-16 10:11:40.197 [INF] HSWC circuit_map.go:497: Restoring in-memory circuit state from disk
+2025-09-16 10:11:40.207 [INF] HSWC circuit_map.go:602: Payment circuits loaded: num_pending=0, num_open=0
+2025-09-16 10:11:40.224 [DBG] CRTR missioncontrol.go:307: Instantiating mission control with config: maximum history: 1000, minimum failure relax interval: 1m0s, estimator type: apriori, penalty halflife time: 1h0m0s, apriori hop probability: 0.6, apriori weight: 0.5, previous success probability: 0.95, capacity fraction: 0.9999
+2025-09-16 10:11:40.234 [INF] CRTR missioncontrol_store.go:107: Loaded 0 mission control entries
+2025-09-16 10:11:40.234 [DBG] CRTR missioncontrol.go:455: [default]: Mission control state reconstruction started
+2025-09-16 10:11:40.234 [DBG] CRTR missioncontrol.go:471: [default]: Mission control state reconstruction finished: n=0, time=5.375µs
+2025-09-16 10:11:40.234 [DBG] SRVR server.go:1111: Instantiating payment session source with config: AttemptCost=100 + 0.1%, MinRouteProbability=0.01
+2025-09-16 10:11:40.244 [INF] ACSM accessman.go:79: Access Manager initialized
+2025-09-16 10:11:40.250 [INF] BTWL btcwallet.go:563: BTCWALLET: chain.NotifyReceived completed successfully for address: tb1q3wmfzpnluglv5auudgl2zzsne33auzpmr3vguv
+2025-09-16 10:11:40.250 [INF] BTWL btcwallet.go:565: BTCWALLET: Successfully set up notification for address: tb1q3wmfzpnluglv5auudgl2zzsne33auzpmr3vguv
+2025-09-16 10:11:40.250 [INF] BTWL btcwallet.go:548: BTCWALLET: Setting up notification for address: tb1qnf9a6cdf8c93ca97767cvted4y9a8lrjr9rctd
+2025-09-16 10:11:40.251 [INF] BTWL btcwallet.go:557: BTCWALLET: Calling chain.NotifyReceived for address: tb1qnf9a6cdf8c93ca97767cvted4y9a8lrjr9rctd
+2025-09-16 10:11:40.256 [INF] LTND channel_notifier.go:39: Channel backup proxy channel notifier starting
+2025-09-16 10:11:40.257 [INF] CHIO dispatcher.go:92: Registered queue=1 with 3 blockbeat consumers
+2025-09-16 10:11:40.257 [DBG] CHIO dispatcher.go:96: Consumer [ChainArbitrator] registered in queue 1
+2025-09-16 10:11:40.257 [DBG] CHIO dispatcher.go:96: Consumer [UtxoSweeper] registered in queue 1
+2025-09-16 10:11:40.257 [DBG] CHIO dispatcher.go:96: Consumer [TxPublisher] registered in queue 1
+2025-09-16 10:11:40.257 [INF] ATPL pilot.go:143: Instantiating autopilot with active=false, max_channels=5, allocation=0.600000, min_chan_size=20000, max_chan_size=16777215, private=false, min_confs=1, conf_target=3
+2025-09-16 10:11:40.257 [DBG] LTND subrpcserver_config.go:145: Populating dependencies for sub RPC server: SignRPC
+2025-09-16 10:11:40.257 [DBG] LTND subrpcserver_config.go:145: Populating dependencies for sub RPC server: WalletKitRPC
+2025-09-16 10:11:40.257 [DBG] LTND subrpcserver_config.go:145: Populating dependencies for sub RPC server: AutopilotRPC
+2025-09-16 10:11:40.257 [DBG] LTND subrpcserver_config.go:145: Populating dependencies for sub RPC server: ChainRPC
+2025-09-16 10:11:40.257 [DBG] LTND subrpcserver_config.go:145: Populating dependencies for sub RPC server: InvoicesRPC
+2025-09-16 10:11:40.257 [DBG] LTND subrpcserver_config.go:145: Populating dependencies for sub RPC server: PeersRPC
+2025-09-16 10:11:40.257 [DBG] LTND subrpcserver_config.go:145: Populating dependencies for sub RPC server: NeutrinoKitRPC
+2025-09-16 10:11:40.257 [DBG] LTND subrpcserver_config.go:145: Populating dependencies for sub RPC server: RouterRPC
+2025-09-16 10:11:40.257 [DBG] LTND subrpcserver_config.go:145: Populating dependencies for sub RPC server: WatchtowerRPC
+2025-09-16 10:11:40.257 [DBG] LTND subrpcserver_config.go:145: Populating dependencies for sub RPC server: WatchtowerClientRPC
+2025-09-16 10:11:40.257 [DBG] LTND subrpcserver_config.go:145: Populating dependencies for sub RPC server: DevRPC
+2025-09-16 10:11:40.257 [DBG] RPCS rpcserver.go:963: Starting sub RPC server: InvoicesRPC
+2025-09-16 10:11:40.257 [DBG] RPCS rpcserver.go:963: Starting sub RPC server: WalletKitRPC
+2025-09-16 10:11:40.257 [DBG] RPCS rpcserver.go:963: Starting sub RPC server: ChainRPC
+2025-09-16 10:11:40.257 [DBG] RPCS rpcserver.go:963: Starting sub RPC server: DevRPC
+2025-09-16 10:11:40.257 [DBG] RPCS rpcserver.go:963: Starting sub RPC server: PeersRPC
+2025-09-16 10:11:40.257 [DBG] RPCS rpcserver.go:963: Starting sub RPC server: RouterRPC
+2025-09-16 10:11:40.257 [DBG] RPCS rpcserver.go:963: Starting sub RPC server: SignRPC
+2025-09-16 10:11:40.257 [DBG] RPCS rpcserver.go:963: Starting sub RPC server: VersionRPC
+2025-09-16 10:11:40.257 [DBG] RPCS rpcserver.go:963: Starting sub RPC server: WatchtowerClientRPC
+2025-09-16 10:11:40.258 [INF] LTND signal.go:45: We're not running within systemd or the service type is not 'notify'
+2025/09/16 10:11:40 ELECTRUM: GetBestBlock called
+2025/09/16 10:11:40 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:11:40 ELECTRUM: Got current height 4663877 from headers subscription
+2025-09-16 10:11:40.510 [INF] BTWL btcwallet.go:563: BTCWALLET: chain.NotifyReceived completed successfully for address: tb1qnf9a6cdf8c93ca97767cvted4y9a8lrjr9rctd
+2025/09/16 10:11:40 ELECTRUM: Returning hash 00000000000369e1ced6ca537f7384ef4aaf7392c681a7abb2de5ee514e696ee for height 4663877 (from headers subscription)
+2025-09-16 10:11:40.510 [INF] BTWL btcwallet.go:565: BTCWALLET: Successfully set up notification for address: tb1qnf9a6cdf8c93ca97767cvted4y9a8lrjr9rctd
+2025-09-16 10:11:40.510 [INF] BTWL btcwallet.go:548: BTCWALLET: Setting up notification for address: tb1qudd8v6rz3m294gdmmmys29xugkl2f6qzgk3str
+2025-09-16 10:11:40.510 [INF] LTND lnd.go:696: Waiting for chain backend to finish sync rev=4d1c86 start_height=4663877
+2025-09-16 10:11:40.510 [INF] BTWL btcwallet.go:557: BTCWALLET: Calling chain.NotifyReceived for address: tb1qudd8v6rz3m294gdmmmys29xugkl2f6qzgk3str
+2025/09/16 10:11:40 ELECTRUM: GetBestBlock called
+2025/09/16 10:11:40 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:11:40 ELECTRUM: Got current height 4663877 from headers subscription
+2025-09-16 10:11:40.817 [INF] BTWL btcwallet.go:563: BTCWALLET: chain.NotifyReceived completed successfully for address: tb1qudd8v6rz3m294gdmmmys29xugkl2f6qzgk3str
+2025/09/16 10:11:40 ELECTRUM: Returning hash 00000000000369e1ced6ca537f7384ef4aaf7392c681a7abb2de5ee514e696ee for height 4663877 (from headers subscription)
+2025-09-16 10:11:40.818 [INF] BTWL btcwallet.go:565: BTCWALLET: Successfully set up notification for address: tb1qudd8v6rz3m294gdmmmys29xugkl2f6qzgk3str
+2025/09/16 10:11:40 ELECTRUM: GetBlockHeader called for hash: 00000000000369e1ced6ca537f7384ef4aaf7392c681a7abb2de5ee514e696ee
+2025/09/16 10:11:40 ELECTRUM: GetBestBlock called
+2025/09/16 10:11:40 ELECTRUM: Subscribing to headers to get current height
+2025-09-16 10:11:40.818 [INF] BTWL btcwallet.go:548: BTCWALLET: Setting up notification for address: tb1qzja2zr3jt2tn5j4emss49745hwdxagaqvru8d4
+2025-09-16 10:11:40.818 [INF] BTWL btcwallet.go:557: BTCWALLET: Calling chain.NotifyReceived for address: tb1qzja2zr3jt2tn5j4emss49745hwdxagaqvru8d4
+2025/09/16 10:11:41 ELECTRUM: Got current height 4663877 from headers subscription
+2025-09-16 10:11:41.126 [INF] BTWL btcwallet.go:563: BTCWALLET: chain.NotifyReceived completed successfully for address: tb1qzja2zr3jt2tn5j4emss49745hwdxagaqvru8d4
+2025/09/16 10:11:41 ELECTRUM: Returning hash 00000000000369e1ced6ca537f7384ef4aaf7392c681a7abb2de5ee514e696ee for height 4663877 (from headers subscription)
+2025-09-16 10:11:41.126 [INF] BTWL btcwallet.go:565: BTCWALLET: Successfully set up notification for address: tb1qzja2zr3jt2tn5j4emss49745hwdxagaqvru8d4
+2025-09-16 10:11:41.126 [INF] BTWL btcwallet.go:548: BTCWALLET: Setting up notification for address: tb1q25xq62ad6s9pymemadk7sf08alk3k6q7l4m5pj
+2025-09-16 10:11:41.126 [INF] BTWL btcwallet.go:557: BTCWALLET: Calling chain.NotifyReceived for address: tb1q25xq62ad6s9pymemadk7sf08alk3k6q7l4m5pj
+2025-09-16 10:11:41.357 [INF] BTWL btcwallet.go:563: BTCWALLET: chain.NotifyReceived completed successfully for address: tb1q25xq62ad6s9pymemadk7sf08alk3k6q7l4m5pj
+2025-09-16 10:11:41.357 [DBG] LTND lnd.go:727: Syncing to block chain rev=4d1c86 best_block_time="2025-09-16 10:11:37 -0400 EDT" is_synced=false
+2025-09-16 10:11:41.357 [INF] BTWL btcwallet.go:565: BTCWALLET: Successfully set up notification for address: tb1q25xq62ad6s9pymemadk7sf08alk3k6q7l4m5pj
+2025-09-16 10:11:41.357 [INF] BTWL btcwallet.go:548: BTCWALLET: Setting up notification for address: tb1qu4ug4mres4yx49ts998805u2ale66jeah6dvxq
+2025-09-16 10:11:41.357 [INF] BTWL btcwallet.go:557: BTCWALLET: Calling chain.NotifyReceived for address: tb1qu4ug4mres4yx49ts998805u2ale66jeah6dvxq
+2025/09/16 10:11:41 ELECTRUM: GetBestBlock called
+2025/09/16 10:11:41 ELECTRUM: Subscribing to headers to get current height
+2025-09-16 10:11:41.592 [INF] BTWL btcwallet.go:563: BTCWALLET: chain.NotifyReceived completed successfully for address: tb1qu4ug4mres4yx49ts998805u2ale66jeah6dvxq
+2025-09-16 10:11:41.592 [INF] BTWL btcwallet.go:565: BTCWALLET: Successfully set up notification for address: tb1qu4ug4mres4yx49ts998805u2ale66jeah6dvxq
+2025-09-16 10:11:41.592 [INF] BTWL btcwallet.go:548: BTCWALLET: Setting up notification for address: tb1qs6nvlnyhs604adlsulc3p0c4fa0g80uutdukx9
+2025-09-16 10:11:41.592 [INF] BTWL btcwallet.go:557: BTCWALLET: Calling chain.NotifyReceived for address: tb1qs6nvlnyhs604adlsulc3p0c4fa0g80uutdukx9
+2025/09/16 10:11:41 ELECTRUM: Got current height 4663879 from headers subscription
+2025/09/16 10:11:41 ELECTRUM: Returning hash 000000000002a483a8b5519f8d380a48a022ac1c49878504b1eb24d124ab89d9 for height 4663879 (from headers subscription)
+2025/09/16 10:11:41 ELECTRUM: Sending initial block notification for height 4663879
+2025/09/16 10:11:41 ELECTRUM: Sending block connected notification for height 4663879
+2025/09/16 10:11:41 ELECTRUM: Block notification sent successfully for height 4663879
+2025-09-16 10:11:41.823 [INF] BTWL btcwallet.go:563: BTCWALLET: chain.NotifyReceived completed successfully for address: tb1qs6nvlnyhs604adlsulc3p0c4fa0g80uutdukx9
+2025-09-16 10:11:41.824 [INF] BTWL btcwallet.go:565: BTCWALLET: Successfully set up notification for address: tb1qs6nvlnyhs604adlsulc3p0c4fa0g80uutdukx9
+2025-09-16 10:11:41.824 [INF] BTWL btcwallet.go:548: BTCWALLET: Setting up notification for address: tb1q8chvehh7ptzcfylzsgysk08cm3ppt8fvleeggz
+2025-09-16 10:11:41.824 [INF] BTWL btcwallet.go:557: BTCWALLET: Calling chain.NotifyReceived for address: tb1q8chvehh7ptzcfylzsgysk08cm3ppt8fvleeggz
+2025-09-16 10:11:42.151 [INF] BTWL btcwallet.go:563: BTCWALLET: chain.NotifyReceived completed successfully for address: tb1q8chvehh7ptzcfylzsgysk08cm3ppt8fvleeggz
+2025-09-16 10:11:42.151 [INF] BTWL btcwallet.go:565: BTCWALLET: Successfully set up notification for address: tb1q8chvehh7ptzcfylzsgysk08cm3ppt8fvleeggz
+2025-09-16 10:11:42.151 [INF] BTWL btcwallet.go:548: BTCWALLET: Setting up notification for address: tb1q2xgdnhrez9r46a65g4jacpynkjmnfe6f6a7rv9
+2025-09-16 10:11:42.151 [INF] BTWL btcwallet.go:557: BTCWALLET: Calling chain.NotifyReceived for address: tb1q2xgdnhrez9r46a65g4jacpynkjmnfe6f6a7rv9
+2025/09/16 10:11:42 ELECTRUM: GetBestBlock called
+2025/09/16 10:11:42 ELECTRUM: Subscribing to headers to get current height
+2025-09-16 10:11:42.388 [INF] BTWL btcwallet.go:563: BTCWALLET: chain.NotifyReceived completed successfully for address: tb1q2xgdnhrez9r46a65g4jacpynkjmnfe6f6a7rv9
+2025-09-16 10:11:42.388 [INF] BTWL btcwallet.go:565: BTCWALLET: Successfully set up notification for address: tb1q2xgdnhrez9r46a65g4jacpynkjmnfe6f6a7rv9
+2025-09-16 10:11:42.388 [INF] BTWL btcwallet.go:548: BTCWALLET: Setting up notification for address: tb1qjka5z9xsg53v4925jn28umwwz3u5tyh302wg30
+2025-09-16 10:11:42.388 [INF] BTWL btcwallet.go:557: BTCWALLET: Calling chain.NotifyReceived for address: tb1qjka5z9xsg53v4925jn28umwwz3u5tyh302wg30
+2025/09/16 10:11:42 ELECTRUM: Got current height 4663879 from headers subscription
+2025/09/16 10:11:42 ELECTRUM: Returning hash 000000000002a483a8b5519f8d380a48a022ac1c49878504b1eb24d124ab89d9 for height 4663879 (from headers subscription)
+2025/09/16 10:11:42 ELECTRUM: GetBlockHeader called for hash: 000000000002a483a8b5519f8d380a48a022ac1c49878504b1eb24d124ab89d9
+2025/09/16 10:11:42 ELECTRUM: GetBestBlock called
+2025/09/16 10:11:42 ELECTRUM: Subscribing to headers to get current height
+2025-09-16 10:11:42.620 [INF] BTWL btcwallet.go:563: BTCWALLET: chain.NotifyReceived completed successfully for address: tb1qjka5z9xsg53v4925jn28umwwz3u5tyh302wg30
+2025-09-16 10:11:42.620 [INF] BTWL btcwallet.go:565: BTCWALLET: Successfully set up notification for address: tb1qjka5z9xsg53v4925jn28umwwz3u5tyh302wg30
+2025-09-16 10:11:42.620 [INF] BTWL btcwallet.go:548: BTCWALLET: Setting up notification for address: tb1qy84s4sf7y0eetkst3eaah849ky60jdjra09ptk
+2025-09-16 10:11:42.620 [INF] BTWL btcwallet.go:557: BTCWALLET: Calling chain.NotifyReceived for address: tb1qy84s4sf7y0eetkst3eaah849ky60jdjra09ptk
+2025/09/16 10:11:42 ELECTRUM: GetBestBlock called
+2025/09/16 10:11:42 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:11:42 ELECTRUM: Got current height 4663879 from headers subscription
+2025/09/16 10:11:42 ELECTRUM: Returning hash 000000000002a483a8b5519f8d380a48a022ac1c49878504b1eb24d124ab89d9 for height 4663879 (from headers subscription)
+2025-09-16 10:11:42.854 [INF] BTWL btcwallet.go:563: BTCWALLET: chain.NotifyReceived completed successfully for address: tb1qy84s4sf7y0eetkst3eaah849ky60jdjra09ptk
+2025-09-16 10:11:42.854 [INF] BTWL btcwallet.go:565: BTCWALLET: Successfully set up notification for address: tb1qy84s4sf7y0eetkst3eaah849ky60jdjra09ptk
+2025-09-16 10:11:42.854 [INF] BTWL btcwallet.go:548: BTCWALLET: Setting up notification for address: tb1q84gk7xt5mkcd5d0kn2pj26gep8zdp8esy5jst5
+2025-09-16 10:11:42.854 [INF] BTWL btcwallet.go:557: BTCWALLET: Calling chain.NotifyReceived for address: tb1q84gk7xt5mkcd5d0kn2pj26gep8zdp8esy5jst5
+2025/09/16 10:11:42 ELECTRUM: Got current height 4663879 from headers subscription
+2025/09/16 10:11:42 ELECTRUM: Returning hash 000000000002a483a8b5519f8d380a48a022ac1c49878504b1eb24d124ab89d9 for height 4663879 (from headers subscription)
+2025/09/16 10:11:42 ELECTRUM: Sending initial block notification for height 4663879
+2025/09/16 10:11:42 ELECTRUM: Sending block connected notification for height 4663879
+2025/09/16 10:11:42 ELECTRUM: Block notification sent successfully for height 4663879
+2025/09/16 10:11:42 ELECTRUM: GetBestBlock called
+2025/09/16 10:11:42 ELECTRUM: Subscribing to headers to get current height
+2025-09-16 10:11:43.066 [DBG] LTND lnd.go:727: Syncing to block chain rev=4d1c86 best_block_time="2025-09-16 10:11:40 -0400 EDT" is_synced=false
+2025-09-16 10:11:43.086 [INF] BTWL btcwallet.go:563: BTCWALLET: chain.NotifyReceived completed successfully for address: tb1q84gk7xt5mkcd5d0kn2pj26gep8zdp8esy5jst5
+2025-09-16 10:11:43.086 [INF] BTWL btcwallet.go:565: BTCWALLET: Successfully set up notification for address: tb1q84gk7xt5mkcd5d0kn2pj26gep8zdp8esy5jst5
+2025-09-16 10:11:43.086 [INF] BTWL btcwallet.go:548: BTCWALLET: Setting up notification for address: tb1qf07tpug9zz6vffhhm3amvqtujhldkcv2j2wycf
+2025-09-16 10:11:43.086 [INF] BTWL btcwallet.go:557: BTCWALLET: Calling chain.NotifyReceived for address: tb1qf07tpug9zz6vffhhm3amvqtujhldkcv2j2wycf
+2025/09/16 10:11:43 ELECTRUM: Got current height 4663879 from headers subscription
+2025/09/16 10:11:43 ELECTRUM: Returning hash 000000000002a483a8b5519f8d380a48a022ac1c49878504b1eb24d124ab89d9 for height 4663879 (from headers subscription)
+2025/09/16 10:11:43 ELECTRUM: Sending initial block notification for height 4663879
+2025/09/16 10:11:43 ELECTRUM: Sending block connected notification for height 4663879
+2025/09/16 10:11:43 ELECTRUM: Block notification sent successfully for height 4663879
+2025-09-16 10:11:43.318 [INF] BTWL btcwallet.go:563: BTCWALLET: chain.NotifyReceived completed successfully for address: tb1qf07tpug9zz6vffhhm3amvqtujhldkcv2j2wycf
+2025-09-16 10:11:43.318 [INF] BTWL btcwallet.go:565: BTCWALLET: Successfully set up notification for address: tb1qf07tpug9zz6vffhhm3amvqtujhldkcv2j2wycf
+2025-09-16 10:11:43.318 [INF] BTWL btcwallet.go:548: BTCWALLET: Setting up notification for address: tb1pv6wu2k2pls6eclghkyv4rehmv8pf93kj5x7pejzak3gzd3a9778shsgnq0
+2025-09-16 10:11:43.318 [INF] BTWL btcwallet.go:557: BTCWALLET: Calling chain.NotifyReceived for address: tb1pv6wu2k2pls6eclghkyv4rehmv8pf93kj5x7pejzak3gzd3a9778shsgnq0
+2025-09-16 10:11:43.549 [INF] BTWL btcwallet.go:563: BTCWALLET: chain.NotifyReceived completed successfully for address: tb1pv6wu2k2pls6eclghkyv4rehmv8pf93kj5x7pejzak3gzd3a9778shsgnq0
+2025-09-16 10:11:43.549 [INF] BTWL btcwallet.go:565: BTCWALLET: Successfully set up notification for address: tb1pv6wu2k2pls6eclghkyv4rehmv8pf93kj5x7pejzak3gzd3a9778shsgnq0
+2025-09-16 10:11:43.549 [INF] BTWL btcwallet.go:548: BTCWALLET: Setting up notification for address: tb1pqxhwj0c5z7jkz6pcur2lryehylrl4yzh0fvgphnpf769578k2qwqq8pvqd
+2025-09-16 10:11:43.549 [INF] BTWL btcwallet.go:557: BTCWALLET: Calling chain.NotifyReceived for address: tb1pqxhwj0c5z7jkz6pcur2lryehylrl4yzh0fvgphnpf769578k2qwqq8pvqd
+2025-09-16 10:11:43.781 [INF] BTWL btcwallet.go:563: BTCWALLET: chain.NotifyReceived completed successfully for address: tb1pqxhwj0c5z7jkz6pcur2lryehylrl4yzh0fvgphnpf769578k2qwqq8pvqd
+2025-09-16 10:11:43.781 [INF] BTWL btcwallet.go:565: BTCWALLET: Successfully set up notification for address: tb1pqxhwj0c5z7jkz6pcur2lryehylrl4yzh0fvgphnpf769578k2qwqq8pvqd
+2025-09-16 10:11:43.781 [INF] BTWL btcwallet.go:548: BTCWALLET: Setting up notification for address: tb1pyts089s2l3zpfhculluw6lxzwfsary8cj9m26edtrqxss7p7qydqat9hw2
+2025-09-16 10:11:43.781 [INF] BTWL btcwallet.go:557: BTCWALLET: Calling chain.NotifyReceived for address: tb1pyts089s2l3zpfhculluw6lxzwfsary8cj9m26edtrqxss7p7qydqat9hw2
+2025-09-16 10:11:44.015 [INF] BTWL btcwallet.go:563: BTCWALLET: chain.NotifyReceived completed successfully for address: tb1pyts089s2l3zpfhculluw6lxzwfsary8cj9m26edtrqxss7p7qydqat9hw2
+2025-09-16 10:11:44.015 [INF] BTWL btcwallet.go:565: BTCWALLET: Successfully set up notification for address: tb1pyts089s2l3zpfhculluw6lxzwfsary8cj9m26edtrqxss7p7qydqat9hw2
+2025-09-16 10:11:44.015 [INF] BTWL btcwallet.go:548: BTCWALLET: Setting up notification for address: tb1py0jfpc0ft4zsfhg7p3peze4q6wdl9l2gfwzf8ar64skxkhz9v9lsuhm2g4
+2025-09-16 10:11:44.015 [INF] BTWL btcwallet.go:557: BTCWALLET: Calling chain.NotifyReceived for address: tb1py0jfpc0ft4zsfhg7p3peze4q6wdl9l2gfwzf8ar64skxkhz9v9lsuhm2g4
+2025/09/16 10:11:44 ELECTRUM: GetBestBlock called
+2025/09/16 10:11:44 ELECTRUM: Subscribing to headers to get current height
+2025-09-16 10:11:44.246 [INF] BTWL btcwallet.go:563: BTCWALLET: chain.NotifyReceived completed successfully for address: tb1py0jfpc0ft4zsfhg7p3peze4q6wdl9l2gfwzf8ar64skxkhz9v9lsuhm2g4
+2025-09-16 10:11:44.246 [INF] BTWL btcwallet.go:565: BTCWALLET: Successfully set up notification for address: tb1py0jfpc0ft4zsfhg7p3peze4q6wdl9l2gfwzf8ar64skxkhz9v9lsuhm2g4
+2025-09-16 10:11:44.246 [INF] BTWL btcwallet.go:548: BTCWALLET: Setting up notification for address: tb1putvlls3ekqm74khy2ls7hdadxn4ldxsuh9v2thg7hyht9ysjlvsqqwjnw6
+2025-09-16 10:11:44.246 [INF] BTWL btcwallet.go:557: BTCWALLET: Calling chain.NotifyReceived for address: tb1putvlls3ekqm74khy2ls7hdadxn4ldxsuh9v2thg7hyht9ysjlvsqqwjnw6
+2025/09/16 10:11:44 ELECTRUM: Got current height 4663879 from headers subscription
+2025/09/16 10:11:44 ELECTRUM: Returning hash 000000000002a483a8b5519f8d380a48a022ac1c49878504b1eb24d124ab89d9 for height 4663879 (from headers subscription)
+2025/09/16 10:11:44 ELECTRUM: GetBlockHeader called for hash: 000000000002a483a8b5519f8d380a48a022ac1c49878504b1eb24d124ab89d9
+2025/09/16 10:11:44 ELECTRUM: GetBestBlock called
+2025/09/16 10:11:44 ELECTRUM: Subscribing to headers to get current height
+2025-09-16 10:11:44.480 [INF] BTWL btcwallet.go:563: BTCWALLET: chain.NotifyReceived completed successfully for address: tb1putvlls3ekqm74khy2ls7hdadxn4ldxsuh9v2thg7hyht9ysjlvsqqwjnw6
+2025-09-16 10:11:44.480 [INF] BTWL btcwallet.go:565: BTCWALLET: Successfully set up notification for address: tb1putvlls3ekqm74khy2ls7hdadxn4ldxsuh9v2thg7hyht9ysjlvsqqwjnw6
+2025-09-16 10:11:44.480 [INF] BTWL btcwallet.go:548: BTCWALLET: Setting up notification for address: tb1pm2zwfrhd04ue5dqlwt8nvg9vdd8kcp75nsh3lmnat2mqmelg2vks5vkvfj
+2025-09-16 10:11:44.480 [INF] BTWL btcwallet.go:557: BTCWALLET: Calling chain.NotifyReceived for address: tb1pm2zwfrhd04ue5dqlwt8nvg9vdd8kcp75nsh3lmnat2mqmelg2vks5vkvfj
+2025/09/16 10:11:44 ELECTRUM: Got current height 4663880 from headers subscription
+2025/09/16 10:11:44 ELECTRUM: Returning hash 000000000001867cc2920dfca46ad3ef05356d4fcc39dd3f5750f6156c38f108 for height 4663880 (from headers subscription)
+2025-09-16 10:11:44.715 [INF] BTWL btcwallet.go:563: BTCWALLET: chain.NotifyReceived completed successfully for address: tb1pm2zwfrhd04ue5dqlwt8nvg9vdd8kcp75nsh3lmnat2mqmelg2vks5vkvfj
+2025-09-16 10:11:44.715 [INF] BTWL btcwallet.go:565: BTCWALLET: Successfully set up notification for address: tb1pm2zwfrhd04ue5dqlwt8nvg9vdd8kcp75nsh3lmnat2mqmelg2vks5vkvfj
+2025-09-16 10:11:44.715 [INF] BTWL btcwallet.go:548: BTCWALLET: Setting up notification for address: tb1pvhkycu546rfek5tpkmns0dwxc7v74ul3dlad7as8gflywg3plsvqy8mc4j
+2025-09-16 10:11:44.715 [INF] BTWL btcwallet.go:557: BTCWALLET: Calling chain.NotifyReceived for address: tb1pvhkycu546rfek5tpkmns0dwxc7v74ul3dlad7as8gflywg3plsvqy8mc4j
+2025-09-16 10:11:44.947 [INF] BTWL btcwallet.go:563: BTCWALLET: chain.NotifyReceived completed successfully for address: tb1pvhkycu546rfek5tpkmns0dwxc7v74ul3dlad7as8gflywg3plsvqy8mc4j
+2025-09-16 10:11:44.947 [INF] BTWL btcwallet.go:565: BTCWALLET: Successfully set up notification for address: tb1pvhkycu546rfek5tpkmns0dwxc7v74ul3dlad7as8gflywg3plsvqy8mc4j
+2025-09-16 10:11:44.947 [INF] BTWL btcwallet.go:548: BTCWALLET: Setting up notification for address: tb1p0gzw3zejyhpcnhel6fk44utj2wdvt6qeqm98nqxu6j56fcwme4psvdhc46
+2025-09-16 10:11:44.947 [INF] BTWL btcwallet.go:557: BTCWALLET: Calling chain.NotifyReceived for address: tb1p0gzw3zejyhpcnhel6fk44utj2wdvt6qeqm98nqxu6j56fcwme4psvdhc46
+2025-09-16 10:11:45.179 [INF] BTWL btcwallet.go:563: BTCWALLET: chain.NotifyReceived completed successfully for address: tb1p0gzw3zejyhpcnhel6fk44utj2wdvt6qeqm98nqxu6j56fcwme4psvdhc46
+2025-09-16 10:11:45.179 [INF] BTWL btcwallet.go:565: BTCWALLET: Successfully set up notification for address: tb1p0gzw3zejyhpcnhel6fk44utj2wdvt6qeqm98nqxu6j56fcwme4psvdhc46
+2025-09-16 10:11:45.179 [INF] BTWL btcwallet.go:548: BTCWALLET: Setting up notification for address: tb1pdt36eq5eqqfmretmf5fttd08w0xvwvz6xlyzy85mn7ae4fxag0gs84m89j
+2025-09-16 10:11:45.179 [INF] BTWL btcwallet.go:557: BTCWALLET: Calling chain.NotifyReceived for address: tb1pdt36eq5eqqfmretmf5fttd08w0xvwvz6xlyzy85mn7ae4fxag0gs84m89j
+2025-09-16 10:11:45.416 [INF] BTWL btcwallet.go:563: BTCWALLET: chain.NotifyReceived completed successfully for address: tb1pdt36eq5eqqfmretmf5fttd08w0xvwvz6xlyzy85mn7ae4fxag0gs84m89j
+2025-09-16 10:11:45.416 [INF] BTWL btcwallet.go:565: BTCWALLET: Successfully set up notification for address: tb1pdt36eq5eqqfmretmf5fttd08w0xvwvz6xlyzy85mn7ae4fxag0gs84m89j
+2025-09-16 10:11:45.416 [INF] BTWL btcwallet.go:548: BTCWALLET: Setting up notification for address: tb1q35l5pfwv0wj2x0w6dvfr6rdv43mrdavey28800
+2025-09-16 10:11:45.416 [INF] BTWL btcwallet.go:557: BTCWALLET: Calling chain.NotifyReceived for address: tb1q35l5pfwv0wj2x0w6dvfr6rdv43mrdavey28800
+2025-09-16 10:11:45.416 [INF] BTWL btcwallet.go:563: BTCWALLET: chain.NotifyReceived completed successfully for address: tb1q35l5pfwv0wj2x0w6dvfr6rdv43mrdavey28800
+2025-09-16 10:11:45.416 [INF] BTWL btcwallet.go:565: BTCWALLET: Successfully set up notification for address: tb1q35l5pfwv0wj2x0w6dvfr6rdv43mrdavey28800
+2025-09-16 10:11:45.416 [INF] BTWL btcwallet.go:548: BTCWALLET: Setting up notification for address: tb1q3wmfzpnluglv5auudgl2zzsne33auzpmr3vguv
+2025-09-16 10:11:45.416 [INF] BTWL btcwallet.go:557: BTCWALLET: Calling chain.NotifyReceived for address: tb1q3wmfzpnluglv5auudgl2zzsne33auzpmr3vguv
+2025-09-16 10:11:45.416 [INF] BTWL btcwallet.go:563: BTCWALLET: chain.NotifyReceived completed successfully for address: tb1q3wmfzpnluglv5auudgl2zzsne33auzpmr3vguv
+2025-09-16 10:11:45.416 [INF] BTWL btcwallet.go:565: BTCWALLET: Successfully set up notification for address: tb1q3wmfzpnluglv5auudgl2zzsne33auzpmr3vguv
+2025-09-16 10:11:45.416 [INF] BTWL btcwallet.go:548: BTCWALLET: Setting up notification for address: tb1qnf9a6cdf8c93ca97767cvted4y9a8lrjr9rctd
+2025-09-16 10:11:45.416 [INF] BTWL btcwallet.go:557: BTCWALLET: Calling chain.NotifyReceived for address: tb1qnf9a6cdf8c93ca97767cvted4y9a8lrjr9rctd
+2025-09-16 10:11:45.417 [INF] BTWL btcwallet.go:563: BTCWALLET: chain.NotifyReceived completed successfully for address: tb1qnf9a6cdf8c93ca97767cvted4y9a8lrjr9rctd
+2025-09-16 10:11:45.417 [INF] BTWL btcwallet.go:565: BTCWALLET: Successfully set up notification for address: tb1qnf9a6cdf8c93ca97767cvted4y9a8lrjr9rctd
+2025-09-16 10:11:45.417 [INF] BTWL btcwallet.go:548: BTCWALLET: Setting up notification for address: tb1qudd8v6rz3m294gdmmmys29xugkl2f6qzgk3str
+2025-09-16 10:11:45.417 [INF] BTWL btcwallet.go:557: BTCWALLET: Calling chain.NotifyReceived for address: tb1qudd8v6rz3m294gdmmmys29xugkl2f6qzgk3str
+2025-09-16 10:11:45.417 [INF] BTWL btcwallet.go:563: BTCWALLET: chain.NotifyReceived completed successfully for address: tb1qudd8v6rz3m294gdmmmys29xugkl2f6qzgk3str
+2025-09-16 10:11:45.417 [INF] BTWL btcwallet.go:565: BTCWALLET: Successfully set up notification for address: tb1qudd8v6rz3m294gdmmmys29xugkl2f6qzgk3str
+2025-09-16 10:11:45.417 [INF] BTWL btcwallet.go:548: BTCWALLET: Setting up notification for address: tb1qzja2zr3jt2tn5j4emss49745hwdxagaqvru8d4
+2025-09-16 10:11:45.417 [INF] BTWL btcwallet.go:557: BTCWALLET: Calling chain.NotifyReceived for address: tb1qzja2zr3jt2tn5j4emss49745hwdxagaqvru8d4
+2025-09-16 10:11:45.417 [INF] BTWL btcwallet.go:563: BTCWALLET: chain.NotifyReceived completed successfully for address: tb1qzja2zr3jt2tn5j4emss49745hwdxagaqvru8d4
+2025-09-16 10:11:45.417 [INF] BTWL btcwallet.go:565: BTCWALLET: Successfully set up notification for address: tb1qzja2zr3jt2tn5j4emss49745hwdxagaqvru8d4
+2025-09-16 10:11:45.417 [INF] BTWL btcwallet.go:548: BTCWALLET: Setting up notification for address: tb1q25xq62ad6s9pymemadk7sf08alk3k6q7l4m5pj
+2025-09-16 10:11:45.417 [INF] BTWL btcwallet.go:557: BTCWALLET: Calling chain.NotifyReceived for address: tb1q25xq62ad6s9pymemadk7sf08alk3k6q7l4m5pj
+2025-09-16 10:11:45.417 [INF] BTWL btcwallet.go:563: BTCWALLET: chain.NotifyReceived completed successfully for address: tb1q25xq62ad6s9pymemadk7sf08alk3k6q7l4m5pj
+2025-09-16 10:11:45.417 [INF] BTWL btcwallet.go:565: BTCWALLET: Successfully set up notification for address: tb1q25xq62ad6s9pymemadk7sf08alk3k6q7l4m5pj
+2025-09-16 10:11:45.417 [INF] BTWL btcwallet.go:548: BTCWALLET: Setting up notification for address: tb1qu4ug4mres4yx49ts998805u2ale66jeah6dvxq
+2025-09-16 10:11:45.417 [INF] BTWL btcwallet.go:557: BTCWALLET: Calling chain.NotifyReceived for address: tb1qu4ug4mres4yx49ts998805u2ale66jeah6dvxq
+2025-09-16 10:11:45.417 [INF] BTWL btcwallet.go:563: BTCWALLET: chain.NotifyReceived completed successfully for address: tb1qu4ug4mres4yx49ts998805u2ale66jeah6dvxq
+2025-09-16 10:11:45.417 [INF] BTWL btcwallet.go:565: BTCWALLET: Successfully set up notification for address: tb1qu4ug4mres4yx49ts998805u2ale66jeah6dvxq
+2025-09-16 10:11:45.417 [INF] BTWL btcwallet.go:548: BTCWALLET: Setting up notification for address: tb1qs6nvlnyhs604adlsulc3p0c4fa0g80uutdukx9
+2025-09-16 10:11:45.417 [INF] BTWL btcwallet.go:557: BTCWALLET: Calling chain.NotifyReceived for address: tb1qs6nvlnyhs604adlsulc3p0c4fa0g80uutdukx9
+2025-09-16 10:11:45.417 [INF] BTWL btcwallet.go:563: BTCWALLET: chain.NotifyReceived completed successfully for address: tb1qs6nvlnyhs604adlsulc3p0c4fa0g80uutdukx9
+2025-09-16 10:11:45.417 [INF] BTWL btcwallet.go:565: BTCWALLET: Successfully set up notification for address: tb1qs6nvlnyhs604adlsulc3p0c4fa0g80uutdukx9
+2025-09-16 10:11:45.417 [INF] BTWL btcwallet.go:548: BTCWALLET: Setting up notification for address: tb1q8chvehh7ptzcfylzsgysk08cm3ppt8fvleeggz
+2025-09-16 10:11:45.417 [INF] BTWL btcwallet.go:557: BTCWALLET: Calling chain.NotifyReceived for address: tb1q8chvehh7ptzcfylzsgysk08cm3ppt8fvleeggz
+2025-09-16 10:11:45.417 [INF] BTWL btcwallet.go:563: BTCWALLET: chain.NotifyReceived completed successfully for address: tb1q8chvehh7ptzcfylzsgysk08cm3ppt8fvleeggz
+2025-09-16 10:11:45.417 [INF] BTWL btcwallet.go:565: BTCWALLET: Successfully set up notification for address: tb1q8chvehh7ptzcfylzsgysk08cm3ppt8fvleeggz
+2025-09-16 10:11:45.417 [INF] BTWL btcwallet.go:548: BTCWALLET: Setting up notification for address: tb1q2xgdnhrez9r46a65g4jacpynkjmnfe6f6a7rv9
+2025-09-16 10:11:45.417 [INF] BTWL btcwallet.go:557: BTCWALLET: Calling chain.NotifyReceived for address: tb1q2xgdnhrez9r46a65g4jacpynkjmnfe6f6a7rv9
+2025-09-16 10:11:45.417 [INF] BTWL btcwallet.go:563: BTCWALLET: chain.NotifyReceived completed successfully for address: tb1q2xgdnhrez9r46a65g4jacpynkjmnfe6f6a7rv9
+2025-09-16 10:11:45.417 [INF] BTWL btcwallet.go:565: BTCWALLET: Successfully set up notification for address: tb1q2xgdnhrez9r46a65g4jacpynkjmnfe6f6a7rv9
+2025-09-16 10:11:45.417 [INF] BTWL btcwallet.go:548: BTCWALLET: Setting up notification for address: tb1qjka5z9xsg53v4925jn28umwwz3u5tyh302wg30
+2025-09-16 10:11:45.417 [INF] BTWL btcwallet.go:557: BTCWALLET: Calling chain.NotifyReceived for address: tb1qjka5z9xsg53v4925jn28umwwz3u5tyh302wg30
+2025-09-16 10:11:45.417 [INF] BTWL btcwallet.go:563: BTCWALLET: chain.NotifyReceived completed successfully for address: tb1qjka5z9xsg53v4925jn28umwwz3u5tyh302wg30
+2025-09-16 10:11:45.417 [INF] BTWL btcwallet.go:565: BTCWALLET: Successfully set up notification for address: tb1qjka5z9xsg53v4925jn28umwwz3u5tyh302wg30
+2025-09-16 10:11:45.417 [INF] BTWL btcwallet.go:548: BTCWALLET: Setting up notification for address: tb1qy84s4sf7y0eetkst3eaah849ky60jdjra09ptk
+2025-09-16 10:11:45.417 [INF] BTWL btcwallet.go:557: BTCWALLET: Calling chain.NotifyReceived for address: tb1qy84s4sf7y0eetkst3eaah849ky60jdjra09ptk
+2025-09-16 10:11:45.417 [INF] BTWL btcwallet.go:563: BTCWALLET: chain.NotifyReceived completed successfully for address: tb1qy84s4sf7y0eetkst3eaah849ky60jdjra09ptk
+2025-09-16 10:11:45.418 [INF] BTWL btcwallet.go:565: BTCWALLET: Successfully set up notification for address: tb1qy84s4sf7y0eetkst3eaah849ky60jdjra09ptk
+2025-09-16 10:11:45.418 [INF] BTWL btcwallet.go:548: BTCWALLET: Setting up notification for address: tb1q84gk7xt5mkcd5d0kn2pj26gep8zdp8esy5jst5
+2025-09-16 10:11:45.418 [INF] BTWL btcwallet.go:557: BTCWALLET: Calling chain.NotifyReceived for address: tb1q84gk7xt5mkcd5d0kn2pj26gep8zdp8esy5jst5
+2025-09-16 10:11:45.418 [INF] BTWL btcwallet.go:563: BTCWALLET: chain.NotifyReceived completed successfully for address: tb1q84gk7xt5mkcd5d0kn2pj26gep8zdp8esy5jst5
+2025-09-16 10:11:45.418 [INF] BTWL btcwallet.go:565: BTCWALLET: Successfully set up notification for address: tb1q84gk7xt5mkcd5d0kn2pj26gep8zdp8esy5jst5
+2025-09-16 10:11:45.418 [INF] BTWL btcwallet.go:548: BTCWALLET: Setting up notification for address: tb1qf07tpug9zz6vffhhm3amvqtujhldkcv2j2wycf
+2025-09-16 10:11:45.418 [INF] BTWL btcwallet.go:557: BTCWALLET: Calling chain.NotifyReceived for address: tb1qf07tpug9zz6vffhhm3amvqtujhldkcv2j2wycf
+2025-09-16 10:11:45.418 [INF] BTWL btcwallet.go:563: BTCWALLET: chain.NotifyReceived completed successfully for address: tb1qf07tpug9zz6vffhhm3amvqtujhldkcv2j2wycf
+2025-09-16 10:11:45.418 [INF] BTWL btcwallet.go:565: BTCWALLET: Successfully set up notification for address: tb1qf07tpug9zz6vffhhm3amvqtujhldkcv2j2wycf
+2025-09-16 10:11:45.418 [INF] BTWL btcwallet.go:548: BTCWALLET: Setting up notification for address: tb1pv6wu2k2pls6eclghkyv4rehmv8pf93kj5x7pejzak3gzd3a9778shsgnq0
+2025-09-16 10:11:45.418 [INF] BTWL btcwallet.go:557: BTCWALLET: Calling chain.NotifyReceived for address: tb1pv6wu2k2pls6eclghkyv4rehmv8pf93kj5x7pejzak3gzd3a9778shsgnq0
+2025-09-16 10:11:45.418 [INF] BTWL btcwallet.go:563: BTCWALLET: chain.NotifyReceived completed successfully for address: tb1pv6wu2k2pls6eclghkyv4rehmv8pf93kj5x7pejzak3gzd3a9778shsgnq0
+2025-09-16 10:11:45.418 [INF] BTWL btcwallet.go:565: BTCWALLET: Successfully set up notification for address: tb1pv6wu2k2pls6eclghkyv4rehmv8pf93kj5x7pejzak3gzd3a9778shsgnq0
+2025-09-16 10:11:45.418 [INF] BTWL btcwallet.go:548: BTCWALLET: Setting up notification for address: tb1pqxhwj0c5z7jkz6pcur2lryehylrl4yzh0fvgphnpf769578k2qwqq8pvqd
+2025-09-16 10:11:45.418 [INF] BTWL btcwallet.go:557: BTCWALLET: Calling chain.NotifyReceived for address: tb1pqxhwj0c5z7jkz6pcur2lryehylrl4yzh0fvgphnpf769578k2qwqq8pvqd
+2025-09-16 10:11:45.418 [INF] BTWL btcwallet.go:563: BTCWALLET: chain.NotifyReceived completed successfully for address: tb1pqxhwj0c5z7jkz6pcur2lryehylrl4yzh0fvgphnpf769578k2qwqq8pvqd
+2025-09-16 10:11:45.418 [INF] BTWL btcwallet.go:565: BTCWALLET: Successfully set up notification for address: tb1pqxhwj0c5z7jkz6pcur2lryehylrl4yzh0fvgphnpf769578k2qwqq8pvqd
+2025-09-16 10:11:45.418 [INF] BTWL btcwallet.go:548: BTCWALLET: Setting up notification for address: tb1pyts089s2l3zpfhculluw6lxzwfsary8cj9m26edtrqxss7p7qydqat9hw2
+2025-09-16 10:11:45.418 [INF] BTWL btcwallet.go:557: BTCWALLET: Calling chain.NotifyReceived for address: tb1pyts089s2l3zpfhculluw6lxzwfsary8cj9m26edtrqxss7p7qydqat9hw2
+2025-09-16 10:11:45.418 [INF] BTWL btcwallet.go:563: BTCWALLET: chain.NotifyReceived completed successfully for address: tb1pyts089s2l3zpfhculluw6lxzwfsary8cj9m26edtrqxss7p7qydqat9hw2
+2025-09-16 10:11:45.418 [INF] BTWL btcwallet.go:565: BTCWALLET: Successfully set up notification for address: tb1pyts089s2l3zpfhculluw6lxzwfsary8cj9m26edtrqxss7p7qydqat9hw2
+2025-09-16 10:11:45.418 [INF] BTWL btcwallet.go:548: BTCWALLET: Setting up notification for address: tb1py0jfpc0ft4zsfhg7p3peze4q6wdl9l2gfwzf8ar64skxkhz9v9lsuhm2g4
+2025-09-16 10:11:45.418 [INF] BTWL btcwallet.go:557: BTCWALLET: Calling chain.NotifyReceived for address: tb1py0jfpc0ft4zsfhg7p3peze4q6wdl9l2gfwzf8ar64skxkhz9v9lsuhm2g4
+2025-09-16 10:11:45.418 [INF] BTWL btcwallet.go:563: BTCWALLET: chain.NotifyReceived completed successfully for address: tb1py0jfpc0ft4zsfhg7p3peze4q6wdl9l2gfwzf8ar64skxkhz9v9lsuhm2g4
+2025-09-16 10:11:45.418 [INF] BTWL btcwallet.go:565: BTCWALLET: Successfully set up notification for address: tb1py0jfpc0ft4zsfhg7p3peze4q6wdl9l2gfwzf8ar64skxkhz9v9lsuhm2g4
+2025-09-16 10:11:45.418 [INF] BTWL btcwallet.go:548: BTCWALLET: Setting up notification for address: tb1putvlls3ekqm74khy2ls7hdadxn4ldxsuh9v2thg7hyht9ysjlvsqqwjnw6
+2025-09-16 10:11:45.418 [INF] BTWL btcwallet.go:557: BTCWALLET: Calling chain.NotifyReceived for address: tb1putvlls3ekqm74khy2ls7hdadxn4ldxsuh9v2thg7hyht9ysjlvsqqwjnw6
+2025-09-16 10:11:45.418 [INF] BTWL btcwallet.go:563: BTCWALLET: chain.NotifyReceived completed successfully for address: tb1putvlls3ekqm74khy2ls7hdadxn4ldxsuh9v2thg7hyht9ysjlvsqqwjnw6
+2025-09-16 10:11:45.418 [INF] BTWL btcwallet.go:565: BTCWALLET: Successfully set up notification for address: tb1putvlls3ekqm74khy2ls7hdadxn4ldxsuh9v2thg7hyht9ysjlvsqqwjnw6
+2025-09-16 10:11:45.418 [INF] BTWL btcwallet.go:548: BTCWALLET: Setting up notification for address: tb1pm2zwfrhd04ue5dqlwt8nvg9vdd8kcp75nsh3lmnat2mqmelg2vks5vkvfj
+2025-09-16 10:11:45.418 [INF] BTWL btcwallet.go:557: BTCWALLET: Calling chain.NotifyReceived for address: tb1pm2zwfrhd04ue5dqlwt8nvg9vdd8kcp75nsh3lmnat2mqmelg2vks5vkvfj
+2025-09-16 10:11:45.418 [INF] BTWL btcwallet.go:563: BTCWALLET: chain.NotifyReceived completed successfully for address: tb1pm2zwfrhd04ue5dqlwt8nvg9vdd8kcp75nsh3lmnat2mqmelg2vks5vkvfj
+2025-09-16 10:11:45.418 [INF] BTWL btcwallet.go:565: BTCWALLET: Successfully set up notification for address: tb1pm2zwfrhd04ue5dqlwt8nvg9vdd8kcp75nsh3lmnat2mqmelg2vks5vkvfj
+2025-09-16 10:11:45.418 [INF] BTWL btcwallet.go:548: BTCWALLET: Setting up notification for address: tb1pvhkycu546rfek5tpkmns0dwxc7v74ul3dlad7as8gflywg3plsvqy8mc4j
+2025-09-16 10:11:45.418 [INF] BTWL btcwallet.go:557: BTCWALLET: Calling chain.NotifyReceived for address: tb1pvhkycu546rfek5tpkmns0dwxc7v74ul3dlad7as8gflywg3plsvqy8mc4j
+2025-09-16 10:11:45.418 [INF] BTWL btcwallet.go:563: BTCWALLET: chain.NotifyReceived completed successfully for address: tb1pvhkycu546rfek5tpkmns0dwxc7v74ul3dlad7as8gflywg3plsvqy8mc4j
+2025-09-16 10:11:45.418 [INF] BTWL btcwallet.go:565: BTCWALLET: Successfully set up notification for address: tb1pvhkycu546rfek5tpkmns0dwxc7v74ul3dlad7as8gflywg3plsvqy8mc4j
+2025-09-16 10:11:45.418 [INF] BTWL btcwallet.go:548: BTCWALLET: Setting up notification for address: tb1p0gzw3zejyhpcnhel6fk44utj2wdvt6qeqm98nqxu6j56fcwme4psvdhc46
+2025-09-16 10:11:45.418 [INF] BTWL btcwallet.go:557: BTCWALLET: Calling chain.NotifyReceived for address: tb1p0gzw3zejyhpcnhel6fk44utj2wdvt6qeqm98nqxu6j56fcwme4psvdhc46
+2025-09-16 10:11:45.418 [INF] BTWL btcwallet.go:563: BTCWALLET: chain.NotifyReceived completed successfully for address: tb1p0gzw3zejyhpcnhel6fk44utj2wdvt6qeqm98nqxu6j56fcwme4psvdhc46
+2025-09-16 10:11:45.418 [INF] BTWL btcwallet.go:565: BTCWALLET: Successfully set up notification for address: tb1p0gzw3zejyhpcnhel6fk44utj2wdvt6qeqm98nqxu6j56fcwme4psvdhc46
+2025-09-16 10:11:45.418 [INF] BTWL btcwallet.go:548: BTCWALLET: Setting up notification for address: tb1pdt36eq5eqqfmretmf5fttd08w0xvwvz6xlyzy85mn7ae4fxag0gs84m89j
+2025-09-16 10:11:45.418 [INF] BTWL btcwallet.go:557: BTCWALLET: Calling chain.NotifyReceived for address: tb1pdt36eq5eqqfmretmf5fttd08w0xvwvz6xlyzy85mn7ae4fxag0gs84m89j
+2025-09-16 10:11:45.418 [INF] BTWL btcwallet.go:563: BTCWALLET: chain.NotifyReceived completed successfully for address: tb1pdt36eq5eqqfmretmf5fttd08w0xvwvz6xlyzy85mn7ae4fxag0gs84m89j
+2025-09-16 10:11:45.418 [INF] BTWL btcwallet.go:565: BTCWALLET: Successfully set up notification for address: tb1pdt36eq5eqqfmretmf5fttd08w0xvwvz6xlyzy85mn7ae4fxag0gs84m89j
+2025-09-16 10:11:45.418 [INF] BTWL btcwallet.go:463: BTCWALLET: Completed setting up notifications for 46 addresses
+2025-09-16 10:11:45.419 [INF] BTWL btcwallet.go:415: BTCWALLET: Electrum address notifications set up successfully
+2025-09-16 10:12:09.586 [DBG] LTND lnd.go:727: Syncing to block chain rev=4d1c86 best_block_time="2025-09-16 10:11:40 -0400 EDT" is_synced=false
+2025/09/16 10:12:10 ELECTRUM: GetBestBlock called
+2025/09/16 10:12:10 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:12:10 ELECTRUM: Got current height 4663890 from headers subscription
+2025/09/16 10:12:10 ELECTRUM: Returning hash 0000000000035cd517b6cfe48ad307509d165955ed9adaa50123482e28016131 for height 4663890 (from headers subscription)
+2025/09/16 10:12:10 ELECTRUM: GetBlockHeader called for hash: 0000000000035cd517b6cfe48ad307509d165955ed9adaa50123482e28016131
+2025/09/16 10:12:10 ELECTRUM: GetBestBlock called
+2025/09/16 10:12:10 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:12:11 ELECTRUM: Got current height 4663890 from headers subscription
+2025/09/16 10:12:11 ELECTRUM: Returning hash 0000000000035cd517b6cfe48ad307509d165955ed9adaa50123482e28016131 for height 4663890 (from headers subscription)
+2025-09-16 10:12:11.492 [DBG] LTND lnd.go:727: Syncing to block chain rev=4d1c86 best_block_time="2025-09-16 10:12:03 -0400 EDT" is_synced=false
+2025/09/16 10:12:11 ELECTRUM: GetBestBlock called
+2025/09/16 10:12:11 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:12:11 ELECTRUM: Got current height 4663891 from headers subscription
+2025/09/16 10:12:11 ELECTRUM: Returning hash 0000000000015c076fdfee3e259e97729d33cc0c84eb56568b6dedee5dac5605 for height 4663891 (from headers subscription)
+2025/09/16 10:12:11 ELECTRUM: Checking for new blocks - current: 4663891, last known: 4663879
+2025/09/16 10:12:11 ELECTRUM: New block detected! Height: 4663891 (was 4663879)
+2025/09/16 10:12:11 ELECTRUM: Sending block connected notification for height 4663891
+2025/09/16 10:12:11 ELECTRUM: Block notification sent successfully for height 4663891
+2025/09/16 10:12:12 ELECTRUM: GetBestBlock called
+2025/09/16 10:12:12 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:12:12 ELECTRUM: Got current height 4663891 from headers subscription
+2025/09/16 10:12:12 ELECTRUM: Returning hash 0000000000015c076fdfee3e259e97729d33cc0c84eb56568b6dedee5dac5605 for height 4663891 (from headers subscription)
+2025/09/16 10:12:12 ELECTRUM: GetBlockHeader called for hash: 0000000000015c076fdfee3e259e97729d33cc0c84eb56568b6dedee5dac5605
+2025/09/16 10:12:12 ELECTRUM: GetBestBlock called
+2025/09/16 10:12:12 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:12:12 ELECTRUM: GetBestBlock called
+2025/09/16 10:12:12 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:12:13 ELECTRUM: Got current height 4663891 from headers subscription
+2025/09/16 10:12:13 ELECTRUM: Returning hash 0000000000015c076fdfee3e259e97729d33cc0c84eb56568b6dedee5dac5605 for height 4663891 (from headers subscription)
+2025/09/16 10:12:13 ELECTRUM: Got current height 4663891 from headers subscription
+2025/09/16 10:12:13 ELECTRUM: Returning hash 0000000000015c076fdfee3e259e97729d33cc0c84eb56568b6dedee5dac5605 for height 4663891 (from headers subscription)
+2025/09/16 10:12:13 ELECTRUM: Checking for new blocks - current: 4663891, last known: 4663879
+2025/09/16 10:12:13 ELECTRUM: New block detected! Height: 4663891 (was 4663879)
+2025/09/16 10:12:13 ELECTRUM: Sending block connected notification for height 4663891
+2025/09/16 10:12:13 ELECTRUM: Block notification sent successfully for height 4663891
+2025/09/16 10:12:13 ELECTRUM: GetBestBlock called
+2025/09/16 10:12:13 ELECTRUM: Subscribing to headers to get current height
+2025-09-16 10:12:13.233 [DBG] LTND lnd.go:727: Syncing to block chain rev=4d1c86 best_block_time="2025-09-16 10:12:09 -0400 EDT" is_synced=false
+2025/09/16 10:12:13 ELECTRUM: Got current height 4663891 from headers subscription
+2025/09/16 10:12:13 ELECTRUM: Returning hash 0000000000015c076fdfee3e259e97729d33cc0c84eb56568b6dedee5dac5605 for height 4663891 (from headers subscription)
+2025/09/16 10:12:13 ELECTRUM: Checking for new blocks - current: 4663891, last known: 4663879
+2025/09/16 10:12:13 ELECTRUM: New block detected! Height: 4663891 (was 4663879)
+2025/09/16 10:12:13 ELECTRUM: Sending block connected notification for height 4663891
+2025/09/16 10:12:13 ELECTRUM: Block notification sent successfully for height 4663891
+2025/09/16 10:12:14 ELECTRUM: GetBestBlock called
+2025/09/16 10:12:14 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:12:14 ELECTRUM: Got current height 4663892 from headers subscription
+2025/09/16 10:12:14 ELECTRUM: Returning hash 0000000000000773da06a12eaa06eaa89152013aefe38f1686d74f9f2ebbe268 for height 4663892 (from headers subscription)
+2025/09/16 10:12:14 ELECTRUM: GetBlockHeader called for hash: 0000000000000773da06a12eaa06eaa89152013aefe38f1686d74f9f2ebbe268
+2025/09/16 10:12:14 ELECTRUM: GetBestBlock called
+2025/09/16 10:12:14 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:12:14 ELECTRUM: Got current height 4663892 from headers subscription
+2025/09/16 10:12:14 ELECTRUM: Returning hash 0000000000000773da06a12eaa06eaa89152013aefe38f1686d74f9f2ebbe268 for height 4663892 (from headers subscription)
+2025-09-16 10:12:15.020 [DBG] LTND lnd.go:727: Syncing to block chain rev=4d1c86 best_block_time="2025-09-16 10:12:14 -0400 EDT" is_synced=false
+2025/09/16 10:12:16 ELECTRUM: GetBestBlock called
+2025/09/16 10:12:16 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:12:16 ELECTRUM: Got current height 4663892 from headers subscription
+2025/09/16 10:12:16 ELECTRUM: Returning hash 0000000000000773da06a12eaa06eaa89152013aefe38f1686d74f9f2ebbe268 for height 4663892 (from headers subscription)
+2025/09/16 10:12:16 ELECTRUM: GetBlockHeader called for hash: 0000000000000773da06a12eaa06eaa89152013aefe38f1686d74f9f2ebbe268
+2025/09/16 10:12:16 ELECTRUM: GetBestBlock called
+2025/09/16 10:12:16 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:12:16 ELECTRUM: Got current height 4663892 from headers subscription
+2025/09/16 10:12:16 ELECTRUM: Returning hash 0000000000000773da06a12eaa06eaa89152013aefe38f1686d74f9f2ebbe268 for height 4663892 (from headers subscription)
+2025-09-16 10:12:16.788 [DBG] LTND lnd.go:727: Syncing to block chain rev=4d1c86 best_block_time="2025-09-16 10:12:14 -0400 EDT" is_synced=false
+2025/09/16 10:12:17 ELECTRUM: GetBestBlock called
+2025/09/16 10:12:17 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:12:18 ELECTRUM: Got current height 4663892 from headers subscription
+2025/09/16 10:12:18 ELECTRUM: Returning hash 0000000000000773da06a12eaa06eaa89152013aefe38f1686d74f9f2ebbe268 for height 4663892 (from headers subscription)
+2025/09/16 10:12:18 ELECTRUM: GetBlockHeader called for hash: 0000000000000773da06a12eaa06eaa89152013aefe38f1686d74f9f2ebbe268
+2025/09/16 10:12:18 ELECTRUM: GetBestBlock called
+2025/09/16 10:12:18 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:12:18 ELECTRUM: Got current height 4663892 from headers subscription
+2025/09/16 10:12:18 ELECTRUM: Returning hash 0000000000000773da06a12eaa06eaa89152013aefe38f1686d74f9f2ebbe268 for height 4663892 (from headers subscription)
+2025-09-16 10:12:18.527 [DBG] LTND lnd.go:727: Syncing to block chain rev=4d1c86 best_block_time="2025-09-16 10:12:14 -0400 EDT" is_synced=false
+2025/09/16 10:12:19 ELECTRUM: GetBestBlock called
+2025/09/16 10:12:19 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:12:19 ELECTRUM: Got current height 4663893 from headers subscription
+2025/09/16 10:12:19 ELECTRUM: Returning hash 0000000000003506e4af3f28cfffa0fd7df10280637ad6c585bec15f75554063 for height 4663893 (from headers subscription)
+2025/09/16 10:12:19 ELECTRUM: GetBlockHeader called for hash: 0000000000003506e4af3f28cfffa0fd7df10280637ad6c585bec15f75554063
+2025/09/16 10:12:19 ELECTRUM: GetBestBlock called
+2025/09/16 10:12:19 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:12:20 ELECTRUM: Got current height 4663893 from headers subscription
+2025/09/16 10:12:20 ELECTRUM: Returning hash 0000000000003506e4af3f28cfffa0fd7df10280637ad6c585bec15f75554063 for height 4663893 (from headers subscription)
+2025-09-16 10:12:20.344 [DBG] LTND lnd.go:727: Syncing to block chain rev=4d1c86 best_block_time="2025-09-16 10:12:15 -0400 EDT" is_synced=false
+2025/09/16 10:12:21 ELECTRUM: GetBestBlock called
+2025/09/16 10:12:21 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:12:21 ELECTRUM: Got current height 4663894 from headers subscription
+2025/09/16 10:12:21 ELECTRUM: Returning hash 000000000001cf0d2878546659aaa8a7d376fea270c5b85cc19bbed5fc965d02 for height 4663894 (from headers subscription)
+2025/09/16 10:12:21 ELECTRUM: GetBlockHeader called for hash: 000000000001cf0d2878546659aaa8a7d376fea270c5b85cc19bbed5fc965d02
+2025/09/16 10:12:21 ELECTRUM: GetBestBlock called
+2025/09/16 10:12:21 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:12:21 ELECTRUM: Got current height 4663894 from headers subscription
+2025/09/16 10:12:21 ELECTRUM: Returning hash 000000000001cf0d2878546659aaa8a7d376fea270c5b85cc19bbed5fc965d02 for height 4663894 (from headers subscription)
+2025-09-16 10:12:22.047 [DBG] LTND lnd.go:727: Syncing to block chain rev=4d1c86 best_block_time="2025-09-16 10:12:18 -0400 EDT" is_synced=false
+2025/09/16 10:12:23 ELECTRUM: GetBestBlock called
+2025/09/16 10:12:23 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:12:23 ELECTRUM: Got current height 4663895 from headers subscription
+2025/09/16 10:12:23 ELECTRUM: Returning hash 000000000003f034441e3b5125d7fc8a1b3d5dd35525c7986fed66264509f5b7 for height 4663895 (from headers subscription)
+2025/09/16 10:12:23 ELECTRUM: GetBlockHeader called for hash: 000000000003f034441e3b5125d7fc8a1b3d5dd35525c7986fed66264509f5b7
+2025/09/16 10:12:23 ELECTRUM: GetBestBlock called
+2025/09/16 10:12:23 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:12:23 ELECTRUM: Got current height 4663895 from headers subscription
+2025/09/16 10:12:23 ELECTRUM: Returning hash 000000000003f034441e3b5125d7fc8a1b3d5dd35525c7986fed66264509f5b7 for height 4663895 (from headers subscription)
+2025-09-16 10:12:23.928 [DBG] LTND lnd.go:727: Syncing to block chain rev=4d1c86 best_block_time="2025-09-16 10:12:29 -0400 EDT" is_synced=false
+2025/09/16 10:12:24 ELECTRUM: GetBestBlock called
+2025/09/16 10:12:24 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:12:25 ELECTRUM: Got current height 4663896 from headers subscription
+2025/09/16 10:12:25 ELECTRUM: Returning hash 000000000000262ce9d09ffa9dac6ab2dd75d7532fd4660312d248432afa751b for height 4663896 (from headers subscription)
+2025/09/16 10:12:25 ELECTRUM: GetBlockHeader called for hash: 000000000000262ce9d09ffa9dac6ab2dd75d7532fd4660312d248432afa751b
+2025/09/16 10:12:25 ELECTRUM: GetBestBlock called
+2025/09/16 10:12:25 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:12:25 ELECTRUM: Got current height 4663896 from headers subscription
+2025/09/16 10:12:25 ELECTRUM: Returning hash 000000000000262ce9d09ffa9dac6ab2dd75d7532fd4660312d248432afa751b for height 4663896 (from headers subscription)
+2025-09-16 10:12:25.772 [DBG] LTND lnd.go:727: Syncing to block chain rev=4d1c86 best_block_time="2025-09-16 10:12:22 -0400 EDT" is_synced=false
+2025/09/16 10:12:26 ELECTRUM: GetBestBlock called
+2025/09/16 10:12:26 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:12:27 ELECTRUM: Got current height 4663896 from headers subscription
+2025/09/16 10:12:27 ELECTRUM: Returning hash 000000000000262ce9d09ffa9dac6ab2dd75d7532fd4660312d248432afa751b for height 4663896 (from headers subscription)
+2025/09/16 10:12:27 ELECTRUM: GetBlockHeader called for hash: 000000000000262ce9d09ffa9dac6ab2dd75d7532fd4660312d248432afa751b
+2025/09/16 10:12:27 ELECTRUM: GetBestBlock called
+2025/09/16 10:12:27 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:12:27 ELECTRUM: Got current height 4663896 from headers subscription
+2025/09/16 10:12:27 ELECTRUM: Returning hash 000000000000262ce9d09ffa9dac6ab2dd75d7532fd4660312d248432afa751b for height 4663896 (from headers subscription)
+2025-09-16 10:12:27.615 [DBG] LTND lnd.go:727: Syncing to block chain rev=4d1c86 best_block_time="2025-09-16 10:12:22 -0400 EDT" is_synced=false
+2025/09/16 10:12:28 ELECTRUM: GetBestBlock called
+2025/09/16 10:12:28 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:12:28 ELECTRUM: Got current height 4663898 from headers subscription
+2025/09/16 10:12:28 ELECTRUM: Returning hash 00000000000033ed0f5bfd060b2c2e4ba233acd5897a5950020e3c7d1a330256 for height 4663898 (from headers subscription)
+2025/09/16 10:12:28 ELECTRUM: GetBlockHeader called for hash: 00000000000033ed0f5bfd060b2c2e4ba233acd5897a5950020e3c7d1a330256
+2025/09/16 10:12:28 ELECTRUM: GetBestBlock called
+2025/09/16 10:12:28 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:12:29 ELECTRUM: Got current height 4663898 from headers subscription
+2025/09/16 10:12:29 ELECTRUM: Returning hash 00000000000033ed0f5bfd060b2c2e4ba233acd5897a5950020e3c7d1a330256 for height 4663898 (from headers subscription)
+2025-09-16 10:12:29.313 [DBG] LTND lnd.go:727: Syncing to block chain rev=4d1c86 best_block_time="2025-09-16 10:12:28 -0400 EDT" is_synced=false
+2025/09/16 10:12:30 ELECTRUM: GetBestBlock called
+2025/09/16 10:12:30 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:12:30 ELECTRUM: Got current height 4663898 from headers subscription
+2025/09/16 10:12:30 ELECTRUM: Returning hash 00000000000033ed0f5bfd060b2c2e4ba233acd5897a5950020e3c7d1a330256 for height 4663898 (from headers subscription)
+2025/09/16 10:12:30 ELECTRUM: GetBlockHeader called for hash: 00000000000033ed0f5bfd060b2c2e4ba233acd5897a5950020e3c7d1a330256
+2025/09/16 10:12:30 ELECTRUM: GetBestBlock called
+2025/09/16 10:12:30 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:12:30 ELECTRUM: Got current height 4663898 from headers subscription
+2025/09/16 10:12:30 ELECTRUM: Returning hash 00000000000033ed0f5bfd060b2c2e4ba233acd5897a5950020e3c7d1a330256 for height 4663898 (from headers subscription)
+2025-09-16 10:12:31.096 [DBG] LTND lnd.go:727: Syncing to block chain rev=4d1c86 best_block_time="2025-09-16 10:12:28 -0400 EDT" is_synced=false
+2025/09/16 10:12:32 ELECTRUM: GetBestBlock called
+2025/09/16 10:12:32 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:12:32 ELECTRUM: Got current height 4663898 from headers subscription
+2025/09/16 10:12:32 ELECTRUM: Returning hash 00000000000033ed0f5bfd060b2c2e4ba233acd5897a5950020e3c7d1a330256 for height 4663898 (from headers subscription)
+2025/09/16 10:12:32 ELECTRUM: GetBlockHeader called for hash: 00000000000033ed0f5bfd060b2c2e4ba233acd5897a5950020e3c7d1a330256
+2025/09/16 10:12:32 ELECTRUM: GetBestBlock called
+2025/09/16 10:12:32 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:12:32 ELECTRUM: Got current height 4663898 from headers subscription
+2025/09/16 10:12:32 ELECTRUM: Returning hash 00000000000033ed0f5bfd060b2c2e4ba233acd5897a5950020e3c7d1a330256 for height 4663898 (from headers subscription)
+2025-09-16 10:12:32.939 [DBG] LTND lnd.go:727: Syncing to block chain rev=4d1c86 best_block_time="2025-09-16 10:12:28 -0400 EDT" is_synced=false
+2025/09/16 10:12:33 ELECTRUM: GetBestBlock called
+2025/09/16 10:12:33 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:12:34 ELECTRUM: Got current height 4663899 from headers subscription
+2025/09/16 10:12:34 ELECTRUM: Returning hash 0000000000007bfbcd616af7791ac54897eac35f9ec262399b7271396c678a30 for height 4663899 (from headers subscription)
+2025/09/16 10:12:34 ELECTRUM: GetBlockHeader called for hash: 0000000000007bfbcd616af7791ac54897eac35f9ec262399b7271396c678a30
+2025/09/16 10:12:34 ELECTRUM: GetBestBlock called
+2025/09/16 10:12:34 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:12:34 ELECTRUM: Got current height 4663899 from headers subscription
+2025/09/16 10:12:34 ELECTRUM: Returning hash 0000000000007bfbcd616af7791ac54897eac35f9ec262399b7271396c678a30 for height 4663899 (from headers subscription)
+2025-09-16 10:12:34.715 [DBG] LTND lnd.go:727: Syncing to block chain rev=4d1c86 best_block_time="2025-09-16 10:12:28 -0400 EDT" is_synced=false
+2025/09/16 10:12:35 ELECTRUM: GetBestBlock called
+2025/09/16 10:12:35 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:12:36 ELECTRUM: Got current height 4663900 from headers subscription
+2025/09/16 10:12:36 ELECTRUM: Returning hash 0000000000022156b137415ef8f1e315fd0b0750959dd257617f3db01ca46933 for height 4663900 (from headers subscription)
+2025/09/16 10:12:36 ELECTRUM: GetBlockHeader called for hash: 0000000000022156b137415ef8f1e315fd0b0750959dd257617f3db01ca46933
+2025/09/16 10:12:36 ELECTRUM: GetBestBlock called
+2025/09/16 10:12:36 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:12:36 ELECTRUM: Got current height 4663900 from headers subscription
+2025/09/16 10:12:36 ELECTRUM: Returning hash 0000000000022156b137415ef8f1e315fd0b0750959dd257617f3db01ca46933 for height 4663900 (from headers subscription)
+2025-09-16 10:12:36.549 [DBG] LTND lnd.go:727: Syncing to block chain rev=4d1c86 best_block_time="2025-09-16 10:12:33 -0400 EDT" is_synced=false
+2025/09/16 10:12:37 ELECTRUM: GetBestBlock called
+2025/09/16 10:12:37 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:12:37 ELECTRUM: Got current height 4663901 from headers subscription
+2025/09/16 10:12:37 ELECTRUM: Returning hash 00000000000033ad3026c14b98fa0c4cf64199e0afc7ab49d5c9e4f12a5ce8df for height 4663901 (from headers subscription)
+2025/09/16 10:12:37 ELECTRUM: GetBlockHeader called for hash: 00000000000033ad3026c14b98fa0c4cf64199e0afc7ab49d5c9e4f12a5ce8df
+2025/09/16 10:12:37 ELECTRUM: GetBestBlock called
+2025/09/16 10:12:37 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:12:38 ELECTRUM: Got current height 4663901 from headers subscription
+2025/09/16 10:12:38 ELECTRUM: Returning hash 00000000000033ad3026c14b98fa0c4cf64199e0afc7ab49d5c9e4f12a5ce8df for height 4663901 (from headers subscription)
+2025-09-16 10:12:38.471 [DBG] LTND lnd.go:727: Syncing to block chain rev=4d1c86 best_block_time="2025-09-16 10:12:42 -0400 EDT" is_synced=false
+2025/09/16 10:12:39 ELECTRUM: GetBestBlock called
+2025/09/16 10:12:39 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:12:39 ELECTRUM: Got current height 4663903 from headers subscription
+2025/09/16 10:12:39 ELECTRUM: Returning hash 00000000000018e2538a8f1b22de0883a74f700600f186309c0f71c13b41b92b for height 4663903 (from headers subscription)
+2025/09/16 10:12:39 ELECTRUM: GetBlockHeader called for hash: 00000000000018e2538a8f1b22de0883a74f700600f186309c0f71c13b41b92b
+2025/09/16 10:12:39 ELECTRUM: GetBestBlock called
+2025/09/16 10:12:39 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:12:40 ELECTRUM: Got current height 4663903 from headers subscription
+2025/09/16 10:12:40 ELECTRUM: Returning hash 00000000000018e2538a8f1b22de0883a74f700600f186309c0f71c13b41b92b for height 4663903 (from headers subscription)
+2025-09-16 10:12:40.266 [DBG] LTND lnd.go:727: Syncing to block chain rev=4d1c86 best_block_time="2025-09-16 10:12:47 -0400 EDT" is_synced=false
+2025/09/16 10:12:41 ELECTRUM: GetBestBlock called
+2025/09/16 10:12:41 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:12:41 ELECTRUM: Got current height 4663904 from headers subscription
+2025/09/16 10:12:41 ELECTRUM: Returning hash 000000000000387b156ad1ef4273d9bdd6ec050c96f314fcb1cec7ff3ac3c934 for height 4663904 (from headers subscription)
+2025/09/16 10:12:41 ELECTRUM: GetBlockHeader called for hash: 000000000000387b156ad1ef4273d9bdd6ec050c96f314fcb1cec7ff3ac3c934
+2025/09/16 10:12:41 ELECTRUM: GetBestBlock called
+2025/09/16 10:12:41 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:12:41 ELECTRUM: GetBestBlock called
+2025/09/16 10:12:41 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:12:41 ELECTRUM: Got current height 4663904 from headers subscription
+2025/09/16 10:12:41 ELECTRUM: Returning hash 000000000000387b156ad1ef4273d9bdd6ec050c96f314fcb1cec7ff3ac3c934 for height 4663904 (from headers subscription)
+2025/09/16 10:12:41 ELECTRUM: Got current height 4663904 from headers subscription
+2025/09/16 10:12:41 ELECTRUM: Returning hash 000000000000387b156ad1ef4273d9bdd6ec050c96f314fcb1cec7ff3ac3c934 for height 4663904 (from headers subscription)
+2025/09/16 10:12:41 ELECTRUM: Checking for new blocks - current: 4663904, last known: 4663891
+2025/09/16 10:12:41 ELECTRUM: New block detected! Height: 4663904 (was 4663891)
+2025/09/16 10:12:41 ELECTRUM: Sending block connected notification for height 4663904
+2025/09/16 10:12:41 ELECTRUM: Block notification sent successfully for height 4663904
+2025-09-16 10:12:41.968 [DBG] LTND lnd.go:727: Syncing to block chain rev=4d1c86 best_block_time="2025-09-16 10:12:45 -0400 EDT" is_synced=false
+2025/09/16 10:12:42 ELECTRUM: GetBestBlock called
+2025/09/16 10:12:42 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:12:42 ELECTRUM: GetBestBlock called
+2025/09/16 10:12:42 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:12:43 ELECTRUM: Got current height 4663904 from headers subscription
+2025/09/16 10:12:43 ELECTRUM: Returning hash 000000000000387b156ad1ef4273d9bdd6ec050c96f314fcb1cec7ff3ac3c934 for height 4663904 (from headers subscription)
+2025/09/16 10:12:43 ELECTRUM: Checking for new blocks - current: 4663904, last known: 4663891
+2025/09/16 10:12:43 ELECTRUM: New block detected! Height: 4663904 (was 4663891)
+2025/09/16 10:12:43 ELECTRUM: Sending block connected notification for height 4663904
+2025/09/16 10:12:43 ELECTRUM: Block notification sent successfully for height 4663904
+2025/09/16 10:12:43 ELECTRUM: GetBestBlock called
+2025/09/16 10:12:43 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:12:43 ELECTRUM: Got current height 4663904 from headers subscription
+2025/09/16 10:12:43 ELECTRUM: Returning hash 000000000000387b156ad1ef4273d9bdd6ec050c96f314fcb1cec7ff3ac3c934 for height 4663904 (from headers subscription)
+2025/09/16 10:12:43 ELECTRUM: GetBlockHeader called for hash: 000000000000387b156ad1ef4273d9bdd6ec050c96f314fcb1cec7ff3ac3c934
+2025/09/16 10:12:43 ELECTRUM: GetBestBlock called
+2025/09/16 10:12:43 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:12:43 ELECTRUM: Got current height 4663904 from headers subscription
+2025/09/16 10:12:43 ELECTRUM: Returning hash 000000000000387b156ad1ef4273d9bdd6ec050c96f314fcb1cec7ff3ac3c934 for height 4663904 (from headers subscription)
+2025/09/16 10:12:43 ELECTRUM: Got current height 4663904 from headers subscription
+2025/09/16 10:12:43 ELECTRUM: Returning hash 000000000000387b156ad1ef4273d9bdd6ec050c96f314fcb1cec7ff3ac3c934 for height 4663904 (from headers subscription)
+2025/09/16 10:12:43 ELECTRUM: Checking for new blocks - current: 4663904, last known: 4663891
+2025/09/16 10:12:43 ELECTRUM: New block detected! Height: 4663904 (was 4663891)
+2025/09/16 10:12:43 ELECTRUM: Sending block connected notification for height 4663904
+2025/09/16 10:12:43 ELECTRUM: Block notification sent successfully for height 4663904
+2025-09-16 10:12:43.794 [DBG] LTND lnd.go:727: Syncing to block chain rev=4d1c86 best_block_time="2025-09-16 10:12:45 -0400 EDT" is_synced=false
+2025/09/16 10:12:44 ELECTRUM: GetBestBlock called
+2025/09/16 10:12:44 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:12:45 ELECTRUM: Got current height 4663904 from headers subscription
+2025/09/16 10:12:45 ELECTRUM: Returning hash 000000000000387b156ad1ef4273d9bdd6ec050c96f314fcb1cec7ff3ac3c934 for height 4663904 (from headers subscription)
+2025/09/16 10:12:45 ELECTRUM: GetBlockHeader called for hash: 000000000000387b156ad1ef4273d9bdd6ec050c96f314fcb1cec7ff3ac3c934
+2025/09/16 10:12:45 ELECTRUM: GetBestBlock called
+2025/09/16 10:12:45 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:12:45 ELECTRUM: Got current height 4663904 from headers subscription
+2025/09/16 10:12:45 ELECTRUM: Returning hash 000000000000387b156ad1ef4273d9bdd6ec050c96f314fcb1cec7ff3ac3c934 for height 4663904 (from headers subscription)
+2025-09-16 10:12:45.672 [DBG] LTND lnd.go:727: Syncing to block chain rev=4d1c86 best_block_time="2025-09-16 10:12:45 -0400 EDT" is_synced=false
+2025/09/16 10:12:46 ELECTRUM: GetBestBlock called
+2025/09/16 10:12:46 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:12:46 ELECTRUM: Got current height 4663905 from headers subscription
+2025/09/16 10:12:46 ELECTRUM: Returning hash 000000000000e298592cdc8245f83211da0336b84f8855e129490a4671176876 for height 4663905 (from headers subscription)
+2025/09/16 10:12:46 ELECTRUM: GetBlockHeader called for hash: 000000000000e298592cdc8245f83211da0336b84f8855e129490a4671176876
+2025/09/16 10:12:46 ELECTRUM: GetBestBlock called
+2025/09/16 10:12:46 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:12:47 ELECTRUM: Got current height 4663905 from headers subscription
+2025/09/16 10:12:47 ELECTRUM: Returning hash 000000000000e298592cdc8245f83211da0336b84f8855e129490a4671176876 for height 4663905 (from headers subscription)
+2025-09-16 10:12:47.366 [DBG] LTND lnd.go:727: Syncing to block chain rev=4d1c86 best_block_time="2025-09-16 10:12:47 -0400 EDT" is_synced=false
+2025/09/16 10:12:48 ELECTRUM: GetBestBlock called
+2025/09/16 10:12:48 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:12:48 ELECTRUM: Got current height 4663906 from headers subscription
+2025/09/16 10:12:48 ELECTRUM: Returning hash 0000000000002d7cd2d83a57625bc3aa007faeea33d8c407ac2d36612be146b8 for height 4663906 (from headers subscription)
+2025/09/16 10:12:48 ELECTRUM: GetBlockHeader called for hash: 0000000000002d7cd2d83a57625bc3aa007faeea33d8c407ac2d36612be146b8
+2025/09/16 10:12:48 ELECTRUM: GetBestBlock called
+2025/09/16 10:12:48 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:12:48 ELECTRUM: Got current height 4663906 from headers subscription
+2025/09/16 10:12:48 ELECTRUM: Returning hash 0000000000002d7cd2d83a57625bc3aa007faeea33d8c407ac2d36612be146b8 for height 4663906 (from headers subscription)
+2025-09-16 10:12:49.067 [DBG] LTND lnd.go:727: Syncing to block chain rev=4d1c86 best_block_time="2025-09-16 10:12:58 -0400 EDT" is_synced=false
+2025/09/16 10:12:50 ELECTRUM: GetBestBlock called
+2025/09/16 10:12:50 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:12:50 ELECTRUM: Got current height 4663907 from headers subscription
+2025/09/16 10:12:50 ELECTRUM: Returning hash 000000000000464f59936b5ab5c9622981efc586129ad2d7ebbecfcc551de46b for height 4663907 (from headers subscription)
+2025/09/16 10:12:50 ELECTRUM: GetBlockHeader called for hash: 000000000000464f59936b5ab5c9622981efc586129ad2d7ebbecfcc551de46b
+2025/09/16 10:12:50 ELECTRUM: GetBestBlock called
+2025/09/16 10:12:50 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:12:50 ELECTRUM: Got current height 4663907 from headers subscription
+2025/09/16 10:12:50 ELECTRUM: Returning hash 000000000000464f59936b5ab5c9622981efc586129ad2d7ebbecfcc551de46b for height 4663907 (from headers subscription)
+2025-09-16 10:12:50.767 [DBG] LTND lnd.go:727: Syncing to block chain rev=4d1c86 best_block_time="2025-09-16 10:12:51 -0400 EDT" is_synced=false
+2025/09/16 10:12:51 ELECTRUM: GetBestBlock called
+2025/09/16 10:12:51 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:12:52 ELECTRUM: Got current height 4663908 from headers subscription
+2025/09/16 10:12:52 ELECTRUM: Returning hash 000000000000408e4f7e28c96482d64cbf4992a849b81815589fbb20421699f8 for height 4663908 (from headers subscription)
+2025/09/16 10:12:52 ELECTRUM: GetBlockHeader called for hash: 000000000000408e4f7e28c96482d64cbf4992a849b81815589fbb20421699f8
+2025/09/16 10:12:52 ELECTRUM: GetBestBlock called
+2025/09/16 10:12:52 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:12:52 ELECTRUM: Got current height 4663908 from headers subscription
+2025/09/16 10:12:52 ELECTRUM: Returning hash 000000000000408e4f7e28c96482d64cbf4992a849b81815589fbb20421699f8 for height 4663908 (from headers subscription)
+2025-09-16 10:12:52.554 [DBG] LTND lnd.go:727: Syncing to block chain rev=4d1c86 best_block_time="2025-09-16 10:12:49 -0400 EDT" is_synced=false
+2025/09/16 10:12:53 ELECTRUM: GetBestBlock called
+2025/09/16 10:12:53 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:12:53 ELECTRUM: Got current height 4663909 from headers subscription
+2025/09/16 10:12:53 ELECTRUM: Returning hash 000000000000080d944cbcb8d55c070db028da618ba44330022132c60d85f7f9 for height 4663909 (from headers subscription)
+2025/09/16 10:12:53 ELECTRUM: GetBlockHeader called for hash: 000000000000080d944cbcb8d55c070db028da618ba44330022132c60d85f7f9
+2025/09/16 10:12:53 ELECTRUM: GetBestBlock called
+2025/09/16 10:12:53 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:12:54 ELECTRUM: Got current height 4663909 from headers subscription
+2025/09/16 10:12:54 ELECTRUM: Returning hash 000000000000080d944cbcb8d55c070db028da618ba44330022132c60d85f7f9 for height 4663909 (from headers subscription)
+2025-09-16 10:12:54.340 [DBG] LTND lnd.go:727: Syncing to block chain rev=4d1c86 best_block_time="2025-09-16 10:12:50 -0400 EDT" is_synced=false
+2025/09/16 10:12:55 ELECTRUM: GetBestBlock called
+2025/09/16 10:12:55 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:12:55 ELECTRUM: Got current height 4663909 from headers subscription
+2025/09/16 10:12:55 ELECTRUM: Returning hash 000000000000080d944cbcb8d55c070db028da618ba44330022132c60d85f7f9 for height 4663909 (from headers subscription)
+2025/09/16 10:12:55 ELECTRUM: GetBlockHeader called for hash: 000000000000080d944cbcb8d55c070db028da618ba44330022132c60d85f7f9
+2025/09/16 10:12:55 ELECTRUM: GetBestBlock called
+2025/09/16 10:12:55 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:12:55 ELECTRUM: Got current height 4663909 from headers subscription
+2025/09/16 10:12:55 ELECTRUM: Returning hash 000000000000080d944cbcb8d55c070db028da618ba44330022132c60d85f7f9 for height 4663909 (from headers subscription)
+2025-09-16 10:12:56.184 [DBG] LTND lnd.go:727: Syncing to block chain rev=4d1c86 best_block_time="2025-09-16 10:12:50 -0400 EDT" is_synced=false
+2025/09/16 10:12:57 ELECTRUM: GetBestBlock called
+2025/09/16 10:12:57 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:12:57 ELECTRUM: Got current height 4663909 from headers subscription
+2025/09/16 10:12:57 ELECTRUM: Returning hash 000000000000080d944cbcb8d55c070db028da618ba44330022132c60d85f7f9 for height 4663909 (from headers subscription)
+2025/09/16 10:12:57 ELECTRUM: GetBlockHeader called for hash: 000000000000080d944cbcb8d55c070db028da618ba44330022132c60d85f7f9
+2025/09/16 10:12:57 ELECTRUM: GetBestBlock called
+2025/09/16 10:12:57 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:12:57 ELECTRUM: Got current height 4663909 from headers subscription
+2025/09/16 10:12:57 ELECTRUM: Returning hash 000000000000080d944cbcb8d55c070db028da618ba44330022132c60d85f7f9 for height 4663909 (from headers subscription)
+2025-09-16 10:12:57.927 [DBG] LTND lnd.go:727: Syncing to block chain rev=4d1c86 best_block_time="2025-09-16 10:12:50 -0400 EDT" is_synced=false
+2025/09/16 10:12:58 ELECTRUM: GetBestBlock called
+2025/09/16 10:12:58 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:12:59 ELECTRUM: Got current height 4663909 from headers subscription
+2025/09/16 10:12:59 ELECTRUM: Returning hash 000000000000080d944cbcb8d55c070db028da618ba44330022132c60d85f7f9 for height 4663909 (from headers subscription)
+2025/09/16 10:12:59 ELECTRUM: GetBlockHeader called for hash: 000000000000080d944cbcb8d55c070db028da618ba44330022132c60d85f7f9
+2025/09/16 10:12:59 ELECTRUM: GetBestBlock called
+2025/09/16 10:12:59 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:12:59 ELECTRUM: Got current height 4663910 from headers subscription
+2025/09/16 10:12:59 ELECTRUM: Returning hash 0000000000001910012cbad4697f7fd7830ca5aabd65c3fc2d9ad6f97707d84a for height 4663910 (from headers subscription)
+2025/09/16 10:13:11 ELECTRUM: GetBestBlock called
+2025/09/16 10:13:11 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:13:11 ELECTRUM: Got current height 4663916 from headers subscription
+2025/09/16 10:13:11 ELECTRUM: Returning hash 000000000003695a97576ea03aa0c825d68b17b1cc10ba4dfac0e00a72c2b39f for height 4663916 (from headers subscription)
+2025/09/16 10:13:11 ELECTRUM: Checking for new blocks - current: 4663916, last known: 4663904
+2025/09/16 10:13:11 ELECTRUM: New block detected! Height: 4663916 (was 4663904)
+2025/09/16 10:13:11 ELECTRUM: Sending block connected notification for height 4663916
+2025/09/16 10:13:11 ELECTRUM: Block notification sent successfully for height 4663916
+2025/09/16 10:13:12 ELECTRUM: GetBestBlock called
+2025/09/16 10:13:12 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:13:13 ELECTRUM: GetBestBlock called
+2025/09/16 10:13:13 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:13:13 ELECTRUM: Got current height 4663917 from headers subscription
+2025/09/16 10:13:13 ELECTRUM: Returning hash 000000000003e33de113d96c8621c450a2e4032dda8c9f6c49f14a39b9f285d5 for height 4663917 (from headers subscription)
+2025/09/16 10:13:13 ELECTRUM: Checking for new blocks - current: 4663917, last known: 4663904
+2025/09/16 10:13:13 ELECTRUM: New block detected! Height: 4663917 (was 4663904)
+2025/09/16 10:13:13 ELECTRUM: Sending block connected notification for height 4663917
+2025/09/16 10:13:13 ELECTRUM: Block notification sent successfully for height 4663917
+2025/09/16 10:13:13 ELECTRUM: Got current height 4663917 from headers subscription
+2025/09/16 10:13:13 ELECTRUM: Returning hash 000000000003e33de113d96c8621c450a2e4032dda8c9f6c49f14a39b9f285d5 for height 4663917 (from headers subscription)
+2025/09/16 10:13:13 ELECTRUM: Checking for new blocks - current: 4663917, last known: 4663904
+2025/09/16 10:13:13 ELECTRUM: New block detected! Height: 4663917 (was 4663904)
+2025/09/16 10:13:13 ELECTRUM: Sending block connected notification for height 4663917
+2025/09/16 10:13:13 ELECTRUM: Block notification sent successfully for height 4663917
+2025-09-16 10:13:25.575 [DBG] LTND lnd.go:727: Syncing to block chain rev=4d1c86 best_block_time="2025-09-16 10:12:50 -0400 EDT" is_synced=false
+2025/09/16 10:13:26 ELECTRUM: GetBestBlock called
+2025/09/16 10:13:26 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:13:26 ELECTRUM: Got current height 4663923 from headers subscription
+2025/09/16 10:13:26 ELECTRUM: Returning hash 000000000001a0df01c5f4fda66d0703cf4c3417cb7e18e09bc8acea45cd5825 for height 4663923 (from headers subscription)
+2025/09/16 10:13:26 ELECTRUM: GetBlockHeader called for hash: 000000000001a0df01c5f4fda66d0703cf4c3417cb7e18e09bc8acea45cd5825
+2025/09/16 10:13:26 ELECTRUM: GetBestBlock called
+2025/09/16 10:13:26 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:13:27 ELECTRUM: Got current height 4663923 from headers subscription
+2025/09/16 10:13:27 ELECTRUM: Returning hash 000000000001a0df01c5f4fda66d0703cf4c3417cb7e18e09bc8acea45cd5825 for height 4663923 (from headers subscription)
+2025-09-16 10:13:27.316 [DBG] LTND lnd.go:727: Syncing to block chain rev=4d1c86 best_block_time="2025-09-16 10:13:23 -0400 EDT" is_synced=false
+2025/09/16 10:13:28 ELECTRUM: GetBestBlock called
+2025/09/16 10:13:28 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:13:28 ELECTRUM: Got current height 4663924 from headers subscription
+2025/09/16 10:13:28 ELECTRUM: Returning hash 000000000001dbefcd4638a053f76d9e1fa134fee7be1fa10e97c5034cdbcab6 for height 4663924 (from headers subscription)
+2025/09/16 10:13:28 ELECTRUM: GetBlockHeader called for hash: 000000000001dbefcd4638a053f76d9e1fa134fee7be1fa10e97c5034cdbcab6
+2025/09/16 10:13:28 ELECTRUM: GetBestBlock called
+2025/09/16 10:13:28 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:13:28 ELECTRUM: Got current height 4663924 from headers subscription
+2025/09/16 10:13:28 ELECTRUM: Returning hash 000000000001dbefcd4638a053f76d9e1fa134fee7be1fa10e97c5034cdbcab6 for height 4663924 (from headers subscription)
+2025-09-16 10:13:29.013 [DBG] LTND lnd.go:727: Syncing to block chain rev=4d1c86 best_block_time="2025-09-16 10:13:27 -0400 EDT" is_synced=false
+2025/09/16 10:13:30 ELECTRUM: GetBestBlock called
+2025/09/16 10:13:30 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:13:30 ELECTRUM: Got current height 4663924 from headers subscription
+2025/09/16 10:13:30 ELECTRUM: Returning hash 000000000001dbefcd4638a053f76d9e1fa134fee7be1fa10e97c5034cdbcab6 for height 4663924 (from headers subscription)
+2025/09/16 10:13:30 ELECTRUM: GetBlockHeader called for hash: 000000000001dbefcd4638a053f76d9e1fa134fee7be1fa10e97c5034cdbcab6
+2025/09/16 10:13:30 ELECTRUM: GetBestBlock called
+2025/09/16 10:13:30 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:13:30 ELECTRUM: Got current height 4663924 from headers subscription
+2025/09/16 10:13:30 ELECTRUM: Returning hash 000000000001dbefcd4638a053f76d9e1fa134fee7be1fa10e97c5034cdbcab6 for height 4663924 (from headers subscription)
+2025-09-16 10:13:30.719 [DBG] LTND lnd.go:727: Syncing to block chain rev=4d1c86 best_block_time="2025-09-16 10:13:27 -0400 EDT" is_synced=false
+2025/09/16 10:13:31 ELECTRUM: GetBestBlock called
+2025/09/16 10:13:31 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:13:31 ELECTRUM: Got current height 4663926 from headers subscription
+2025/09/16 10:13:31 ELECTRUM: Returning hash 000000000000468f023192ed083886cc93b21e64b13305da553bb4b55705679f for height 4663926 (from headers subscription)
+2025/09/16 10:13:31 ELECTRUM: GetBlockHeader called for hash: 000000000000468f023192ed083886cc93b21e64b13305da553bb4b55705679f
+2025/09/16 10:13:31 ELECTRUM: GetBestBlock called
+2025/09/16 10:13:31 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:13:32 ELECTRUM: Got current height 4663926 from headers subscription
+2025/09/16 10:13:32 ELECTRUM: Returning hash 000000000000468f023192ed083886cc93b21e64b13305da553bb4b55705679f for height 4663926 (from headers subscription)
+2025-09-16 10:13:32.537 [DBG] LTND lnd.go:727: Syncing to block chain rev=4d1c86 best_block_time="2025-09-16 10:13:35 -0400 EDT" is_synced=false
+2025/09/16 10:13:33 ELECTRUM: GetBestBlock called
+2025/09/16 10:13:33 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:13:33 ELECTRUM: Got current height 4663926 from headers subscription
+2025/09/16 10:13:33 ELECTRUM: Returning hash 000000000000468f023192ed083886cc93b21e64b13305da553bb4b55705679f for height 4663926 (from headers subscription)
+2025/09/16 10:13:33 ELECTRUM: GetBlockHeader called for hash: 000000000000468f023192ed083886cc93b21e64b13305da553bb4b55705679f
+2025/09/16 10:13:33 ELECTRUM: GetBestBlock called
+2025/09/16 10:13:33 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:13:34 ELECTRUM: Got current height 4663926 from headers subscription
+2025/09/16 10:13:34 ELECTRUM: Returning hash 000000000000468f023192ed083886cc93b21e64b13305da553bb4b55705679f for height 4663926 (from headers subscription)
+2025-09-16 10:13:34.333 [DBG] LTND lnd.go:727: Syncing to block chain rev=4d1c86 best_block_time="2025-09-16 10:13:35 -0400 EDT" is_synced=false
+2025/09/16 10:13:35 ELECTRUM: GetBestBlock called
+2025/09/16 10:13:35 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:13:35 ELECTRUM: Got current height 4663926 from headers subscription
+2025/09/16 10:13:35 ELECTRUM: Returning hash 000000000000468f023192ed083886cc93b21e64b13305da553bb4b55705679f for height 4663926 (from headers subscription)
+2025/09/16 10:13:35 ELECTRUM: GetBlockHeader called for hash: 000000000000468f023192ed083886cc93b21e64b13305da553bb4b55705679f
+2025/09/16 10:13:35 ELECTRUM: GetBestBlock called
+2025/09/16 10:13:35 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:13:35 ELECTRUM: Got current height 4663926 from headers subscription
+2025/09/16 10:13:35 ELECTRUM: Returning hash 000000000000468f023192ed083886cc93b21e64b13305da553bb4b55705679f for height 4663926 (from headers subscription)
+2025-09-16 10:13:36.121 [DBG] LTND lnd.go:727: Syncing to block chain rev=4d1c86 best_block_time="2025-09-16 10:13:35 -0400 EDT" is_synced=false
+2025/09/16 10:13:37 ELECTRUM: GetBestBlock called
+2025/09/16 10:13:37 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:13:37 ELECTRUM: Got current height 4663926 from headers subscription
+2025/09/16 10:13:37 ELECTRUM: Returning hash 000000000000468f023192ed083886cc93b21e64b13305da553bb4b55705679f for height 4663926 (from headers subscription)
+2025/09/16 10:13:37 ELECTRUM: GetBlockHeader called for hash: 000000000000468f023192ed083886cc93b21e64b13305da553bb4b55705679f
+2025/09/16 10:13:37 ELECTRUM: GetBestBlock called
+2025/09/16 10:13:37 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:13:37 ELECTRUM: Got current height 4663926 from headers subscription
+2025/09/16 10:13:37 ELECTRUM: Returning hash 000000000000468f023192ed083886cc93b21e64b13305da553bb4b55705679f for height 4663926 (from headers subscription)
+2025-09-16 10:13:37.964 [DBG] LTND lnd.go:727: Syncing to block chain rev=4d1c86 best_block_time="2025-09-16 10:13:35 -0400 EDT" is_synced=false
+2025/09/16 10:13:38 ELECTRUM: GetBestBlock called
+2025/09/16 10:13:38 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:13:39 ELECTRUM: Got current height 4663926 from headers subscription
+2025/09/16 10:13:39 ELECTRUM: Returning hash 000000000000468f023192ed083886cc93b21e64b13305da553bb4b55705679f for height 4663926 (from headers subscription)
+2025/09/16 10:13:39 ELECTRUM: GetBlockHeader called for hash: 000000000000468f023192ed083886cc93b21e64b13305da553bb4b55705679f
+2025/09/16 10:13:39 ELECTRUM: GetBestBlock called
+2025/09/16 10:13:39 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:13:39 ELECTRUM: Got current height 4663927 from headers subscription
+2025/09/16 10:13:39 ELECTRUM: Returning hash 00000000000009c618240e9f2fecffa351045669edf9e5a05cbe197b42b43cc8 for height 4663927 (from headers subscription)
+2025/09/16 10:13:41 ELECTRUM: GetBestBlock called
+2025/09/16 10:13:41 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:13:41 ELECTRUM: Got current height 4663928 from headers subscription
+2025/09/16 10:13:41 ELECTRUM: Returning hash 000000000000119b539c6e930ce6b9bd9ad56492b104cf5bd5885548dde37d02 for height 4663928 (from headers subscription)
+2025/09/16 10:13:41 ELECTRUM: Checking for new blocks - current: 4663928, last known: 4663916
+2025/09/16 10:13:41 ELECTRUM: New block detected! Height: 4663928 (was 4663916)
+2025/09/16 10:13:41 ELECTRUM: Sending block connected notification for height 4663928
+2025/09/16 10:13:41 ELECTRUM: Block notification sent successfully for height 4663928
+2025/09/16 10:13:42 ELECTRUM: GetBestBlock called
+2025/09/16 10:13:42 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:13:43 ELECTRUM: Got current height 4663929 from headers subscription
+2025/09/16 10:13:43 ELECTRUM: Returning hash 0000000000000ae97f1ee31c30f3f1e199bdda6136e99262a3a605b4482e902b for height 4663929 (from headers subscription)
+2025/09/16 10:13:43 ELECTRUM: Checking for new blocks - current: 4663929, last known: 4663917
+2025/09/16 10:13:43 ELECTRUM: New block detected! Height: 4663929 (was 4663917)
+2025/09/16 10:13:43 ELECTRUM: Sending block connected notification for height 4663929
+2025/09/16 10:13:43 ELECTRUM: Block notification sent successfully for height 4663929
+2025/09/16 10:13:43 ELECTRUM: GetBestBlock called
+2025/09/16 10:13:43 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:13:43 ELECTRUM: Got current height 4663929 from headers subscription
+2025/09/16 10:13:43 ELECTRUM: Returning hash 0000000000000ae97f1ee31c30f3f1e199bdda6136e99262a3a605b4482e902b for height 4663929 (from headers subscription)
+2025/09/16 10:13:43 ELECTRUM: Checking for new blocks - current: 4663929, last known: 4663917
+2025/09/16 10:13:43 ELECTRUM: New block detected! Height: 4663929 (was 4663917)
+2025/09/16 10:13:43 ELECTRUM: Sending block connected notification for height 4663929
+2025/09/16 10:13:43 ELECTRUM: Block notification sent successfully for height 4663929
+2025-09-16 10:14:04.786 [DBG] LTND lnd.go:727: Syncing to block chain rev=4d1c86 best_block_time="2025-09-16 10:13:35 -0400 EDT" is_synced=false
+2025/09/16 10:14:05 ELECTRUM: GetBestBlock called
+2025/09/16 10:14:05 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:14:06 ELECTRUM: Got current height 4663936 from headers subscription
+2025/09/16 10:14:06 ELECTRUM: Returning hash 000000000001c657f6e0b8e5a32a60b8aaab67565aa6e1f50d6c8b553c7a3372 for height 4663936 (from headers subscription)
+2025/09/16 10:14:06 ELECTRUM: GetBlockHeader called for hash: 000000000001c657f6e0b8e5a32a60b8aaab67565aa6e1f50d6c8b553c7a3372
+2025/09/16 10:14:06 ELECTRUM: GetBestBlock called
+2025/09/16 10:14:06 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:14:06 ELECTRUM: Got current height 4663936 from headers subscription
+2025/09/16 10:14:06 ELECTRUM: Returning hash 000000000001c657f6e0b8e5a32a60b8aaab67565aa6e1f50d6c8b553c7a3372 for height 4663936 (from headers subscription)
+2025-09-16 10:14:06.484 [DBG] LTND lnd.go:727: Syncing to block chain rev=4d1c86 best_block_time="2025-09-16 10:14:02 -0400 EDT" is_synced=false
+2025/09/16 10:14:07 ELECTRUM: GetBestBlock called
+2025/09/16 10:14:07 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:14:07 ELECTRUM: Got current height 4663936 from headers subscription
+2025/09/16 10:14:07 ELECTRUM: Returning hash 000000000001c657f6e0b8e5a32a60b8aaab67565aa6e1f50d6c8b553c7a3372 for height 4663936 (from headers subscription)
+2025/09/16 10:14:07 ELECTRUM: GetBlockHeader called for hash: 000000000001c657f6e0b8e5a32a60b8aaab67565aa6e1f50d6c8b553c7a3372
+2025/09/16 10:14:07 ELECTRUM: GetBestBlock called
+2025/09/16 10:14:07 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:14:07 ELECTRUM: Got current height 4663936 from headers subscription
+2025/09/16 10:14:07 ELECTRUM: Returning hash 000000000001c657f6e0b8e5a32a60b8aaab67565aa6e1f50d6c8b553c7a3372 for height 4663936 (from headers subscription)
+2025-09-16 10:14:08.237 [DBG] LTND lnd.go:727: Syncing to block chain rev=4d1c86 best_block_time="2025-09-16 10:14:02 -0400 EDT" is_synced=false
+2025/09/16 10:14:09 ELECTRUM: GetBestBlock called
+2025/09/16 10:14:09 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:14:09 ELECTRUM: Got current height 4663936 from headers subscription
+2025/09/16 10:14:09 ELECTRUM: Returning hash 000000000001c657f6e0b8e5a32a60b8aaab67565aa6e1f50d6c8b553c7a3372 for height 4663936 (from headers subscription)
+2025/09/16 10:14:09 ELECTRUM: GetBlockHeader called for hash: 000000000001c657f6e0b8e5a32a60b8aaab67565aa6e1f50d6c8b553c7a3372
+2025/09/16 10:14:09 ELECTRUM: GetBestBlock called
+2025/09/16 10:14:09 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:14:09 ELECTRUM: Got current height 4663936 from headers subscription
+2025/09/16 10:14:09 ELECTRUM: Returning hash 000000000001c657f6e0b8e5a32a60b8aaab67565aa6e1f50d6c8b553c7a3372 for height 4663936 (from headers subscription)
+2025-09-16 10:14:09.969 [DBG] LTND lnd.go:727: Syncing to block chain rev=4d1c86 best_block_time="2025-09-16 10:14:02 -0400 EDT" is_synced=false
+2025/09/16 10:14:10 ELECTRUM: GetBestBlock called
+2025/09/16 10:14:10 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:14:11 ELECTRUM: Got current height 4663937 from headers subscription
+2025/09/16 10:14:11 ELECTRUM: Returning hash 00000000000028f789f2214576d59c780c1f8f6b66dead39683c90bf19dff71d for height 4663937 (from headers subscription)
+2025/09/16 10:14:11 ELECTRUM: GetBlockHeader called for hash: 00000000000028f789f2214576d59c780c1f8f6b66dead39683c90bf19dff71d
+2025/09/16 10:14:11 ELECTRUM: GetBestBlock called
+2025/09/16 10:14:11 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:14:11 ELECTRUM: Got current height 4663937 from headers subscription
+2025/09/16 10:14:11 ELECTRUM: Returning hash 00000000000028f789f2214576d59c780c1f8f6b66dead39683c90bf19dff71d for height 4663937 (from headers subscription)
+2025-09-16 10:14:11.669 [DBG] LTND lnd.go:727: Syncing to block chain rev=4d1c86 best_block_time="2025-09-16 10:14:12 -0400 EDT" is_synced=false
+2025/09/16 10:14:11 ELECTRUM: GetBestBlock called
+2025/09/16 10:14:11 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:14:11 ELECTRUM: Got current height 4663938 from headers subscription
+2025/09/16 10:14:11 ELECTRUM: Returning hash 0000000000007cc67298cc7860818d1f75a62f070092b4451211ea691006711c for height 4663938 (from headers subscription)
+2025/09/16 10:14:11 ELECTRUM: Checking for new blocks - current: 4663938, last known: 4663928
+2025/09/16 10:14:11 ELECTRUM: New block detected! Height: 4663938 (was 4663928)
+2025/09/16 10:14:11 ELECTRUM: Sending block connected notification for height 4663938
+2025/09/16 10:14:11 ELECTRUM: Block notification sent successfully for height 4663938
+2025/09/16 10:14:12 ELECTRUM: GetBestBlock called
+2025/09/16 10:14:12 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:14:12 ELECTRUM: Got current height 4663938 from headers subscription
+2025/09/16 10:14:12 ELECTRUM: Returning hash 0000000000007cc67298cc7860818d1f75a62f070092b4451211ea691006711c for height 4663938 (from headers subscription)
+2025/09/16 10:14:12 ELECTRUM: GetBlockHeader called for hash: 0000000000007cc67298cc7860818d1f75a62f070092b4451211ea691006711c
+2025/09/16 10:14:12 ELECTRUM: GetBestBlock called
+2025/09/16 10:14:12 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:14:12 ELECTRUM: GetBestBlock called
+2025/09/16 10:14:12 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:14:13 ELECTRUM: Got current height 4663938 from headers subscription
+2025/09/16 10:14:13 ELECTRUM: Returning hash 0000000000007cc67298cc7860818d1f75a62f070092b4451211ea691006711c for height 4663938 (from headers subscription)
+2025/09/16 10:14:13 ELECTRUM: Got current height 4663938 from headers subscription
+2025/09/16 10:14:13 ELECTRUM: Returning hash 0000000000007cc67298cc7860818d1f75a62f070092b4451211ea691006711c for height 4663938 (from headers subscription)
+2025/09/16 10:14:13 ELECTRUM: Checking for new blocks - current: 4663938, last known: 4663929
+2025/09/16 10:14:13 ELECTRUM: New block detected! Height: 4663938 (was 4663929)
+2025/09/16 10:14:13 ELECTRUM: Sending block connected notification for height 4663938
+2025/09/16 10:14:13 ELECTRUM: Block notification sent successfully for height 4663938
+2025/09/16 10:14:13 ELECTRUM: GetBestBlock called
+2025/09/16 10:14:13 ELECTRUM: Subscribing to headers to get current height
+2025-09-16 10:14:13.371 [DBG] LTND lnd.go:727: Syncing to block chain rev=4d1c86 best_block_time="2025-09-16 10:14:10 -0400 EDT" is_synced=false
+2025/09/16 10:14:13 ELECTRUM: Got current height 4663938 from headers subscription
+2025/09/16 10:14:13 ELECTRUM: Returning hash 0000000000007cc67298cc7860818d1f75a62f070092b4451211ea691006711c for height 4663938 (from headers subscription)
+2025/09/16 10:14:13 ELECTRUM: Checking for new blocks - current: 4663938, last known: 4663929
+2025/09/16 10:14:13 ELECTRUM: New block detected! Height: 4663938 (was 4663929)
+2025/09/16 10:14:13 ELECTRUM: Sending block connected notification for height 4663938
+2025/09/16 10:14:13 ELECTRUM: Block notification sent successfully for height 4663938
+2025/09/16 10:14:14 ELECTRUM: GetBestBlock called
+2025/09/16 10:14:14 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:14:14 ELECTRUM: Got current height 4663939 from headers subscription
+2025/09/16 10:14:14 ELECTRUM: Returning hash 00000000000088956f9f5493109ac630b9ac31c524b72672ea8395accbab9d0b for height 4663939 (from headers subscription)
+2025/09/16 10:14:14 ELECTRUM: GetBlockHeader called for hash: 00000000000088956f9f5493109ac630b9ac31c524b72672ea8395accbab9d0b
+2025/09/16 10:14:14 ELECTRUM: GetBestBlock called
+2025/09/16 10:14:14 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:14:14 ELECTRUM: Got current height 4663939 from headers subscription
+2025/09/16 10:14:14 ELECTRUM: Returning hash 00000000000088956f9f5493109ac630b9ac31c524b72672ea8395accbab9d0b for height 4663939 (from headers subscription)
+2025-09-16 10:14:15.136 [DBG] LTND lnd.go:727: Syncing to block chain rev=4d1c86 best_block_time="2025-09-16 10:14:20 -0400 EDT" is_synced=false
+2025/09/16 10:14:16 ELECTRUM: GetBestBlock called
+2025/09/16 10:14:16 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:14:16 ELECTRUM: Got current height 4663939 from headers subscription
+2025/09/16 10:14:16 ELECTRUM: Returning hash 00000000000088956f9f5493109ac630b9ac31c524b72672ea8395accbab9d0b for height 4663939 (from headers subscription)
+2025/09/16 10:14:16 ELECTRUM: GetBlockHeader called for hash: 00000000000088956f9f5493109ac630b9ac31c524b72672ea8395accbab9d0b
+2025/09/16 10:14:16 ELECTRUM: GetBestBlock called
+2025/09/16 10:14:16 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:14:16 ELECTRUM: Got current height 4663939 from headers subscription
+2025/09/16 10:14:16 ELECTRUM: Returning hash 00000000000088956f9f5493109ac630b9ac31c524b72672ea8395accbab9d0b for height 4663939 (from headers subscription)
+2025-09-16 10:14:16.904 [DBG] LTND lnd.go:727: Syncing to block chain rev=4d1c86 best_block_time="2025-09-16 10:14:20 -0400 EDT" is_synced=false
+2025/09/16 10:14:17 ELECTRUM: GetBestBlock called
+2025/09/16 10:14:17 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:14:18 ELECTRUM: Got current height 4663940 from headers subscription
+2025/09/16 10:14:18 ELECTRUM: Returning hash 000000000000045282b2e026ae6d243f608ef4323c6b54dc173291fcbcf7c5b1 for height 4663940 (from headers subscription)
+2025/09/16 10:14:18 ELECTRUM: GetBlockHeader called for hash: 000000000000045282b2e026ae6d243f608ef4323c6b54dc173291fcbcf7c5b1
+2025/09/16 10:14:18 ELECTRUM: GetBestBlock called
+2025/09/16 10:14:18 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:14:18 ELECTRUM: Got current height 4663940 from headers subscription
+2025/09/16 10:14:18 ELECTRUM: Returning hash 000000000000045282b2e026ae6d243f608ef4323c6b54dc173291fcbcf7c5b1 for height 4663940 (from headers subscription)
+2025-09-16 10:14:18.611 [DBG] LTND lnd.go:727: Syncing to block chain rev=4d1c86 best_block_time="2025-09-16 10:14:21 -0400 EDT" is_synced=false
+2025/09/16 10:14:19 ELECTRUM: GetBestBlock called
+2025/09/16 10:14:19 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:14:19 ELECTRUM: Got current height 4663941 from headers subscription
+2025/09/16 10:14:19 ELECTRUM: Returning hash 000000000002455ebe09304b195f6fa24d86d377b389468e38271f39d1ee475c for height 4663941 (from headers subscription)
+2025/09/16 10:14:19 ELECTRUM: GetBlockHeader called for hash: 000000000002455ebe09304b195f6fa24d86d377b389468e38271f39d1ee475c
+2025/09/16 10:14:19 ELECTRUM: GetBestBlock called
+2025/09/16 10:14:19 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:14:20 ELECTRUM: Got current height 4663941 from headers subscription
+2025/09/16 10:14:20 ELECTRUM: Returning hash 000000000002455ebe09304b195f6fa24d86d377b389468e38271f39d1ee475c for height 4663941 (from headers subscription)
+2025-09-16 10:14:20.489 [DBG] LTND lnd.go:727: Syncing to block chain rev=4d1c86 best_block_time="2025-09-16 10:14:22 -0400 EDT" is_synced=false
+2025/09/16 10:14:21 ELECTRUM: GetBestBlock called
+2025/09/16 10:14:21 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:14:21 ELECTRUM: Got current height 4663942 from headers subscription
+2025/09/16 10:14:21 ELECTRUM: Returning hash 000000000000034a9db16e9486c24f74b1de6d7af41ac76b233802a18091d5b9 for height 4663942 (from headers subscription)
+2025/09/16 10:14:21 ELECTRUM: GetBlockHeader called for hash: 000000000000034a9db16e9486c24f74b1de6d7af41ac76b233802a18091d5b9
+2025/09/16 10:14:21 ELECTRUM: GetBestBlock called
+2025/09/16 10:14:21 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:14:21 ELECTRUM: Got current height 4663942 from headers subscription
+2025/09/16 10:14:21 ELECTRUM: Returning hash 000000000000034a9db16e9486c24f74b1de6d7af41ac76b233802a18091d5b9 for height 4663942 (from headers subscription)
+2025-09-16 10:14:22.305 [DBG] LTND lnd.go:727: Syncing to block chain rev=4d1c86 best_block_time="2025-09-16 10:14:21 -0400 EDT" is_synced=false
+2025/09/16 10:14:23 ELECTRUM: GetBestBlock called
+2025/09/16 10:14:23 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:14:23 ELECTRUM: Got current height 4663943 from headers subscription
+2025/09/16 10:14:23 ELECTRUM: Returning hash 0000000000001b9dfb894ce9d41db31f2a885624181c5419a12e0fb04ae14c3f for height 4663943 (from headers subscription)
+2025/09/16 10:14:23 ELECTRUM: GetBlockHeader called for hash: 0000000000001b9dfb894ce9d41db31f2a885624181c5419a12e0fb04ae14c3f
+2025/09/16 10:14:23 ELECTRUM: GetBestBlock called
+2025/09/16 10:14:23 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:14:23 ELECTRUM: Got current height 4663943 from headers subscription
+2025/09/16 10:14:23 ELECTRUM: Returning hash 0000000000001b9dfb894ce9d41db31f2a885624181c5419a12e0fb04ae14c3f for height 4663943 (from headers subscription)
+2025-09-16 10:14:24.074 [DBG] LTND lnd.go:727: Syncing to block chain rev=4d1c86 best_block_time="2025-09-16 10:14:30 -0400 EDT" is_synced=false
+2025/09/16 10:14:25 ELECTRUM: GetBestBlock called
+2025/09/16 10:14:25 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:14:25 ELECTRUM: Got current height 4663944 from headers subscription
+2025/09/16 10:14:25 ELECTRUM: Returning hash 0000000000001214e8f15f15f7195410b5d58c4f1fafef8907c5001b875b8e6b for height 4663944 (from headers subscription)
+2025/09/16 10:14:25 ELECTRUM: GetBlockHeader called for hash: 0000000000001214e8f15f15f7195410b5d58c4f1fafef8907c5001b875b8e6b
+2025/09/16 10:14:25 ELECTRUM: GetBestBlock called
+2025/09/16 10:14:25 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:14:25 ELECTRUM: Got current height 4663944 from headers subscription
+2025/09/16 10:14:25 ELECTRUM: Returning hash 0000000000001214e8f15f15f7195410b5d58c4f1fafef8907c5001b875b8e6b for height 4663944 (from headers subscription)
+2025-09-16 10:14:25.889 [DBG] LTND lnd.go:727: Syncing to block chain rev=4d1c86 best_block_time="2025-09-16 10:14:30 -0400 EDT" is_synced=false
+2025/09/16 10:14:26 ELECTRUM: GetBestBlock called
+2025/09/16 10:14:26 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:14:27 ELECTRUM: Got current height 4663944 from headers subscription
+2025/09/16 10:14:27 ELECTRUM: Returning hash 0000000000001214e8f15f15f7195410b5d58c4f1fafef8907c5001b875b8e6b for height 4663944 (from headers subscription)
+2025/09/16 10:14:27 ELECTRUM: GetBlockHeader called for hash: 0000000000001214e8f15f15f7195410b5d58c4f1fafef8907c5001b875b8e6b
+2025/09/16 10:14:27 ELECTRUM: GetBestBlock called
+2025/09/16 10:14:27 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:14:27 ELECTRUM: Got current height 4663944 from headers subscription
+2025/09/16 10:14:27 ELECTRUM: Returning hash 0000000000001214e8f15f15f7195410b5d58c4f1fafef8907c5001b875b8e6b for height 4663944 (from headers subscription)
+2025-09-16 10:14:27.693 [DBG] LTND lnd.go:727: Syncing to block chain rev=4d1c86 best_block_time="2025-09-16 10:14:30 -0400 EDT" is_synced=false
+2025/09/16 10:14:28 ELECTRUM: GetBestBlock called
+2025/09/16 10:14:28 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:14:28 ELECTRUM: Got current height 4663944 from headers subscription
+2025/09/16 10:14:28 ELECTRUM: Returning hash 0000000000001214e8f15f15f7195410b5d58c4f1fafef8907c5001b875b8e6b for height 4663944 (from headers subscription)
+2025/09/16 10:14:28 ELECTRUM: GetBlockHeader called for hash: 0000000000001214e8f15f15f7195410b5d58c4f1fafef8907c5001b875b8e6b
+2025/09/16 10:14:28 ELECTRUM: GetBestBlock called
+2025/09/16 10:14:28 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:14:29 ELECTRUM: Got current height 4663945 from headers subscription
+2025/09/16 10:14:29 ELECTRUM: Returning hash 00000000000296cc8ce9fe7accb6eec71909a5d8310013a3bf2fb2aa879f4a12 for height 4663945 (from headers subscription)
+2025/09/16 10:14:41 ELECTRUM: GetBestBlock called
+2025/09/16 10:14:41 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:14:41 ELECTRUM: Got current height 4663949 from headers subscription
+2025/09/16 10:14:41 ELECTRUM: Returning hash 00000000000029e6adf9b450c471fbb4d61b6e912c1b44f6f2538e1cb838cb39 for height 4663949 (from headers subscription)
+2025/09/16 10:14:41 ELECTRUM: Checking for new blocks - current: 4663949, last known: 4663938
+2025/09/16 10:14:41 ELECTRUM: New block detected! Height: 4663949 (was 4663938)
+2025/09/16 10:14:41 ELECTRUM: Sending block connected notification for height 4663949
+2025/09/16 10:14:41 ELECTRUM: Block notification sent successfully for height 4663949
+2025/09/16 10:14:42 ELECTRUM: GetBestBlock called
+2025/09/16 10:14:42 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:14:43 ELECTRUM: Got current height 4663950 from headers subscription
+2025/09/16 10:14:43 ELECTRUM: Returning hash 000000000002cb4080b790c1ff7ed50580493b6f95efa72b03603dee79316b36 for height 4663950 (from headers subscription)
+2025/09/16 10:14:43 ELECTRUM: Checking for new blocks - current: 4663950, last known: 4663938
+2025/09/16 10:14:43 ELECTRUM: New block detected! Height: 4663950 (was 4663938)
+2025/09/16 10:14:43 ELECTRUM: Sending block connected notification for height 4663950
+2025/09/16 10:14:43 ELECTRUM: Block notification sent successfully for height 4663950
+2025/09/16 10:14:43 ELECTRUM: GetBestBlock called
+2025/09/16 10:14:43 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:14:43 ELECTRUM: Got current height 4663950 from headers subscription
+2025/09/16 10:14:43 ELECTRUM: Returning hash 000000000002cb4080b790c1ff7ed50580493b6f95efa72b03603dee79316b36 for height 4663950 (from headers subscription)
+2025/09/16 10:14:43 ELECTRUM: Checking for new blocks - current: 4663950, last known: 4663938
+2025/09/16 10:14:43 ELECTRUM: New block detected! Height: 4663950 (was 4663938)
+2025/09/16 10:14:43 ELECTRUM: Sending block connected notification for height 4663950
+2025/09/16 10:14:43 ELECTRUM: Block notification sent successfully for height 4663950
+2025-09-16 10:14:54.560 [DBG] LTND lnd.go:727: Syncing to block chain rev=4d1c86 best_block_time="2025-09-16 10:14:30 -0400 EDT" is_synced=false
+2025/09/16 10:14:55 ELECTRUM: GetBestBlock called
+2025/09/16 10:14:55 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:14:55 ELECTRUM: Got current height 4663956 from headers subscription
+2025/09/16 10:14:55 ELECTRUM: Returning hash 0000000000004324626d034fa801eb6b3e183adb73dfff01ab13bccfac7afb7e for height 4663956 (from headers subscription)
+2025/09/16 10:14:55 ELECTRUM: GetBlockHeader called for hash: 0000000000004324626d034fa801eb6b3e183adb73dfff01ab13bccfac7afb7e
+2025/09/16 10:14:55 ELECTRUM: GetBestBlock called
+2025/09/16 10:14:55 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:14:56 ELECTRUM: Got current height 4663956 from headers subscription
+2025/09/16 10:14:56 ELECTRUM: Returning hash 0000000000004324626d034fa801eb6b3e183adb73dfff01ab13bccfac7afb7e for height 4663956 (from headers subscription)
+2025-09-16 10:14:56.329 [DBG] LTND lnd.go:727: Syncing to block chain rev=4d1c86 best_block_time="2025-09-16 10:15:01 -0400 EDT" is_synced=false
+2025/09/16 10:14:57 ELECTRUM: GetBestBlock called
+2025/09/16 10:14:57 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:14:57 ELECTRUM: Got current height 4663956 from headers subscription
+2025/09/16 10:14:57 ELECTRUM: Returning hash 0000000000004324626d034fa801eb6b3e183adb73dfff01ab13bccfac7afb7e for height 4663956 (from headers subscription)
+2025/09/16 10:14:57 ELECTRUM: GetBlockHeader called for hash: 0000000000004324626d034fa801eb6b3e183adb73dfff01ab13bccfac7afb7e
+2025/09/16 10:14:57 ELECTRUM: GetBestBlock called
+2025/09/16 10:14:57 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:14:57 ELECTRUM: Got current height 4663956 from headers subscription
+2025/09/16 10:14:57 ELECTRUM: Returning hash 0000000000004324626d034fa801eb6b3e183adb73dfff01ab13bccfac7afb7e for height 4663956 (from headers subscription)
+2025-09-16 10:14:58.025 [DBG] LTND lnd.go:727: Syncing to block chain rev=4d1c86 best_block_time="2025-09-16 10:15:01 -0400 EDT" is_synced=false
+2025/09/16 10:14:59 ELECTRUM: GetBestBlock called
+2025/09/16 10:14:59 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:14:59 ELECTRUM: Got current height 4663957 from headers subscription
+2025/09/16 10:14:59 ELECTRUM: Returning hash 0000000000001519286baeddbaf6c93324d7073136ff2a9cf3e980ba91fb227d for height 4663957 (from headers subscription)
+2025/09/16 10:14:59 ELECTRUM: GetBlockHeader called for hash: 0000000000001519286baeddbaf6c93324d7073136ff2a9cf3e980ba91fb227d
+2025/09/16 10:14:59 ELECTRUM: GetBestBlock called
+2025/09/16 10:14:59 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:14:59 ELECTRUM: Got current height 4663957 from headers subscription
+2025/09/16 10:14:59 ELECTRUM: Returning hash 0000000000001519286baeddbaf6c93324d7073136ff2a9cf3e980ba91fb227d for height 4663957 (from headers subscription)
+2025-09-16 10:14:59.727 [DBG] LTND lnd.go:727: Syncing to block chain rev=4d1c86 best_block_time="2025-09-16 10:15:02 -0400 EDT" is_synced=false
+2025/09/16 10:15:00 ELECTRUM: GetBestBlock called
+2025/09/16 10:15:00 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:15:00 ELECTRUM: Got current height 4663958 from headers subscription
+2025/09/16 10:15:00 ELECTRUM: Returning hash 00000000000021aced4faa589956a37d2f3145ccfebd8bf5918487ab90965d4a for height 4663958 (from headers subscription)
+2025/09/16 10:15:00 ELECTRUM: GetBlockHeader called for hash: 00000000000021aced4faa589956a37d2f3145ccfebd8bf5918487ab90965d4a
+2025/09/16 10:15:00 ELECTRUM: GetBestBlock called
+2025/09/16 10:15:00 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:15:01 ELECTRUM: Got current height 4663958 from headers subscription
+2025/09/16 10:15:01 ELECTRUM: Returning hash 00000000000021aced4faa589956a37d2f3145ccfebd8bf5918487ab90965d4a for height 4663958 (from headers subscription)
+2025-09-16 10:15:01.615 [DBG] LTND lnd.go:727: Syncing to block chain rev=4d1c86 best_block_time="2025-09-16 10:15:07 -0400 EDT" is_synced=false
+2025/09/16 10:15:02 ELECTRUM: GetBestBlock called
+2025/09/16 10:15:02 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:15:02 ELECTRUM: Got current height 4663959 from headers subscription
+2025/09/16 10:15:02 ELECTRUM: Returning hash 00000000000016510d527647477bd1d25770a6811c5f95737481e972d0563c96 for height 4663959 (from headers subscription)
+2025/09/16 10:15:02 ELECTRUM: GetBlockHeader called for hash: 00000000000016510d527647477bd1d25770a6811c5f95737481e972d0563c96
+2025/09/16 10:15:02 ELECTRUM: GetBestBlock called
+2025/09/16 10:15:02 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:15:03 ELECTRUM: Got current height 4663959 from headers subscription
+2025/09/16 10:15:03 ELECTRUM: Returning hash 00000000000016510d527647477bd1d25770a6811c5f95737481e972d0563c96 for height 4663959 (from headers subscription)
+2025-09-16 10:15:03.399 [DBG] LTND lnd.go:727: Syncing to block chain rev=4d1c86 best_block_time="2025-09-16 10:15:09 -0400 EDT" is_synced=false
+2025/09/16 10:15:04 ELECTRUM: GetBestBlock called
+2025/09/16 10:15:04 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:15:04 ELECTRUM: Got current height 4663960 from headers subscription
+2025/09/16 10:15:04 ELECTRUM: Returning hash 00000000000413694e93b85bd27fa31a2b5b41e0f3446740fd391375e26b5c64 for height 4663960 (from headers subscription)
+2025/09/16 10:15:04 ELECTRUM: GetBlockHeader called for hash: 00000000000413694e93b85bd27fa31a2b5b41e0f3446740fd391375e26b5c64
+2025/09/16 10:15:04 ELECTRUM: GetBestBlock called
+2025/09/16 10:15:04 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:15:05 ELECTRUM: Got current height 4663960 from headers subscription
+2025/09/16 10:15:05 ELECTRUM: Returning hash 00000000000413694e93b85bd27fa31a2b5b41e0f3446740fd391375e26b5c64 for height 4663960 (from headers subscription)
+2025-09-16 10:15:05.312 [DBG] LTND lnd.go:727: Syncing to block chain rev=4d1c86 best_block_time="2025-09-16 10:15:07 -0400 EDT" is_synced=false
+2025/09/16 10:15:06 ELECTRUM: GetBestBlock called
+2025/09/16 10:15:06 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:15:06 ELECTRUM: Got current height 4663961 from headers subscription
+2025/09/16 10:15:06 ELECTRUM: Returning hash 000000000000226afddd526e0d8fd54613f2dc87ffcce6ef22e598b1bbc288b5 for height 4663961 (from headers subscription)
+2025/09/16 10:15:06 ELECTRUM: GetBlockHeader called for hash: 000000000000226afddd526e0d8fd54613f2dc87ffcce6ef22e598b1bbc288b5
+2025/09/16 10:15:06 ELECTRUM: GetBestBlock called
+2025/09/16 10:15:06 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:15:06 ELECTRUM: Got current height 4663961 from headers subscription
+2025/09/16 10:15:06 ELECTRUM: Returning hash 000000000000226afddd526e0d8fd54613f2dc87ffcce6ef22e598b1bbc288b5 for height 4663961 (from headers subscription)
+2025-09-16 10:15:07.008 [DBG] LTND lnd.go:727: Syncing to block chain rev=4d1c86 best_block_time="2025-09-16 10:15:04 -0400 EDT" is_synced=false
+2025/09/16 10:15:08 ELECTRUM: GetBestBlock called
+2025/09/16 10:15:08 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:15:08 ELECTRUM: Got current height 4663963 from headers subscription
+2025/09/16 10:15:08 ELECTRUM: Returning hash 000000000000184c6d4dedc5170a38f4b5bdc8846d29adfa8a908f1d676fc4d4 for height 4663963 (from headers subscription)
+2025/09/16 10:15:08 ELECTRUM: GetBlockHeader called for hash: 000000000000184c6d4dedc5170a38f4b5bdc8846d29adfa8a908f1d676fc4d4
+2025/09/16 10:15:08 ELECTRUM: GetBestBlock called
+2025/09/16 10:15:08 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:15:08 ELECTRUM: Got current height 4663963 from headers subscription
+2025/09/16 10:15:08 ELECTRUM: Returning hash 000000000000184c6d4dedc5170a38f4b5bdc8846d29adfa8a908f1d676fc4d4 for height 4663963 (from headers subscription)
+2025-09-16 10:15:08.825 [DBG] LTND lnd.go:727: Syncing to block chain rev=4d1c86 best_block_time="2025-09-16 10:15:06 -0400 EDT" is_synced=false
+2025/09/16 10:15:09 ELECTRUM: GetBestBlock called
+2025/09/16 10:15:09 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:15:10 ELECTRUM: Got current height 4663963 from headers subscription
+2025/09/16 10:15:10 ELECTRUM: Returning hash 000000000000184c6d4dedc5170a38f4b5bdc8846d29adfa8a908f1d676fc4d4 for height 4663963 (from headers subscription)
+2025/09/16 10:15:10 ELECTRUM: GetBlockHeader called for hash: 000000000000184c6d4dedc5170a38f4b5bdc8846d29adfa8a908f1d676fc4d4
+2025/09/16 10:15:10 ELECTRUM: GetBestBlock called
+2025/09/16 10:15:10 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:15:10 ELECTRUM: Got current height 4663963 from headers subscription
+2025/09/16 10:15:10 ELECTRUM: Returning hash 000000000000184c6d4dedc5170a38f4b5bdc8846d29adfa8a908f1d676fc4d4 for height 4663963 (from headers subscription)
+2025-09-16 10:15:10.525 [DBG] LTND lnd.go:727: Syncing to block chain rev=4d1c86 best_block_time="2025-09-16 10:15:06 -0400 EDT" is_synced=false
+2025/09/16 10:15:11 ELECTRUM: GetBestBlock called
+2025/09/16 10:15:11 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:15:11 ELECTRUM: GetBestBlock called
+2025/09/16 10:15:11 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:15:11 ELECTRUM: Got current height 4663964 from headers subscription
+2025/09/16 10:15:11 ELECTRUM: Returning hash 0000000019fc0c2c042f04f797615f27248e3f05df9f8989624c85491d943ae4 for height 4663964 (from headers subscription)
+2025/09/16 10:15:11 ELECTRUM: GetBlockHeader called for hash: 0000000019fc0c2c042f04f797615f27248e3f05df9f8989624c85491d943ae4
+2025/09/16 10:15:11 ELECTRUM: GetBestBlock called
+2025/09/16 10:15:11 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:15:11 ELECTRUM: Got current height 4663964 from headers subscription
+2025/09/16 10:15:11 ELECTRUM: Returning hash 0000000019fc0c2c042f04f797615f27248e3f05df9f8989624c85491d943ae4 for height 4663964 (from headers subscription)
+2025/09/16 10:15:11 ELECTRUM: Checking for new blocks - current: 4663964, last known: 4663949
+2025/09/16 10:15:11 ELECTRUM: New block detected! Height: 4663964 (was 4663949)
+2025/09/16 10:15:11 ELECTRUM: Sending block connected notification for height 4663964
+2025/09/16 10:15:11 ELECTRUM: Block notification sent successfully for height 4663964
+2025/09/16 10:15:11 ELECTRUM: Got current height 4663964 from headers subscription
+2025/09/16 10:15:11 ELECTRUM: Returning hash 0000000019fc0c2c042f04f797615f27248e3f05df9f8989624c85491d943ae4 for height 4663964 (from headers subscription)
+2025-09-16 10:15:12.222 [DBG] LTND lnd.go:727: Syncing to block chain rev=4d1c86 best_block_time="2025-09-16 10:15:07 -0400 EDT" is_synced=false
+2025/09/16 10:15:12 ELECTRUM: GetBestBlock called
+2025/09/16 10:15:12 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:15:13 ELECTRUM: Got current height 4663964 from headers subscription
+2025/09/16 10:15:13 ELECTRUM: Returning hash 0000000019fc0c2c042f04f797615f27248e3f05df9f8989624c85491d943ae4 for height 4663964 (from headers subscription)
+2025/09/16 10:15:13 ELECTRUM: Checking for new blocks - current: 4663964, last known: 4663950
+2025/09/16 10:15:13 ELECTRUM: New block detected! Height: 4663964 (was 4663950)
+2025/09/16 10:15:13 ELECTRUM: Sending block connected notification for height 4663964
+2025/09/16 10:15:13 ELECTRUM: Block notification sent successfully for height 4663964
+2025/09/16 10:15:13 ELECTRUM: GetBestBlock called
+2025/09/16 10:15:13 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:15:13 ELECTRUM: GetBestBlock called
+2025/09/16 10:15:13 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:15:13 ELECTRUM: Got current height 4663964 from headers subscription
+2025/09/16 10:15:13 ELECTRUM: Returning hash 0000000019fc0c2c042f04f797615f27248e3f05df9f8989624c85491d943ae4 for height 4663964 (from headers subscription)
+2025/09/16 10:15:13 ELECTRUM: Checking for new blocks - current: 4663964, last known: 4663950
+2025/09/16 10:15:13 ELECTRUM: New block detected! Height: 4663964 (was 4663950)
+2025/09/16 10:15:13 ELECTRUM: Sending block connected notification for height 4663964
+2025/09/16 10:15:13 ELECTRUM: Block notification sent successfully for height 4663964
+2025/09/16 10:15:13 ELECTRUM: Got current height 4663964 from headers subscription
+2025/09/16 10:15:13 ELECTRUM: Returning hash 0000000019fc0c2c042f04f797615f27248e3f05df9f8989624c85491d943ae4 for height 4663964 (from headers subscription)
+2025/09/16 10:15:13 ELECTRUM: GetBlockHeader called for hash: 0000000019fc0c2c042f04f797615f27248e3f05df9f8989624c85491d943ae4
+2025/09/16 10:15:13 ELECTRUM: GetBestBlock called
+2025/09/16 10:15:13 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:15:13 ELECTRUM: Got current height 4663964 from headers subscription
+2025/09/16 10:15:13 ELECTRUM: Returning hash 0000000019fc0c2c042f04f797615f27248e3f05df9f8989624c85491d943ae4 for height 4663964 (from headers subscription)
+2025-09-16 10:15:13.921 [DBG] LTND lnd.go:727: Syncing to block chain rev=4d1c86 best_block_time="2025-09-16 10:15:07 -0400 EDT" is_synced=false
+2025/09/16 10:15:14 ELECTRUM: GetBestBlock called
+2025/09/16 10:15:14 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:15:15 ELECTRUM: Got current height 4663965 from headers subscription
+2025/09/16 10:15:15 ELECTRUM: Returning hash 000000000000043d2e9d592599048f82db7a82d163fd32c253a91dccdd5521fe for height 4663965 (from headers subscription)
+2025/09/16 10:15:15 ELECTRUM: GetBlockHeader called for hash: 000000000000043d2e9d592599048f82db7a82d163fd32c253a91dccdd5521fe
+2025/09/16 10:15:15 ELECTRUM: GetBestBlock called
+2025/09/16 10:15:15 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:15:15 ELECTRUM: Got current height 4663965 from headers subscription
+2025/09/16 10:15:15 ELECTRUM: Returning hash 000000000000043d2e9d592599048f82db7a82d163fd32c253a91dccdd5521fe for height 4663965 (from headers subscription)
+2025-09-16 10:15:15.643 [DBG] LTND lnd.go:727: Syncing to block chain rev=4d1c86 best_block_time="2025-09-16 10:15:11 -0400 EDT" is_synced=false
+2025/09/16 10:15:16 ELECTRUM: GetBestBlock called
+2025/09/16 10:15:16 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:15:16 ELECTRUM: Got current height 4663966 from headers subscription
+2025/09/16 10:15:16 ELECTRUM: Returning hash 00000000000075e747cdafa3d10ee4e66f80cce11f8ac6a040a7bd3138cab0f8 for height 4663966 (from headers subscription)
+2025/09/16 10:15:16 ELECTRUM: GetBlockHeader called for hash: 00000000000075e747cdafa3d10ee4e66f80cce11f8ac6a040a7bd3138cab0f8
+2025/09/16 10:15:16 ELECTRUM: GetBestBlock called
+2025/09/16 10:15:16 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:15:17 ELECTRUM: Got current height 4663966 from headers subscription
+2025/09/16 10:15:17 ELECTRUM: Returning hash 00000000000075e747cdafa3d10ee4e66f80cce11f8ac6a040a7bd3138cab0f8 for height 4663966 (from headers subscription)
+2025-09-16 10:15:17.415 [DBG] LTND lnd.go:727: Syncing to block chain rev=4d1c86 best_block_time="2025-09-16 10:15:24 -0400 EDT" is_synced=false
+2025/09/16 10:15:18 ELECTRUM: GetBestBlock called
+2025/09/16 10:15:18 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:15:18 ELECTRUM: Got current height 4663967 from headers subscription
+2025/09/16 10:15:18 ELECTRUM: Returning hash 00000000000022b83a9deb6c65b1c71ad742aff5a8f7b06cf1e32e51d6ef18d1 for height 4663967 (from headers subscription)
+2025/09/16 10:15:18 ELECTRUM: GetBlockHeader called for hash: 00000000000022b83a9deb6c65b1c71ad742aff5a8f7b06cf1e32e51d6ef18d1
+2025/09/16 10:15:18 ELECTRUM: GetBestBlock called
+2025/09/16 10:15:18 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:15:18 ELECTRUM: Got current height 4663967 from headers subscription
+2025/09/16 10:15:18 ELECTRUM: Returning hash 00000000000022b83a9deb6c65b1c71ad742aff5a8f7b06cf1e32e51d6ef18d1 for height 4663967 (from headers subscription)
+2025-09-16 10:15:19.109 [DBG] LTND lnd.go:727: Syncing to block chain rev=4d1c86 best_block_time="2025-09-16 10:15:25 -0400 EDT" is_synced=false
+2025/09/16 10:15:20 ELECTRUM: GetBestBlock called
+2025/09/16 10:15:20 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:15:20 ELECTRUM: Got current height 4663968 from headers subscription
+2025/09/16 10:15:20 ELECTRUM: Returning hash 00000000000001a41d302a799b2e31f12bc9178b62321776018b66bf35a90b3b for height 4663968 (from headers subscription)
+2025/09/16 10:15:20 ELECTRUM: GetBlockHeader called for hash: 00000000000001a41d302a799b2e31f12bc9178b62321776018b66bf35a90b3b
+2025/09/16 10:15:20 ELECTRUM: GetBestBlock called
+2025/09/16 10:15:20 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:15:20 ELECTRUM: Got current height 4663968 from headers subscription
+2025/09/16 10:15:20 ELECTRUM: Returning hash 00000000000001a41d302a799b2e31f12bc9178b62321776018b66bf35a90b3b for height 4663968 (from headers subscription)
+2025-09-16 10:15:20.835 [DBG] LTND lnd.go:727: Syncing to block chain rev=4d1c86 best_block_time="2025-09-16 10:15:18 -0400 EDT" is_synced=false
+2025/09/16 10:15:21 ELECTRUM: GetBestBlock called
+2025/09/16 10:15:21 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:15:22 ELECTRUM: Got current height 4663968 from headers subscription
+2025/09/16 10:15:22 ELECTRUM: Returning hash 00000000000001a41d302a799b2e31f12bc9178b62321776018b66bf35a90b3b for height 4663968 (from headers subscription)
+2025/09/16 10:15:22 ELECTRUM: GetBlockHeader called for hash: 00000000000001a41d302a799b2e31f12bc9178b62321776018b66bf35a90b3b
+2025/09/16 10:15:22 ELECTRUM: GetBestBlock called
+2025/09/16 10:15:22 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:15:22 ELECTRUM: Got current height 4663968 from headers subscription
+2025/09/16 10:15:22 ELECTRUM: Returning hash 00000000000001a41d302a799b2e31f12bc9178b62321776018b66bf35a90b3b for height 4663968 (from headers subscription)
+2025-09-16 10:15:22.631 [DBG] LTND lnd.go:727: Syncing to block chain rev=4d1c86 best_block_time="2025-09-16 10:15:18 -0400 EDT" is_synced=false
+2025/09/16 10:15:23 ELECTRUM: GetBestBlock called
+2025/09/16 10:15:23 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:15:23 ELECTRUM: Got current height 4663968 from headers subscription
+2025/09/16 10:15:23 ELECTRUM: Returning hash 00000000000001a41d302a799b2e31f12bc9178b62321776018b66bf35a90b3b for height 4663968 (from headers subscription)
+2025/09/16 10:15:23 ELECTRUM: GetBlockHeader called for hash: 00000000000001a41d302a799b2e31f12bc9178b62321776018b66bf35a90b3b
+2025/09/16 10:15:23 ELECTRUM: GetBestBlock called
+2025/09/16 10:15:23 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:15:24 ELECTRUM: Got current height 4663968 from headers subscription
+2025/09/16 10:15:24 ELECTRUM: Returning hash 00000000000001a41d302a799b2e31f12bc9178b62321776018b66bf35a90b3b for height 4663968 (from headers subscription)
+2025-09-16 10:15:24.328 [DBG] LTND lnd.go:727: Syncing to block chain rev=4d1c86 best_block_time="2025-09-16 10:15:18 -0400 EDT" is_synced=false
+2025/09/16 10:15:25 ELECTRUM: GetBestBlock called
+2025/09/16 10:15:25 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:15:25 ELECTRUM: Got current height 4663968 from headers subscription
+2025/09/16 10:15:25 ELECTRUM: Returning hash 00000000000001a41d302a799b2e31f12bc9178b62321776018b66bf35a90b3b for height 4663968 (from headers subscription)
+2025/09/16 10:15:25 ELECTRUM: GetBlockHeader called for hash: 00000000000001a41d302a799b2e31f12bc9178b62321776018b66bf35a90b3b
+2025/09/16 10:15:25 ELECTRUM: GetBestBlock called
+2025/09/16 10:15:25 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:15:25 ELECTRUM: Got current height 4663968 from headers subscription
+2025/09/16 10:15:25 ELECTRUM: Returning hash 00000000000001a41d302a799b2e31f12bc9178b62321776018b66bf35a90b3b for height 4663968 (from headers subscription)
+2025-09-16 10:15:26.100 [DBG] LTND lnd.go:727: Syncing to block chain rev=4d1c86 best_block_time="2025-09-16 10:15:18 -0400 EDT" is_synced=false
+2025/09/16 10:15:27 ELECTRUM: GetBestBlock called
+2025/09/16 10:15:27 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:15:27 ELECTRUM: Got current height 4663968 from headers subscription
+2025/09/16 10:15:27 ELECTRUM: Returning hash 00000000000001a41d302a799b2e31f12bc9178b62321776018b66bf35a90b3b for height 4663968 (from headers subscription)
+2025/09/16 10:15:27 ELECTRUM: GetBlockHeader called for hash: 00000000000001a41d302a799b2e31f12bc9178b62321776018b66bf35a90b3b
+2025/09/16 10:15:27 ELECTRUM: GetBestBlock called
+2025/09/16 10:15:27 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:15:27 ELECTRUM: Got current height 4663968 from headers subscription
+2025/09/16 10:15:27 ELECTRUM: Returning hash 00000000000001a41d302a799b2e31f12bc9178b62321776018b66bf35a90b3b for height 4663968 (from headers subscription)
+2025-09-16 10:15:27.807 [DBG] LTND lnd.go:727: Syncing to block chain rev=4d1c86 best_block_time="2025-09-16 10:15:18 -0400 EDT" is_synced=false
+2025/09/16 10:15:28 ELECTRUM: GetBestBlock called
+2025/09/16 10:15:28 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:15:29 ELECTRUM: Got current height 4663969 from headers subscription
+2025/09/16 10:15:29 ELECTRUM: Returning hash 000000000000112ab422bad5cd53d79a3cdd4d7e9c542eee5fabf85c1d436126 for height 4663969 (from headers subscription)
+2025/09/16 10:15:29 ELECTRUM: GetBlockHeader called for hash: 000000000000112ab422bad5cd53d79a3cdd4d7e9c542eee5fabf85c1d436126
+2025/09/16 10:15:29 ELECTRUM: GetBestBlock called
+2025/09/16 10:15:29 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:15:29 ELECTRUM: Got current height 4663969 from headers subscription
+2025/09/16 10:15:29 ELECTRUM: Returning hash 000000000000112ab422bad5cd53d79a3cdd4d7e9c542eee5fabf85c1d436126 for height 4663969 (from headers subscription)
+2025-09-16 10:15:29.513 [DBG] LTND lnd.go:727: Syncing to block chain rev=4d1c86 best_block_time="2025-09-16 10:15:28 -0400 EDT" is_synced=false
+2025/09/16 10:15:30 ELECTRUM: GetBestBlock called
+2025/09/16 10:15:30 ELECTRUM: Subscribing to headers to get current height
+2025/09/16 10:15:30 ELECTRUM: Got current height 4663970 from headers subscription
+2025/09/16 10:15:30 ELECTRUM: Returning hash 000000000002388c635a58f5805dfce8e55707fffd6c9d04a4af609a1a7aa148 for height 4663970 (from headers subscription)
+2025/09/16 10:15:30 ELECTRUM: GetBlockHeader called for hash: 000000000002388c635a58f5805dfce8e55707fffd6c9d04a4af609a1a7aa148
+2025/09/16 10:15:30 ELECTRUM: GetBestBlock called
+2025/09/16 10:15:30 ELECTRUM: Subscribing to headers to get current height
+2025-09-16 10:15:30.802 [INF] LTND signal.go:177: Received terminated
+2025-09-16 10:15:30.803 [INF] LTND signal.go:166: Shutting down...
+2025-09-16 10:15:30.803 [INF] LTND signal.go:185: Gracefully shutting down.
+2025-09-16 10:15:30.803 [INF] RPCS rpcserver.go:1026: Stopping RPC Server
+2025-09-16 10:15:30.803 [INF] RPCS rpcserver.go:1034: Stopping InvoicesRPC Sub-RPC Server
+2025-09-16 10:15:30.803 [INF] RPCS rpcserver.go:1034: Stopping WalletKitRPC Sub-RPC Server
+2025-09-16 10:15:30.803 [INF] RPCS rpcserver.go:1034: Stopping ChainRPC Sub-RPC Server
+2025-09-16 10:15:30.803 [INF] RPCS rpcserver.go:1034: Stopping DevRPC Sub-RPC Server
+2025-09-16 10:15:30.803 [INF] RPCS rpcserver.go:1034: Stopping PeersRPC Sub-RPC Server
+2025-09-16 10:15:30.803 [INF] RPCS rpcserver.go:1034: Stopping RouterRPC Sub-RPC Server
+2025-09-16 10:15:30.803 [INF] RPCS rpcserver.go:1034: Stopping SignRPC Sub-RPC Server
+2025-09-16 10:15:30.803 [INF] RPCS rpcserver.go:1034: Stopping VersionRPC Sub-RPC Server
+2025-09-16 10:15:30.803 [INF] RPCS rpcserver.go:1034: Stopping WatchtowerClientRPC Sub-RPC Server
+2025/09/16 10:15:30 ELECTRUM: Block notification loop shutting down
+2025/09/16 10:15:30 ELECTRUM: Block notification loop shutting down
+2025/09/16 10:15:30 ELECTRUM: Block notification loop shutting down
+2025-09-16 10:15:30.803 [INF] LTND lnd.go:152: Shutdown complete

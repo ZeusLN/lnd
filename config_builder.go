@@ -610,6 +610,7 @@ func (d *DefaultWalletImpl) BuildWalletConfig(ctx context.Context,
 		NeutrinoMode:                d.cfg.NeutrinoMode,
 		BitcoindMode:                d.cfg.BitcoindMode,
 		BtcdMode:                    d.cfg.BtcdMode,
+		ElectrumMode:                d.cfg.ElectrumMode,
 		HeightHintDB:                dbs.HeightHintDB,
 		ChanStateDB:                 dbs.ChanStateDB.ChannelStateDB(),
 		NeutrinoCS:                  neutrinoCS,
@@ -765,9 +766,14 @@ func (d *DefaultWalletImpl) BuildChainControl(
 	partialChainControl *chainreg.PartialChainControl,
 	walletConfig *btcwallet.Config) (*chainreg.ChainControl, func(), error) {
 
+	d.logger.Info("BuildChainControl called - starting wallet controller creation")
+	
+	// Create the btcwallet controller
+	d.logger.Info("About to call btcwallet.New")
 	walletController, err := btcwallet.New(
 		*walletConfig, partialChainControl.Cfg.BlockCache,
 	)
+	d.logger.Info("btcwallet.New completed")
 	if err != nil {
 		err := fmt.Errorf("unable to create wallet controller: %w", err)
 		d.logger.Error(err)
@@ -780,14 +786,16 @@ func (d *DefaultWalletImpl) BuildChainControl(
 
 	// Create, and start the lnwallet, which handles the core payment
 	// channel logic, and exposes control via proxy state machines.
+	d.logger.Infof("Setting WalletController type: %T", walletController)
+	
 	lnWalletConfig := lnwallet.Config{
 		Database:              partialChainControl.Cfg.ChanStateDB,
 		Notifier:              partialChainControl.ChainNotifier,
-		WalletController:      walletController, // Use the appropriate WalletController
-		Signer:                walletController, // Use the wallet controller as signer
+		WalletController:      walletController, // Use btcwallet directly
+		Signer:                walletController, // btcwallet implements input.Signer
 		FeeEstimator:          partialChainControl.FeeEstimator,
 		SecretKeyRing:         keyRing, // Use the appropriate SecretKeyRing
-		ChainIO:               walletController, // Use the wallet controller as chain IO
+		ChainIO:               walletController, // BtcWallet implements BlockChainIO
 		NetParams:             *walletConfig.NetParams,
 		CoinSelectionStrategy: walletConfig.CoinSelectionStrategy,
 		AuxLeafStore:          partialChainControl.Cfg.AuxLeafStore,
@@ -874,6 +882,7 @@ func (d *RPCSignerWalletImpl) BuildChainControl(
 	partialChainControl *chainreg.PartialChainControl,
 	walletConfig *btcwallet.Config) (*chainreg.ChainControl, func(), error) {
 
+	d.logger.Info("RPCSignerWalletImpl.BuildChainControl called")
 	walletController, err := btcwallet.New(
 		*walletConfig, partialChainControl.Cfg.BlockCache,
 	)

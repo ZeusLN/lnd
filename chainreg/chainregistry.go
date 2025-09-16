@@ -692,6 +692,12 @@ func NewPartialChainControl(cfg *Config) (*PartialChainControl, func(), error) {
 
 	case "electrum":
 		log.Infof("Initializing electrum backend")
+		log.Infof("ElectrumMode config: %+v", cfg.ElectrumMode)
+		if cfg.ElectrumMode == nil {
+			log.Errorf("ElectrumMode is nil!")
+		} else {
+			log.Infof("ElectrumMode server: %s", cfg.ElectrumMode.ServerAddr)
+		}
 		electrumSource, err := electrum.New(
 			cfg.ElectrumMode, cfg.ActiveNetParams.Params,
 		)

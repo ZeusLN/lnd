@@ -37,6 +37,16 @@ import (
 	"github.com/lightningnetwork/lnd/tlv"
 )
 
+// testSig is a test signature for mock functions
+var testSig *ecdsa.Signature
+
+func init() {
+	// Create a test signature with dummy values
+	privKey, _ := btcec.PrivKeyFromBytes([]byte{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32})
+	hash := sha256.Sum256([]byte("test"))
+	testSig = ecdsa.Sign(privKey, hash[:])
+}
+
 func isAlias(scid lnwire.ShortChannelID) bool {
 	return scid.BlockHeight >= 16_000_000 && scid.BlockHeight < 16_250_000
 }

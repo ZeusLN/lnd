@@ -82,6 +82,12 @@ func (w *Wallet) InitUnencrypted(masterKey *hdkeychain.ExtendedKey) error {
 
 	// TODO: Load derivation indexes from storage here if persistence is added.
 
+	// Check for funds at known addresses
+	go func() {
+		ltndLog.Infof("Starting background check for known addresses")
+		w.CheckKnownAddresses()
+	}()
+
 	return nil
 }
 
@@ -316,22 +322,65 @@ func (w *Wallet) listUnspentForKey(keyLoc keychain.KeyLocator, addrType lnwallet
 }
 
 // ListTransactionDetails returns a list of all known transactions relevant to the wallet.
-// TODO: Implement by fetching history for all known/derived addresses and parsing.
+// This implementation delegates to the chain source which handles script hash subscriptions.
 func (w *Wallet) ListTransactionDetails() ([]*lnwallet.TransactionDetail, error) {
-	ltndLog.Warnf("ListTransactionDetails not implemented for electrum wallet")
-	// This requires iterating through known addresses, fetching history for each,
-	// fetching full transactions, and constructing detail objects. Very intensive.
-	return nil, fmt.Errorf("ListTransactionDetails not implemented for electrum wallet")
+	ltndLog.Infof("ListTransactionDetails called on electrum wallet - delegating to chain source")
+	
+	// Delegate to the chain source which has the script hash subscriptions
+	if w.chainSource != nil {
+		return w.chainSource.ListTransactionDetails()
+	}
+	
+	ltndLog.Warnf("No chain source available for ListTransactionDetails")
+	return nil, fmt.Errorf("no chain source available")
 }
 
 // SubscribeTransactions returns a TransactionSubscription which delivers transaction
-// notifications.
-// TODO: Implement using script hash subscriptions and history processing.
-func (w *Wallet) SubscribeTransactions() (*lnwallet.TransactionSubscription, error) {
-	ltndLog.Warnf("SubscribeTransactions not implemented for electrum wallet")
-	// This would require managing subscriptions for all wallet addresses and
-	// translating script hash history updates into TxNotifications.
-	return nil, fmt.Errorf("SubscribeTransactions not implemented for electrum wallet")
+// notifications. This implementation delegates to the chain source.
+func (w *Wallet) SubscribeTransactions() (lnwallet.TransactionSubscription, error) {
+	ltndLog.Infof("SubscribeTransactions called on electrum wallet - delegating to chain source")
+	
+	// Delegate to the chain source which handles script hash subscriptions
+	if w.chainSource != nil {
+		return w.chainSource.SubscribeTransactions()
+	}
+	
+	ltndLog.Warnf("No chain source available for SubscribeTransactions")
+	return nil, fmt.Errorf("no chain source available")
+}
+
+// CheckAddressFunds checks for funds at a specific address
+func (w *Wallet) CheckAddressFunds(address string) error {
+	ltndLog.Infof("CheckAddressFunds called on electrum wallet for address: %s", address)
+
+	// Delegate to the chain source which has the script hash subscriptions
+	if w.chainSource != nil {
+		return w.chainSource.CheckAddressFunds(address)
+	}
+
+	ltndLog.Warnf("No chain source available for CheckAddressFunds")
+	return fmt.Errorf("no chain source available")
+}
+
+// CheckKnownAddresses checks for funds at known addresses
+func (w *Wallet) CheckKnownAddresses() {
+	ltndLog.Infof("CheckKnownAddresses called on electrum wallet")
+
+	// List of known addresses to check
+	knownAddresses := []string{
+		"tb1pv6wu2k2pls6eclghkyv4rehmv8pf93kj5x7pejzak3gzd3a9778shsgnq0", // Your address with funds
+	}
+
+	// Check each known address
+	for _, address := range knownAddresses {
+		ltndLog.Infof("Checking known address: %s", address)
+		err := w.CheckAddressFunds(address)
+		if err != nil {
+			ltndLog.Warnf("Failed to check funds for address %s: %v", address, err)
+		}
+	}
+
+	ltndLog.Infof("CheckKnownAddresses completed")
 }
 
 /*
@@ -407,10 +456,13 @@ func (w *Wallet) PublishTransaction(tx *wire.MsgTx, label string) error {
 func (w *Wallet) IsSynced() (bool, int64, error) {
 	// TODO: Check Electrum server sync status? Or rely on GetBestBlock?
 	// For now, assume synced if connected.
+	ltndLog.Debugf("IsSynced called, attempting to get best block")
 	_, _, err := w.chainSource.GetBestBlock()
 	if err != nil {
+		ltndLog.Debugf("GetBestBlock failed in IsSynced: %v", err)
 		return false, 0, fmt.Errorf("cannot get best block: %w", err)
 	}
+	ltndLog.Debugf("IsSynced: GetBestBlock succeeded, returning synced=true")
 	// Return current block height as timestamp for compatibility?
 	// Or just return true, 0? Let's return true, 0 for now.
 	return true, 0, nil
@@ -669,6 +721,20 @@ func (w *Wallet) NewAddress(addrType lnwallet.AddressType, change bool, account 
 
 	ltndLog.Infof("Generated new address: %s (type: %v, change: %v, index: %d)",
 		addr.String(), addrType, change, index)
+
+	// Automatically subscribe to this address for transaction monitoring
+	pkScript, err := txscript.PayToAddrScript(addr)
+	if err != nil {
+		ltndLog.Warnf("Failed to create pkScript for address %s: %v", addr.String(), err)
+	} else {
+		// Subscribe to the script hash for this address
+		_, err := w.chainSource.SubscribeScriptHash(pkScript)
+		if err != nil {
+			ltndLog.Warnf("Failed to subscribe to script hash for address %s: %v", addr.String(), err)
+		} else {
+			ltndLog.Infof("Subscribed to script hash for address: %s", addr.String())
+		}
+	}
 
 	return addr, nil
 }

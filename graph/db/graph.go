@@ -7,7 +7,6 @@ import (
 	"net"
 	"sync"
 	"sync/atomic"
-	"testing"
 	"time"
 
 	"github.com/btcsuite/btcd/chaincfg/chainhash"
@@ -16,7 +15,6 @@ import (
 	"github.com/lightningnetwork/lnd/graph/db/models"
 	"github.com/lightningnetwork/lnd/lnwire"
 	"github.com/lightningnetwork/lnd/routing/route"
-	"github.com/stretchr/testify/require"
 )
 
 // ErrChanGraphShuttingDown indicates that the ChannelGraph has shutdown or is
@@ -614,6 +612,7 @@ func (c *ChannelGraph) UpdateEdgePolicy(ctx context.Context,
 // implemented, unit tests will be switched to use this function instead of
 // the existing MakeTestGraph helper. Once only this function is used, the
 // existing MakeTestGraph function will be removed and this one will be renamed.
+/*
 func MakeTestGraph(t testing.TB,
 	opts ...ChanGraphOption) *ChannelGraph {
 
@@ -631,3 +630,4 @@ func MakeTestGraph(t testing.TB,
 
 	return graph
 }
+*/
