@@ -68,7 +68,7 @@ require (
 	golang.org/x/term v0.37.0
 	golang.org/x/time v0.5.0
 	google.golang.org/grpc v1.65.0
-	google.golang.org/protobuf v1.36.5
+	google.golang.org/protobuf v1.34.2
 	gopkg.in/macaroon-bakery.v2 v2.3.0
 	gopkg.in/macaroon.v2 v2.1.0
 	pgregory.net/rapid v1.2.0
@@ -224,7 +224,7 @@ replace github.com/gogo/protobuf => github.com/gogo/protobuf v1.3.2
 
 // We want to format raw bytes as hex instead of base64. The forked version
 // allows us to specify that as an option.
-replace google.golang.org/protobuf => github.com/lightninglabs/protobuf-go-hex-display v1.33.0-hex-display
+replace google.golang.org/protobuf => github.com/lightninglabs/protobuf-go-hex-display v1.34.2-hex-display
 
 // Speedloader
 replace github.com/breez/breez => github.com/djkazic/breez v0.0.8
