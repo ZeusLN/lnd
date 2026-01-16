@@ -9,7 +9,7 @@ require (
 	github.com/btcsuite/btcd v0.24.3-0.20250318170759-4f4ea81776d6
 	github.com/btcsuite/btcd/btcec/v2 v2.3.4
 	github.com/btcsuite/btcd/btcutil v1.1.5
-	github.com/btcsuite/btcd/btcutil/psbt v1.1.10
+	github.com/btcsuite/btcd/btcutil/psbt v1.1.8
 	github.com/btcsuite/btcd/chaincfg/chainhash v1.1.0
 	github.com/btcsuite/btclog v0.0.0-20241003133417-09c4e92e319c
 	github.com/btcsuite/btclog/v2 v2.0.1-0.20250728225537-6090e87c6c5b
@@ -26,9 +26,9 @@ require (
 	github.com/go-logr/stdr v1.2.2 // indirect
 	github.com/golang/protobuf v1.5.4
 	github.com/gorilla/websocket v1.5.0
-	github.com/grpc-ecosystem/go-grpc-middleware v1.4.0
+	github.com/grpc-ecosystem/go-grpc-middleware v1.3.0
 	github.com/grpc-ecosystem/go-grpc-prometheus v1.2.0
-	github.com/grpc-ecosystem/grpc-gateway/v2 v2.22.0
+	github.com/grpc-ecosystem/grpc-gateway/v2 v2.20.0
 	github.com/jackc/pgx/v4 v4.18.3
 	github.com/jackpal/gateway v1.0.5
 	github.com/jackpal/go-nat-pmp v0.0.0-20170405195558-28a68d0c24ad
@@ -54,20 +54,20 @@ require (
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/prometheus/client_golang v1.14.0
 	github.com/stretchr/testify v1.10.0
-	github.com/tv42/zbase32 v0.0.0-20220222190657-f76a9fc892fa
+	github.com/tv42/zbase32 v0.0.0-20160707012821-501572607d02
 	github.com/urfave/cli v1.22.14
 	go.etcd.io/bbolt v1.4.3
 	go.etcd.io/etcd/client/pkg/v3 v3.5.12
 	go.etcd.io/etcd/client/v3 v3.5.12
 	go.opentelemetry.io/otel/metric v1.37.0 // indirect
-	golang.org/x/crypto v0.45.0
-	golang.org/x/exp v0.0.0-20240909161429-701f63a606c0
+	golang.org/x/crypto v0.44.0
+	golang.org/x/exp v0.0.0-20240325151524-a685a6edb6d8
 	golang.org/x/mobile v0.0.0-20190719004257-d2bd2a29d028
 	golang.org/x/net v0.47.0 // indirect
 	golang.org/x/sync v0.18.0
 	golang.org/x/term v0.37.0
-	golang.org/x/time v0.5.0
-	google.golang.org/grpc v1.65.0
+	golang.org/x/time v0.3.0
+	google.golang.org/grpc v1.64.1
 	google.golang.org/protobuf v1.34.2
 	gopkg.in/macaroon-bakery.v2 v2.3.0
 	gopkg.in/macaroon.v2 v2.1.0
@@ -224,7 +224,7 @@ replace github.com/gogo/protobuf => github.com/gogo/protobuf v1.3.2
 
 // We want to format raw bytes as hex instead of base64. The forked version
 // allows us to specify that as an option.
-replace google.golang.org/protobuf => github.com/lightninglabs/protobuf-go-hex-display v1.34.2-hex-display
+replace google.golang.org/protobuf => github.com/lightninglabs/protobuf-go-hex-display v1.33.0-hex-display
 
 // Speedloader
 replace github.com/breez/breez => github.com/djkazic/breez v0.0.8
