@@ -321,7 +321,6 @@ func local_request_Signer_MuSig2Cleanup_0(ctx context.Context, marshaler runtime
 // UnaryRPC     :call SignerServer directly.
 // StreamingRPC :currently unsupported pending https://github.com/grpc/grpc-go/issues/906.
 // Note that using this registration option will cause many gRPC library features to stop working. Consider using RegisterSignerHandlerFromEndpoint instead.
-// GRPC interceptors will not work for this type of registration. To use interceptors, you must use the "runtime.WithMiddlewares" option in the "runtime.NewServeMux" call.
 func RegisterSignerHandlerServer(ctx context.Context, mux *runtime.ServeMux, server SignerServer) error {
 
 	mux.Handle("POST", pattern_Signer_SignOutputRaw_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -637,7 +636,7 @@ func RegisterSignerHandler(ctx context.Context, mux *runtime.ServeMux, conn *grp
 // to "mux". The handlers forward requests to the grpc endpoint over the given implementation of "SignerClient".
 // Note: the gRPC framework executes interceptors within the gRPC handler. If the passed in "SignerClient"
 // doesn't go through the normal gRPC flow (creating a gRPC client etc.) then it will be up to the passed in
-// "SignerClient" to call the correct interceptors. This client ignores the HTTP middlewares.
+// "SignerClient" to call the correct interceptors.
 func RegisterSignerHandlerClient(ctx context.Context, mux *runtime.ServeMux, client SignerClient) error {
 
 	mux.Handle("POST", pattern_Signer_SignOutputRaw_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {

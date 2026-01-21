@@ -53,7 +53,6 @@ func local_request_Watchtower_GetInfo_0(ctx context.Context, marshaler runtime.M
 // UnaryRPC     :call WatchtowerServer directly.
 // StreamingRPC :currently unsupported pending https://github.com/grpc/grpc-go/issues/906.
 // Note that using this registration option will cause many gRPC library features to stop working. Consider using RegisterWatchtowerHandlerFromEndpoint instead.
-// GRPC interceptors will not work for this type of registration. To use interceptors, you must use the "runtime.WithMiddlewares" option in the "runtime.NewServeMux" call.
 func RegisterWatchtowerHandlerServer(ctx context.Context, mux *runtime.ServeMux, server WatchtowerServer) error {
 
 	mux.Handle("GET", pattern_Watchtower_GetInfo_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -119,7 +118,7 @@ func RegisterWatchtowerHandler(ctx context.Context, mux *runtime.ServeMux, conn 
 // to "mux". The handlers forward requests to the grpc endpoint over the given implementation of "WatchtowerClient".
 // Note: the gRPC framework executes interceptors within the gRPC handler. If the passed in "WatchtowerClient"
 // doesn't go through the normal gRPC flow (creating a gRPC client etc.) then it will be up to the passed in
-// "WatchtowerClient" to call the correct interceptors. This client ignores the HTTP middlewares.
+// "WatchtowerClient" to call the correct interceptors.
 func RegisterWatchtowerHandlerClient(ctx context.Context, mux *runtime.ServeMux, client WatchtowerClient) error {
 
 	mux.Handle("GET", pattern_Watchtower_GetInfo_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {

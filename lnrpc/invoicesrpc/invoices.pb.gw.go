@@ -226,7 +226,6 @@ func request_Invoices_HtlcModifier_0(ctx context.Context, marshaler runtime.Mars
 // UnaryRPC     :call InvoicesServer directly.
 // StreamingRPC :currently unsupported pending https://github.com/grpc/grpc-go/issues/906.
 // Note that using this registration option will cause many gRPC library features to stop working. Consider using RegisterInvoicesHandlerFromEndpoint instead.
-// GRPC interceptors will not work for this type of registration. To use interceptors, you must use the "runtime.WithMiddlewares" option in the "runtime.NewServeMux" call.
 func RegisterInvoicesHandlerServer(ctx context.Context, mux *runtime.ServeMux, server InvoicesServer) error {
 
 	mux.Handle("GET", pattern_Invoices_SubscribeSingleInvoice_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -381,7 +380,7 @@ func RegisterInvoicesHandler(ctx context.Context, mux *runtime.ServeMux, conn *g
 // to "mux". The handlers forward requests to the grpc endpoint over the given implementation of "InvoicesClient".
 // Note: the gRPC framework executes interceptors within the gRPC handler. If the passed in "InvoicesClient"
 // doesn't go through the normal gRPC flow (creating a gRPC client etc.) then it will be up to the passed in
-// "InvoicesClient" to call the correct interceptors. This client ignores the HTTP middlewares.
+// "InvoicesClient" to call the correct interceptors.
 func RegisterInvoicesHandlerClient(ctx context.Context, mux *runtime.ServeMux, client InvoicesClient) error {
 
 	mux.Handle("GET", pattern_Invoices_SubscribeSingleInvoice_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
