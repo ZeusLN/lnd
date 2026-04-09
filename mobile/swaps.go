@@ -126,9 +126,9 @@ func CreateReverseClaimTransaction(endpoint string, id string, claimLeaf string,
 	if receiveAmount > 0 && inputValue > uint64(receiveAmount) {
 		// Use fee budget approach: back-calculate the rate from the desired
 		// receive amount so the claim tx output matches exactly.
-		// 111 vbytes is the cooperative Taproot claim size estimate.
+		// 140 vbytes is the cooperative Taproot claim size estimate.
 		feeBudget := inputValue - uint64(receiveAmount)
-		satPerVbyte = float64(feeBudget) / 111.0
+		satPerVbyte = float64(feeBudget) / 140.0
 	} else {
 		satPerVbyte = float64(feeRate)
 	}
