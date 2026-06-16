@@ -110,7 +110,7 @@ require (
 	github.com/gogo/protobuf v1.3.2 // indirect
 	github.com/golang-jwt/jwt/v4 v4.5.2 // indirect
 	github.com/golang-migrate/migrate/v4 v4.17.0 // indirect
-	github.com/golang/protobuf v1.5.4 // indirect
+	github.com/golang/protobuf v1.5.4
 	github.com/golang/snappy v0.0.4 // indirect
 	github.com/google/btree v1.1.2 // indirect
 	github.com/google/shlex v0.0.0-20191202100458-e7afc7fbc510 // indirect
@@ -244,6 +244,12 @@ replace github.com/btcsuite/btcwallet/walletdb => github.com/djkazic/btcwallet/w
 
 // New rescan functionality
 replace github.com/btcsuite/btcwallet => github.com/ZeusLN/btcwallet v0.16.19-11-zeus
+
+// Mobile sweepremoteclosed: chantools fork with non-library subpkgs stripped.
+replace github.com/lightninglabs/chantools => github.com/ZeusLN/chantools v0.14.2-zeus
+
+// Mobile LNC perms: lit-terminal fork with zero-value mock Configs.
+replace github.com/lightninglabs/lightning-terminal => github.com/ZeusLN/lightning-terminal v0.10.5-alpha-zeus
 
 // If you change this please also update docs/INSTALL.md and all other go.mod
 // files. The release build toolchain version is tracked separately by
