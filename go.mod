@@ -32,7 +32,7 @@ require (
 	github.com/jessevdk/go-flags v1.6.1
 	github.com/jrick/logrotate v1.1.2
 	github.com/kkdai/bstream v1.0.0
-	github.com/lightninglabs/lightning-node-connect v0.3.1-alpha
+	github.com/lightninglabs/lightning-node-connect v0.3.6-alpha
 	github.com/lightninglabs/lightning-terminal v0.10.5-alpha
 	github.com/lightninglabs/neutrino v0.17.1
 	github.com/lightninglabs/neutrino/cache v1.1.3
@@ -182,7 +182,7 @@ require (
 	go.etcd.io/etcd/raft/v3 v3.5.12 // indirect
 	go.etcd.io/etcd/server/v3 v3.5.12 // indirect
 	go.opentelemetry.io/auto/sdk v1.2.1 // indirect
-	go.opentelemetry.io/contrib/instrumentation/google.golang.org/grpc/otelgrpc v0.46.0 // indirect
+	go.opentelemetry.io/contrib/instrumentation/google.golang.org/grpc/otelgrpc v0.46.1 // indirect
 	go.opentelemetry.io/otel v1.40.0 // indirect
 	go.opentelemetry.io/otel/exporters/otlp/otlptrace v1.20.0 // indirect
 	go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracegrpc v1.20.0 // indirect
