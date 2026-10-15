@@ -347,8 +347,8 @@ func CreateReverseClaimTransaction(endpoint string, id string, claimLeaf string,
 // CreateRefundTransaction builds a submarine swap refund, broadcasts it to
 // mempool.space and returns the txid. Kept for app builds that predate
 // BuildRefundTransaction.
-func CreateRefundTransaction(endpoint string, id string, claimLeaf string, refundLeaf string, transactionHex string, privateKey string, servicePubKey string, feeRate int32, minerFee int32, timeoutBlockHeight int32, destinationAddress string, lockupAddress string, cooperative bool, isTestnet bool) (string, error) {
-	txHex, err := BuildRefundTransaction(endpoint, id, claimLeaf, refundLeaf, transactionHex, privateKey, servicePubKey, feeRate, minerFee, timeoutBlockHeight, destinationAddress, lockupAddress, cooperative, legacyNetworkName(isTestnet))
+func CreateRefundTransaction(endpoint string, id string, claimLeaf string, refundLeaf string, transactionHex string, privateKey string, servicePubKey string, feeRate int32, timeoutBlockHeight int32, destinationAddress string, lockupAddress string, cooperative bool, isTestnet bool) (string, error) {
+	txHex, err := BuildRefundTransaction(endpoint, id, claimLeaf, refundLeaf, transactionHex, privateKey, servicePubKey, feeRate, 0, timeoutBlockHeight, destinationAddress, lockupAddress, cooperative, legacyNetworkName(isTestnet))
 	if err != nil {
 		return "", err
 	}
