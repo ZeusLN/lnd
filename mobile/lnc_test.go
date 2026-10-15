@@ -4,12 +4,17 @@
 package lndmobile
 
 import (
+	"context"
 	"net"
+	"runtime"
+	"sync"
 	"sync/atomic"
 	"testing"
 	"time"
 
 	"github.com/stretchr/testify/require"
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
 )
 
 // testPairingPhrase only needs to split into ten words; unknown words map to
@@ -163,4 +168,113 @@ func TestConnectServerAfterDisconnect(t *testing.T) {
 	mailbox.requireRedialing(t)
 
 	require.NoError(t, Disconnect("reconnect"))
+}
+
+// resultCallback counts the results InvokeRPC sends back.
+type resultCallback struct {
+	wg *sync.WaitGroup
+}
+
+func (r resultCallback) SendResult(string) {
+	r.wg.Done()
+}
+
+// testConn returns a client connection that never dials. The fake RPCs below
+// only compare it, so it never needs to reach a server.
+func testConn(t *testing.T) *grpc.ClientConn {
+	t.Helper()
+
+	conn, err := grpc.NewClient(
+		"passthrough:///unused",
+		grpc.WithTransportCredentials(insecure.NewCredentials()),
+	)
+	require.NoError(t, err)
+	t.Cleanup(func() { conn.Close() })
+
+	return conn
+}
+
+// setTestConn marks the client as connected on conn without a mailbox.
+func setTestConn(t *testing.T, nameSpace string, conn *grpc.ClientConn) {
+	t.Helper()
+
+	mc, err := getClient(nameSpace)
+	require.NoError(t, err)
+
+	mc.mutex.Lock()
+	mc.lndConn = conn
+	mc.mutex.Unlock()
+}
+
+// TestInvokeRPCDoesNotLeakGoroutines checks that a call's goroutine ends once
+// the RPC has returned its result. It used to wait on a context that was
+// never cancelled, so every call left a goroutine behind.
+func TestInvokeRPCDoesNotLeakGoroutines(t *testing.T) {
+	const calls = 50
+
+	initTestClient(t, "invoke-leak")
+	setTestConn(t, "invoke-leak", testConn(t))
+
+	registry["test.Leak.Unary"] = func(_ context.Context,
+		_ *grpc.ClientConn, _ string, callback func(string, error)) {
+
+		callback("{}", nil)
+	}
+	t.Cleanup(func() { delete(registry, "test.Leak.Unary") })
+
+	before := runtime.NumGoroutine()
+
+	var wg sync.WaitGroup
+	wg.Add(calls)
+	for i := 0; i < calls; i++ {
+		require.NoError(t, InvokeRPC(
+			"invoke-leak", "test.Leak.Unary", "{}",
+			resultCallback{wg: &wg},
+		))
+	}
+	wg.Wait()
+
+	require.Eventually(t, func() bool {
+		return runtime.NumGoroutine() < before+calls/2
+	}, 5*time.Second, 10*time.Millisecond,
+		"InvokeRPC left a goroutine behind per call")
+}
+
+// TestInvokeRPCKeepsConnAcrossDisconnect checks that a call uses the
+// connection that was ready when InvokeRPC accepted it, even if Disconnect
+// runs before the call's goroutine starts. It used to read mc.lndConn from
+// the goroutine without the mutex and could get nil.
+func TestInvokeRPCKeepsConnAcrossDisconnect(t *testing.T) {
+	const calls = 200
+
+	initTestClient(t, "invoke-disconnect")
+	conn := testConn(t)
+
+	var nilConns atomic.Int64
+	registry["test.Disconnect.Unary"] = func(_ context.Context,
+		c *grpc.ClientConn, _ string, callback func(string, error)) {
+
+		if c == nil {
+			nilConns.Add(1)
+		}
+		callback("{}", nil)
+	}
+	t.Cleanup(func() { delete(registry, "test.Disconnect.Unary") })
+
+	var wg sync.WaitGroup
+	wg.Add(calls)
+	for i := 0; i < calls; i++ {
+		setTestConn(t, "invoke-disconnect", conn)
+		require.NoError(t, InvokeRPC(
+			"invoke-disconnect", "test.Disconnect.Unary", "{}",
+			resultCallback{wg: &wg},
+		))
+
+		// Clear the connection the way Disconnect does, without
+		// closing the shared test connection.
+		setTestConn(t, "invoke-disconnect", nil)
+	}
+	wg.Wait()
+
+	require.Zero(t, nilConns.Load(), "a call ran on a nil connection")
 }

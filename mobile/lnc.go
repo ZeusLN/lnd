@@ -497,6 +497,15 @@ func InvokeRPC(nameSpace string, rpcName string, requestJSON string,
 		return fmt.Errorf("rpc with name %s not found", rpcName)
 	}
 
+	// Read the connection while holding the mutex. A Disconnect that runs
+	// before the goroutine starts sets mc.lndConn to nil, and the call
+	// would panic on it.
+	conn := mc.lndConn
+
+	// A unary method returns once it has sent its result, and a streaming
+	// method returns once it has started its own receive goroutine, so the
+	// goroutine ends when method returns. The context is never cancelled
+	// because a stream lives on it.
 	go func() {
 		log.Infof("Calling '%s' on RPC with request %s", rpcName,
 			requestJSON)
@@ -507,9 +516,7 @@ func InvokeRPC(nameSpace string, rpcName string, requestJSON string,
 				c.SendResult(resultJSON)
 			}
 		}
-		ctx := context.Background()
-		method(ctx, mc.lndConn, requestJSON, cb)
-		<-ctx.Done()
+		method(context.Background(), conn, requestJSON, cb)
 	}()
 
 	return nil
