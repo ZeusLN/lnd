@@ -6,12 +6,14 @@ package lndmobile
 import (
 	"bytes"
 	"encoding/hex"
+	"errors"
 	"fmt"
 	"io"
 	"net/http"
 
 	"github.com/BoltzExchange/boltz-client/v2/pkg/boltz"
 	"github.com/btcsuite/btcd/btcec/v2"
+	"github.com/btcsuite/btcd/mempool"
 	"github.com/btcsuite/btcd/txscript"
 	"github.com/decred/dcrd/dcrec/secp256k1/v4"
 )
@@ -166,16 +168,7 @@ func BuildReverseClaimTransaction(endpoint string, id string, claimLeaf string, 
 		return "", fmt.Errorf("error decoding preimage hex string: %w", err)
 	}
 
-	var fee boltz.Fee
-	if minerFee > 0 {
-		sats := uint64(minerFee)
-		fee = boltz.Fee{Sats: &sats}
-	} else {
-		satPerVbyte := float64(feeRate)
-		fee = boltz.Fee{SatsPerVbyte: &satPerVbyte}
-	}
-
-	claimTransaction, _, err := boltz.ConstructTransaction(
+	claimTransaction, results, err := boltz.ConstructTransaction(
 		chain,
 		boltz.CurrencyBtc,
 		[]boltz.OutputDetails{
@@ -191,9 +184,12 @@ func BuildReverseClaimTransaction(endpoint string, id string, claimLeaf string, 
 				Cooperative:       true,
 			},
 		},
-		fee,
+		swapFee(feeRate, minerFee),
 		&boltz.Api{URL: endpoint},
 	)
+	if err == nil {
+		err = checkSwapTransaction(id, claimTransaction, results)
+	}
 	if err != nil {
 		return "", fmt.Errorf("could not create claim transaction: %w", err)
 	}
@@ -206,9 +202,47 @@ func BuildReverseClaimTransaction(endpoint string, id string, claimLeaf string, 
 	return txHex, nil
 }
 
+// swapFee pays an exact miner fee in sats when one is given, and the fee rate
+// in sat/vbyte otherwise.
+func swapFee(feeRate int32, minerFee int32) boltz.Fee {
+	if minerFee > 0 {
+		sats := uint64(minerFee)
+		return boltz.Fee{Sats: &sats}
+	}
+	satPerVbyte := float64(feeRate)
+	return boltz.Fee{SatsPerVbyte: &satPerVbyte}
+}
+
+// checkSwapTransaction returns the error ConstructTransaction only records in
+// its results, and rejects an output that would not relay. A fee at or above
+// the lockup value otherwise leaves a transaction with no output, or a 0-sat
+// one, and no error.
+func checkSwapTransaction(id string, transaction boltz.Transaction, results boltz.Results) error {
+	if err := results[id].Err; err != nil {
+		return err
+	}
+
+	btcTransaction, ok := transaction.(*boltz.BtcTransaction)
+	if !ok {
+		return fmt.Errorf("unexpected transaction type %T", transaction)
+	}
+
+	outputs := btcTransaction.MsgTx().TxOut
+	if len(outputs) == 0 {
+		return errors.New("transaction has no outputs")
+	}
+	for _, output := range outputs {
+		if mempool.IsDust(output, mempool.DefaultMinRelayTxFee) {
+			return fmt.Errorf("output of %d sats is below the dust limit", output.Value)
+		}
+	}
+
+	return nil
+}
+
 // BuildRefundTransaction builds and signs the refund of a submarine swap's
 // lockup and returns it as hex without broadcasting it.
-func BuildRefundTransaction(endpoint string, id string, claimLeaf string, refundLeaf string, transactionHex string, privateKey string, servicePubKey string, feeRate int32, timeoutBlockHeight int32, destinationAddress string, lockupAddress string, cooperative bool, network string) (string, error) {
+func BuildRefundTransaction(endpoint string, id string, claimLeaf string, refundLeaf string, transactionHex string, privateKey string, servicePubKey string, feeRate int32, minerFee int32, timeoutBlockHeight int32, destinationAddress string, lockupAddress string, cooperative bool, network string) (string, error) {
 	chain, err := swapNetwork(network)
 	if err != nil {
 		return "", err
@@ -229,8 +263,7 @@ func BuildRefundTransaction(endpoint string, id string, claimLeaf string, refund
 		return "", fmt.Errorf("error finding vout: %w", err)
 	}
 
-	satPerVbyte := float64(feeRate)
-	refundTransaction, _, err := boltz.ConstructTransaction(
+	refundTransaction, results, err := boltz.ConstructTransaction(
 		chain,
 		boltz.CurrencyBtc,
 		[]boltz.OutputDetails{
@@ -247,9 +280,12 @@ func BuildRefundTransaction(endpoint string, id string, claimLeaf string, refund
 				Cooperative:        cooperative,
 			},
 		},
-		boltz.Fee{SatsPerVbyte: &satPerVbyte},
+		swapFee(feeRate, minerFee),
 		&boltz.Api{URL: endpoint},
 	)
+	if err == nil {
+		err = checkSwapTransaction(id, refundTransaction, results)
+	}
 	if err != nil {
 		return "", fmt.Errorf("could not create refund transaction: %w", err)
 	}
@@ -312,7 +348,7 @@ func CreateReverseClaimTransaction(endpoint string, id string, claimLeaf string,
 // mempool.space and returns the txid. Kept for app builds that predate
 // BuildRefundTransaction.
 func CreateRefundTransaction(endpoint string, id string, claimLeaf string, refundLeaf string, transactionHex string, privateKey string, servicePubKey string, feeRate int32, timeoutBlockHeight int32, destinationAddress string, lockupAddress string, cooperative bool, isTestnet bool) (string, error) {
-	txHex, err := BuildRefundTransaction(endpoint, id, claimLeaf, refundLeaf, transactionHex, privateKey, servicePubKey, feeRate, timeoutBlockHeight, destinationAddress, lockupAddress, cooperative, legacyNetworkName(isTestnet))
+	txHex, err := BuildRefundTransaction(endpoint, id, claimLeaf, refundLeaf, transactionHex, privateKey, servicePubKey, feeRate, 0, timeoutBlockHeight, destinationAddress, lockupAddress, cooperative, legacyNetworkName(isTestnet))
 	if err != nil {
 		return "", err
 	}
